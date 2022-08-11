@@ -1,0 +1,34 @@
+{
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "discord.js": "^14.2.0",
+    "dotenv": "^16.0.1",
+    "mongoose": "^6.5.2"
+  },
+  "name": "discordjs-v14-template",
+  "version": "1.0.0",
+  "description": "Discord.js v14 Template using Rest API",
+  "main": "client.js",
+  "scripts": {
+    "test": "node client.js",
+    "dev": "nodemon client.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Discord-Robots/discordjs-v14-template.git"
+  },
+  "keywords": [
+    "discord",
+    "js",
+    "v14",
+    "handler",
+    "template",
+    "mongoose"
+  ],
+  "author": "marve1icious#4986",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Discord-Robots/discordjs-v14-template/issues"
+  },
+  "homepage": "https://github.com/Discord-Robots/discordjs-v14-template#readme"
+}
