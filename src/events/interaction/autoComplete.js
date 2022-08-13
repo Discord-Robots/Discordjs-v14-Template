@@ -13,7 +13,7 @@ module.exports = {
       if (!auto) return;
 
       try {
-        await auto.execute(client, interaction);
+        await auto.execute(interaction, client);
       } catch (error) {
         console.log(error);
         await interaction.reply({

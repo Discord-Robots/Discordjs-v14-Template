@@ -13,7 +13,7 @@ module.exports = {
       if (!modal) return;
 
       try {
-        await modal.execute(client, interaction);
+        await modal.execute(interaction, client);
       } catch (error) {
         console.log(error);
         await interaction.reply({

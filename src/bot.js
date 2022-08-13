@@ -3,7 +3,7 @@ const { Client, Collection } = require("discord.js");
 const { readdirSync } = require("fs");
 const chalk = require("chalk");
 const { BotToken } = process.env;
-const mongoose = require("mongoose");
+const Util = require("./Utils");
 
 class BudBot extends Client {
   constructor() {
@@ -13,7 +13,10 @@ class BudBot extends Client {
     });
 
     this.config = require("./config.json");
+    this.utils = new Util(this);
+    this.setMaxListeners(0);
 
+    this.events = new Collection();
     this.commands = new Collection();
     this.buttons = new Collection();
     this.modals = new Collection();
@@ -22,9 +25,8 @@ class BudBot extends Client {
     this.contextMenus = new Collection();
     this.cooldowns = new Collection();
 
-    this.commandArray = [];
+    this.commandArray = [], this.developerArray = [];
     this.chalk = chalk;
-    this.mongo = mongoose;
     this.token = BotToken;
     this.color = 0x22b14c;
     this.rds = readdirSync;
@@ -44,15 +46,18 @@ class BudBot extends Client {
         require(`./functions/${folder}/${file}`)(this);
     }
 
-    const schemaFiles = readdirSync(`./src/schemas`).filter(
-      (file) => file.endsWith(".js")
-    );
-    for (const file of schemaFiles)
-      require(`./schemas/${file}`)(this.mongo);
-
     this.handleEvents();
     this.handleCommands();
     this.login(token);
+  }
+
+  reload() {
+    console.log(`\nReloading Commands and Events`)
+    this.commands.clear()
+    this.commandArray = [], this.developerArray = [];
+    for (const [key, value] of this.events) this.removeListener(key, value)
+    this.handleEvents();
+    this.handleCommands();
   }
 }
 

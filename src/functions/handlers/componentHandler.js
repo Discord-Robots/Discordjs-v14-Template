@@ -18,15 +18,8 @@ module.exports = (client) => {
           break;
         case "selectMenus":
           for (const file of componentFiles) {
-            const Smenu = require(`../../components/${folder}/${folder}/${file}`);
+            const Smenu = require(`../../components/${folder}/${file}`);
             selectMenus.set(Smenu.data.name, Smenu);
-          }
-          break;
-
-        case "contextMenus":
-          for (const file of componentFiles) {
-            const Cmenu = require(`../../components/${folder}/${folder}/${file}`);
-            contextMenus.set(Cmenu.data.name, Cmenu);
           }
           break;
 

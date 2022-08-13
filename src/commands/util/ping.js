@@ -7,6 +7,7 @@ const {
 const ms = require("ms");
 
 module.exports = {
+  category: "util",
   data: new SlashCommandBuilder()
     .setName("ping")
     .setDescription("Returns my ping."),
@@ -16,9 +17,9 @@ module.exports = {
    * @param {CommandInteraction} interaction
    * @returns
    */
-  async execute(client, interaction) {
+  async execute(interaction, client) {
     const msg = await interaction.deferReply({
-      fetchReply: true,
+      fetchReply: true, ephemeral: true,
     });
     const embed = new EmbedBuilder({
       title: `Bot and API Latency`,

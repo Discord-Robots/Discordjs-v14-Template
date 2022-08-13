@@ -13,7 +13,7 @@ module.exports = {
       if (!button) return;
 
       try {
-        await button.execute(client, interaction);
+        await button.execute(interaction, client);
       } catch (error) {
         console.log(error);
         await interaction.reply({

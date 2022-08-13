@@ -1,5 +1,3 @@
-// const { readdirSync } = require("fs");
-
 module.exports = (client) => {
   client.removeAllListeners();
   client.handleEvents = async () => {
@@ -10,9 +8,11 @@ module.exports = (client) => {
         .filter((file) => file.endsWith(".js"));
       for (const file of eventFiles) {
         const event = require(`../../events/${folder}/${file}`);
+        const execute = (...args) => event.execute(...args, client)
         if (event.once)
-          client.once(event.name, (...args) => event.execute(...args, client));
-        else client.on(event.name, (...args) => event.execute(...args, client));
+          client.once(event.name, execute);
+        else client.on(event.name, execute);
+        client.events.set(event.name, execute)
       }
     }
   };

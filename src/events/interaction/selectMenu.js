@@ -13,7 +13,7 @@ module.exports = {
       if (!menu) return;
 
       try {
-        await menu.execute(client, interaction);
+        await menu.execute(interaction, client);
       } catch (error) {
         console.log(error);
         await interaction.reply({
