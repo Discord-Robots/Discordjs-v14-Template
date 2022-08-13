@@ -3,6 +3,7 @@ const { Client, Collection } = require("discord.js");
 const { readdirSync } = require("fs");
 const chalk = require("chalk");
 const { BotToken } = process.env;
+const mongoose = require("mongoose");
 
 class BudBot extends Client {
   constructor() {
@@ -23,6 +24,7 @@ class BudBot extends Client {
 
     this.commandArray = [];
     this.chalk = chalk;
+    this.mongo = mongoose;
     this.token = BotToken;
     this.color = 0x22b14c;
     this.rds = readdirSync;
@@ -41,6 +43,13 @@ class BudBot extends Client {
       for (const file of functionFiles)
         require(`./functions/${folder}/${file}`)(this);
     }
+
+    const schemaFiles = readdirSync(`./src/schemas`).filter(
+      (file) => file.endsWith(".js")
+    );
+    for (const file of schemaFiles)
+      require(`./schemas/${file}`)(this.mongo);
+
     this.handleEvents();
     this.handleCommands();
     this.login(token);
