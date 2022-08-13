@@ -1,24 +1,7 @@
-const { ApplicationCommandType, ContextMenuCommandBuilder, EmbedBuilder, Client, SlashCommandBuilder } = require('discord.js');
+const { EmbedBuilder, Client, SlashCommandBuilder } = require('discord.js');
 
 module.exports = {
-    data: new ContextMenuCommandBuilder()
-        .setName('avatar')
-        .setType(ApplicationCommandType.User),
-
-    /**
-     * 
-     * @param {ContextMenuCommandBuilder} interaction 
-     * @param {Client} client 
-     */
-    async execute(interaction, client) {
-        const avatarEmbed = new EmbedBuilder()
-            .setAuthor({ name: `${targetUser.username}'s avatar!` })
-            .setImage(`${targetUser.displayAvatarURL({ size: 1024 })}`)
-        await interaction.reply({ embeds: [avatarEmbed] })
-    }
-}
-
-module.exports = {
+    category: "util",
     data: new SlashCommandBuilder()
         .setName('avatar')
         .setDescription("Gets a users avatar!")
