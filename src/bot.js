@@ -22,7 +22,6 @@ class BudBot extends Client {
     this.modals = new Collection();
     this.selectMenus = new Collection();
     this.autoCompletes = new Collection();
-    this.contextMenus = new Collection();
     this.cooldowns = new Collection();
 
     this.commandArray = [], this.developerArray = [];
