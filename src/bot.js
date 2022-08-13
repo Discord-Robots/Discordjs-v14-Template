@@ -12,11 +12,20 @@ class BudBot extends Client {
     });
 
     this.config = require("./config.json");
+
     this.commands = new Collection();
+    this.buttons = new Collection();
+    this.modals = new Collection();
+    this.selectMenus = new Collection();
+    this.autoCompletes = new Collection();
+    this.contextMenus = new Collection();
     this.cooldowns = new Collection();
+
     this.commandArray = [];
     this.chalk = chalk;
     this.token = BotToken;
+    this.color = 0x22b14c;
+    this.rds = readdirSync;
   }
 
   async start(token) {

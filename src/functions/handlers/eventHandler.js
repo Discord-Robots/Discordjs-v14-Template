@@ -1,13 +1,13 @@
-const { readdirSync } = require("fs");
+// const { readdirSync } = require("fs");
 
 module.exports = (client) => {
   client.removeAllListeners();
   client.handleEvents = async () => {
-    const eventFolders = readdirSync(`./src/events`);
+    const eventFolders = client.rds(`./src/events`);
     for (const folder of eventFolders) {
-      const eventFiles = readdirSync(`./src/events/${folder}`).filter((file) =>
-        file.endsWith(".js")
-      );
+      const eventFiles = client
+        .rds(`./src/events/${folder}`)
+        .filter((file) => file.endsWith(".js"));
       for (const file of eventFiles) {
         const event = require(`../../events/${folder}/${file}`);
         if (event.once)

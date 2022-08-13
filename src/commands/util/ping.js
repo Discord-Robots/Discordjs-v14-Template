@@ -20,11 +20,11 @@ module.exports = {
     const msg = await interaction.deferReply({
       fetchReply: true,
     });
-    const embed = new EmbedBuilder()
-      .setTitle(`Bot and API Latency`)
-      .setDescription(`Here you can see the Bot's and the API latency.`)
-      .setColor(0x22b14c)
-      .addFields([
+    const embed = new EmbedBuilder({
+      title: `Bot and API Latency`,
+      description: `Here you can see the Bot's and the API latency.`,
+      color: client.color,
+      fields: [
         {
           name: `Bot Latency`,
           value: `${ms(msg.createdTimestamp - interaction.createdTimestamp, {
@@ -37,10 +37,12 @@ module.exports = {
           value: `${ms(client.ws.ping, { long: true })}`,
           inline: true,
         },
-      ]);
+      ],
+    });
 
     await interaction.editReply({
       embeds: [embed],
+      ephemeral: true,
     });
   },
 };
