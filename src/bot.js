@@ -35,7 +35,7 @@ class BudBot extends Client {
   async start(token) {
     if (process.env.WebhookURL) {
       require("./antiCrash")(this);
-      console.log("Webhook Client Connected!");
+      console.log("[WEBHOOK] - Webhook Client Connected!");
     }
     const functionFolders = readdirSync(`./src/functions`);
     for (const folder of functionFolders) {

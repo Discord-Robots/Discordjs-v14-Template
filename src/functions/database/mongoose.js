@@ -15,14 +15,18 @@ module.exports = (client) => {
   mongoose.Promise = global.Promise;
 
   mongoose.connection.on("connected", () => {
-    console.log("Mongoose has successfully connected!");
+    console.log(client.chalk.greenBright("[DATABASE] - Mongoose has successfully connected!"));
+  });
+
+  mongoose.connection.on("connecting", () => {
+    console.log(client.chalk.yellowBright("[DATABASE] - Mongoose is connecting..."));
   });
 
   mongoose.connection.on("err", (err) => {
-    console.error(`Mongoose connection error: \n${err.stack}`);
+    console.error(client.chalk.redBright(`[DATABASE] - Mongoose connection error: \n${err.stack}`));
   });
 
   mongoose.connection.on("disconnected", () => {
-    console.warn("Mongoose connection lost");
+    console.warn(client.chalk.black("[DATABASE] - Mongoose connection lost"));
   });
 };

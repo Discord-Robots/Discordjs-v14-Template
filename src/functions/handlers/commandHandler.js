@@ -27,18 +27,18 @@ module.exports = (client) => {
         commands.set(command.data.name, command);
       }
     }
-    console.log(`Loaded ${comands} Global Commands!\nLoaded ${devCount} Developer Commands!`)
+    console.log(client.chalk.blue(`[HANDLER] - Loaded ${devCount} Developer Command(s)!\n[HANDLER] - Loaded ${comands} Global Command(s)!`))
 
     const rest = new REST({ version: "10" }).setToken(BotToken);
 
     (async () => {
       try {
-        console.log("Started refreshing application (/) commands.");
+        console.log(client.chalk.yellowBright("[APPLICATION] - Started refreshing application (/) commands."));
 
         await rest.put(Routes.applicationGuildCommands(AppID, DevGuild), { body: developerArray })
         await rest.put(Routes.applicationCommands(AppID), { body: commandArray })
 
-        console.log("Successfully reloaded application (/) commands.");
+        console.log(client.chalk.greenBright("[APPLICATION] - Successfully reloaded application (/) commands."));
       } catch (error) {
         console.error(error);
       }
