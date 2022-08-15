@@ -1,10 +1,4 @@
 {
-  "dependencies": {
-    "chalk": "^4.1.2",
-    "discord.js": "^14.2.0",
-    "dotenv": "^16.0.1",
-    "mongoose": "^6.5.2"
-  },
   "name": "discordjs-v14-template",
   "version": "1.0.0",
   "description": "Discord.js v14 Template using Rest API",
@@ -12,10 +6,6 @@
   "scripts": {
     "test": "node client.js",
     "dev": "nodemon client.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Discord-Robots/discordjs-v14-template.git"
   },
   "keywords": [
     "discord",
@@ -27,8 +17,20 @@
   ],
   "author": "marve1icious#4986",
   "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "discord.js": "^14.2.0",
+    "dotenv": "^16.0.1",
+    "mongoose": "^6.5.2",
+    "ms": "^2.1.3",
+    "node-schedule": "^2.1.0"
+  },
+  "homepage": "https://github.com/Discord-Robots/discordjs-v14-template#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Discord-Robots/discordjs-v14-template.git"
+  },
   "bugs": {
     "url": "https://github.com/Discord-Robots/discordjs-v14-template/issues"
-  },
-  "homepage": "https://github.com/Discord-Robots/discordjs-v14-template#readme"
+  }
 }

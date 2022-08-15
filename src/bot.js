@@ -45,6 +45,7 @@ class BudBot extends Client {
         require(`./functions/${folder}/${file}`)(this);
     }
 
+    this.handleComponents();
     this.handleEvents();
     this.handleCommands();
     this.login(token);
@@ -52,9 +53,8 @@ class BudBot extends Client {
 
   reload() {
     console.log(`\nReloading Commands and Events`)
-    this.commands.clear()
+    this.commands.clear();
     this.commandArray = [], this.developerArray = [];
-    for (const [key, value] of this.events) this.removeListener(key, value)
     this.handleEvents();
     this.handleCommands();
   }

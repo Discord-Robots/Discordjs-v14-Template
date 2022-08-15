@@ -3,10 +3,15 @@ const {
   SlashCommandBuilder,
   CommandInteraction,
   EmbedBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  ComponentType,
+  ActionRowBuilder,
 } = require("discord.js");
 const ms = require("ms");
 
 module.exports = {
+  developer: true,
   category: "util",
   data: new SlashCommandBuilder()
     .setName("ping")
@@ -19,8 +24,16 @@ module.exports = {
    */
   async execute(interaction, client) {
     const msg = await interaction.deferReply({
-      fetchReply: true, ephemeral: true,
+      fetchReply: true,
+      // ephemeral: true,
     });
+    const button = new ButtonBuilder({
+      custom_id: 'test',
+      emoji: '😶‍🌫️',
+      style: ButtonStyle.Success,
+      type: ComponentType.Button
+    });
+    const row = new ActionRowBuilder().addComponents(button)
     const embed = new EmbedBuilder({
       title: `Bot and API Latency`,
       description: `Here you can see the Bot's and the API latency.`,
@@ -43,7 +56,8 @@ module.exports = {
 
     await interaction.editReply({
       embeds: [embed],
-      ephemeral: true,
+      components: [row],
+      // ephemeral: true,
     });
   },
 };

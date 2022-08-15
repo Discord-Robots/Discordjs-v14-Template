@@ -12,8 +12,8 @@ module.exports = class Utils {
         });
         if (!guild) {
             const newData = new Guild({
-                guildID: guildID,
-                guildName: guildName
+                guildID,
+                guildName
             });
             newData.save();
             return newData;
@@ -24,14 +24,14 @@ module.exports = class Utils {
 
     async getSetup(guildID) {
         const setup = await Guild.findOne({
-            guildID: guildID
+            guildID
         });
         return setup;
     }
 
     async getPrefix(guildID) {
         const prefix = await Guild.findOne({
-            guildID: guildID
+            guildID
         });
         return prefix.prefix;
     }
@@ -40,5 +40,24 @@ module.exports = class Utils {
         return string.split(' ').map(str => str.slice(0, 1).toUpperCase() + str.slice(1)).join(' ');
     }
 
+    async setPresence() {
+        let statusArray = require("./config.json").statuses, i = 0;
+        let option = statusArray[i++ % statusArray.length]
+        try {
+            await this.client.user.setPresence({
+                activities: [
+                    {
+                        name: option.content,
+                        type: option.type
+                    }
+                ],
+                status: option.status
+            })
+            setInterval(() => this.setPresence, 8000)
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
 
 }
