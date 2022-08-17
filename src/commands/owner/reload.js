@@ -5,16 +5,14 @@ const {
     EmbedBuilder,
     Client,
 } = require("discord.js");
-const { ClientRequest } = require("node:http");
-const wait = require("node:timers/promises").setTimeout;
 
 module.exports = {
     developer: true,
     category: "owner",
     data: new SlashCommandBuilder()
         .setName("reload")
-        .setDescription("Reload your events/commands"),
-    // .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+        .setDescription("Reload your commands")
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     /**
      * @param {CommandInteraction} interaction
      * @param {Client} client
@@ -35,14 +33,12 @@ module.exports = {
             });
         } else {
             try {
-                await client.commands.clear();
-                await wait(3000)
-                await client.handleCommands();
+                await client.reload();
                 await interaction.editReply({
                     embeds: [
                         new EmbedBuilder()
                             .setDescription(
-                                `\\✅ **Success:** \\✅\n Reloaded the commands and events! `
+                                `\\✅ **Success:** \\✅\n Reloaded the commands! `
                             )
                             .setColor("Green"),
                     ],
@@ -50,14 +46,7 @@ module.exports = {
                 });
 
             } catch (error) {
-                interaction.editReply({
-                    embeds: [
-                        new EmbedBuilder()
-                            .setDescription(`\\📛 **Error:** \\📛\n ${error.message} `)
-                            .setColor("Red"),
-                    ],
-                    ephemeral: true,
-                });
+                console.error(error)
             }
         }
     }

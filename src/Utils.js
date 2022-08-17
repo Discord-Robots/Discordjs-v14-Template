@@ -40,24 +40,10 @@ module.exports = class Utils {
         return string.split(' ').map(str => str.slice(0, 1).toUpperCase() + str.slice(1)).join(' ');
     }
 
-    async setPresence() {
-        let statusArray = require("./config.json").statuses, i = 0;
-        let option = statusArray[i++ % statusArray.length]
-        try {
-            await this.client.user.setPresence({
-                activities: [
-                    {
-                        name: option.content,
-                        type: option.type
-                    }
-                ],
-                status: option.status
-            })
-            setInterval(() => this.setPresence, 8000)
-        } catch (error) {
-            console.log(error)
-        }
-
+    formatBytes(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(1024));
+        return `${parseFloat((bytes / Math.pow(1024, i)).toFixed(2))} ${sizes[i]}`;
     }
-
 }

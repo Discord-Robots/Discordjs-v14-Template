@@ -33,23 +33,17 @@ module.exports = (client) => {
       try {
         console.log(client.chalk.yellowBright("[APPLICATION] - Started refreshing application (/) commands."));
 
-        await rest.put(Routes.applicationGuildCommands(AppID, DevGuild), { body: developerArray })
+        await rest.put(
+          DevGuild ?
+            Routes.applicationGuildCommands(AppID, DevGuild) :
+            Routes.applicationCommands(AppID), { body: commandArray && developerArray })
           .then(
             console.log(
               client.chalk.blue(
-                `[HANDLER] - Loaded ${devCount} Developer Command(s)!`
+                `[HANDLER] - Loaded ${devCount} Developer Command(s)!\n[HANDLER] - Loaded ${comands} Global Command(s)!`
               )
             )
           );
-
-        // await rest.put(Routes.applicationCommands(AppID), { body: commandArray })
-        //   .then(
-        //     console.log(
-        //       client.chalk.blue(
-        //         `[HANDLER] - Loaded ${comands} Global Command(s)!`
-        //       )
-        //     )
-        //   )
 
         console.log(client.chalk.greenBright("[APPLICATION] - Successfully reloaded application (/) commands."));
       } catch (error) {

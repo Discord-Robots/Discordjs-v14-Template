@@ -4,6 +4,7 @@ const { readdirSync } = require("fs");
 const chalk = require("chalk");
 const { BotToken } = process.env;
 const Util = require("./Utils");
+const glob = require("glob");
 
 class BudBot extends Client {
   constructor() {
@@ -15,16 +16,19 @@ class BudBot extends Client {
     this.config = require("./config.json");
     this.utils = new Util(this);
     this.setMaxListeners(0);
-
     this.events = new Collection();
+
     this.commands = new Collection();
+    this.autoCompletes = new Collection();
+
     this.buttons = new Collection();
     this.modals = new Collection();
     this.selectMenus = new Collection();
-    this.autoCompletes = new Collection();
+
     this.cooldowns = new Collection();
 
     this.commandArray = [], this.developerArray = [];
+    this.statusArray = new Array();
     this.chalk = chalk;
     this.token = BotToken;
     this.color = 0x22b14c;
@@ -44,19 +48,26 @@ class BudBot extends Client {
       for (const file of functionFiles)
         require(`./functions/${folder}/${file}`)(this);
     }
-
+    this.handleCommands();
     this.handleComponents();
     this.handleEvents();
-    this.handleCommands();
     this.login(token);
   }
 
-  reload() {
+  async reload() {
     console.log(`\nReloading Commands and Events`)
-    this.commands.clear();
-    this.commandArray = [], this.developerArray = [];
-    this.handleEvents();
-    this.handleCommands();
+    this.commands.sweep(() => true)
+    glob(`${__dirname}/commands/**/*.js`, async (err, filePaths) => {
+      if (err) return console.error();
+      filePaths.forEach((file) => {
+        delete require.cache[require.resolve(file)]
+
+        const pull = require(file)
+
+        if (pull.data.name && pull.developer)
+          this.commands.set(pull.data.name, pull)
+      })
+    })
   }
 }
 
