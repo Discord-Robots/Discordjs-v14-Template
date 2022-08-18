@@ -2,6 +2,10 @@ const wait = require("node:timers/promises").setTimeout;
 
 module.exports = {
   name: "ready",
+  /**
+   * 
+   * @param {import('discord.js').Client} client 
+   */
   async execute(client) {
     console.log(
       client.chalk.yellowBright(`[CLIENT] - Logging into Discord.....`)
@@ -11,28 +15,14 @@ module.exports = {
       client.chalk.greenBright(`[CLIENT] - ${client.user.tag} has logged into Discord!`)
     );
     async function pickPresence() {
-      let statusArray = [
-        {
-          type: 5,
-          content: "/commands",
-          status: "dnd"
-        },
-        {
-          type: 0,
-          content: "Pokemon",
-          status: "online"
-        },
+      const { statusArray } = client;
+      await statusArray.push(
         {
           type: 3,
-          content: "over 1 guild",
+          content: `over ${client.guilds.cache.size} guild(s)`,
           status: "idle"
         },
-        {
-          type: 0,
-          content: "Discord.js v14",
-          status: "idle"
-        }
-      ];
+      )
       let option = Math.floor(Math.random() * statusArray.length)
       try {
         await client.user.setPresence({
@@ -49,6 +39,6 @@ module.exports = {
         console.log(error)
       }
     }
-    setInterval(pickPresence, 8000)
+    setInterval(pickPresence, 8000);
   }
 };

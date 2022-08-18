@@ -128,3 +128,5 @@ dist
 src/commands/owner/moderate.js
 src/commands/owner/mute.js
 src/commands/util/schedule.js
+src/models/sticky.js
+src/commands/util/sticky.js
