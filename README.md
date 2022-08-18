@@ -10,7 +10,7 @@ Features:
 - Custom Handler for Components
 
 </p>**Logs Everything to the console when starting**</p>
-![consoleLogs](https://imgur.com/FxUCwtn)
+[Imgur](https://i.imgur.com/FxUCwtnl.png)
 
 **Easy to Read**
 
