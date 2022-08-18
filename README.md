@@ -9,7 +9,7 @@ Features:
 - Executes the bot In a Base Class
 - Custom Handler for Components
 
-**Logs Everything to the console when starting**
+</p>**Logs Everything to the console when starting**</p>
 ![consoleLogs](https://imgur.com/FxUCwtn)
 
 **Easy to Read**
