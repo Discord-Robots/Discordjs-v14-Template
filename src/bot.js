@@ -28,7 +28,7 @@ class BudBot extends Client {
     this.cooldowns = new Collection();
 
     this.commandArray = [], this.developerArray = [];
-    this.statusArray = new Array();
+    this.statusArray = [];
     this.chalk = chalk;
     this.token = BotToken;
     this.color = 0x22b14c;
@@ -51,7 +51,9 @@ class BudBot extends Client {
     this.handleCommands();
     this.handleComponents();
     this.handleEvents();
-    this.login(token);
+    this.login(token).then(() => {
+      this.handleActivities()
+    });
   }
 
   async reload() {
