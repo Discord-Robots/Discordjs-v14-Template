@@ -35,6 +35,7 @@ module.exports = {
 Click `Use this template` at the top of this page.
 
 - Rename `.env.example` to `.env` (THIS FILE CANNOT HAVE ANY SPACES)
+
   - Paste in your `BotToken`, `AppID`, `ClientSecret` from the [Discord Developer Portal](https://discord.com/developers/applications)
   - Insert your Developer Guild ID for testing purposes in `DevGuild`
   - Insert your own UserID as `BotOwnerID`
@@ -43,5 +44,10 @@ Click `Use this template` at the top of this page.
   - The `WebhookURL` will setup your anti-crash. You can create this in `Discord Settings > Integrations > Webhooks`
     - Be careful! This link will have very sensitve data! You only need the string after `https://discord.com/api/webhooks/${AppID}/`.
     - Paste the long string into `WebhookURL`. This is called your Webhook Token. DO NOT SHARE IT!!!
+
+- After you have edited and saved the `env` file to your needs, you are ready ready to start the bot!
+  - Install all dependencies with `npm install` << Remember, DO NOT INCLUDE ANY PACKAGE NAMES HERE!
+  - Run the bot with `nodemon`.
+  - Customize the project to your liking and enjoy!
 
 Found any bugs or have any suggestion about the template? Create a issue or pull request!

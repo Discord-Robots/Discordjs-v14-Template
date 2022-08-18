@@ -34,5 +34,8 @@
   },
   "bugs": {
     "url": "https://github.com/Discord-Robots/discordjs-v14-template/issues"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
   }
 }
