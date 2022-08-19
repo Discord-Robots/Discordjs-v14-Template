@@ -45,6 +45,10 @@ Click `Use this template` at the top of this page.
     - Be careful! This link will have very sensitve data! You only need the string after `https://discord.com/api/webhooks/${AppID}/`.
     - Paste the long string into `WebhookURL`. This is called your Webhook Token. DO NOT SHARE IT!!!
 
+- Navigate to `./src/config.json` and put your user id in the array of `owners`.
+
+  - If this is not done, `reload` command will not function correctly.
+
 - After you have edited and saved the `env` file to your needs, you are ready ready to start the bot!
   - Install all dependencies with `npm install` << Remember, DO NOT INCLUDE ANY PACKAGE NAMES HERE!
   - Run the bot with `nodemon`.
