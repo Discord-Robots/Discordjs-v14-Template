@@ -1,4 +1,4 @@
-const { Client, CommandInteraction, InteractionType } = require("discord.js");
+const { Client, CommandInteraction, InteractionType, EmbedBuilder } = require("discord.js");
 const data = {};
 
 module.exports = {
@@ -17,6 +17,18 @@ module.exports = {
       if (!command) return;
 
       try {
+        if (command.owner && client.utils.checkOwner(interaction.user.id)) {
+          return interaction.reply({
+            embeds: [
+              new EmbedBuilder()
+                .setDescription(
+                  `\\📛 **Error:** \\📛\n You cannot use that command!`
+                )
+                .setColor("Red"),
+            ],
+            ephemeral: true,
+          });
+        }
         await command.execute(interaction, client);
       } catch (error) {
         console.log(error);

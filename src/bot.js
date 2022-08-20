@@ -54,7 +54,6 @@ class BudBot extends Client {
   }
 
   async reload() {
-    console.log(`\nReloading Commands`)
     this.commands.sweep(() => true)
     glob(`${__dirname}/commands/**/*.js`, async (err, filePaths) => {
       if (err) return console.error();

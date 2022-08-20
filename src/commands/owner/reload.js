@@ -7,6 +7,7 @@ const {
 } = require("discord.js");
 
 module.exports = {
+    owner: true,
     developer: true,
     category: "owner",
     data: new SlashCommandBuilder()
@@ -20,34 +21,23 @@ module.exports = {
      */
     async execute(interaction, client) {
         await interaction.deferReply({ ephemeral: true, fetchReply: true })
-        if (!client.config.owners.includes(interaction.user.id)) {
-            return interaction.editReply({
+
+        try {
+            await interaction.editReply({ content: "Reloading commands.....", ephemeral: true })
+            await client.reload();
+            await interaction.editReply({
                 embeds: [
                     new EmbedBuilder()
                         .setDescription(
-                            `\\📛 **Error:** \\📛\n You cannot use that command!`
+                            `\\✅ **Success:** \\✅\n Reloaded the commands! `
                         )
-                        .setColor("Red"),
+                        .setColor("Green"),
                 ],
                 ephemeral: true,
             });
-        } else {
-            try {
-                await client.reload();
-                await interaction.editReply({
-                    embeds: [
-                        new EmbedBuilder()
-                            .setDescription(
-                                `\\✅ **Success:** \\✅\n Reloaded the commands! `
-                            )
-                            .setColor("Green"),
-                    ],
-                    ephemeral: true,
-                });
 
-            } catch (error) {
-                console.error(error)
-            }
+        } catch (error) {
+            console.error(error)
         }
     }
 }

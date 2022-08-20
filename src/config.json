@@ -1,5 +1,4 @@
 {
-  "owners": [""],
   "intents": [
     "DirectMessageReactions",
     "DirectMessageTyping",
