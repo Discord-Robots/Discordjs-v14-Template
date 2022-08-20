@@ -53,18 +53,14 @@ module.exports = {
       }
     }
 
-    else if (interaction.isAutocomplete()) {
-      const auto = autoCompletes.get(interaction.customId);
+    else if (interaction.type == InteractionType.ApplicationCommandAutocomplete) {
+      const auto = commands.get(interaction.commandName);
       if (!auto) return;
 
       try {
-        await auto.execute(interaction, client);
+        await auto.autocomplete(interaction, client);
       } catch (error) {
         console.log(error);
-        await interaction.reply({
-          content: "There is no code for this autocomplete!",
-          ephemeral: true,
-        });
       }
     }
 
