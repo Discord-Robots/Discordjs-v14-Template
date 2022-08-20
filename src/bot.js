@@ -28,7 +28,6 @@ class BudBot extends Client {
     this.cooldowns = new Collection();
 
     this.commandArray = [], this.developerArray = [];
-    this.statusArray = [];
     this.chalk = chalk;
     this.token = BotToken;
     this.color = 0x22b14c;
@@ -51,13 +50,11 @@ class BudBot extends Client {
     this.handleCommands();
     this.handleComponents();
     this.handleEvents();
-    this.login(token).then(() => {
-      this.handleActivities()
-    });
+    this.login(token);
   }
 
   async reload() {
-    console.log(`\nReloading Commands and Events`)
+    console.log(`\nReloading Commands`)
     this.commands.sweep(() => true)
     glob(`${__dirname}/commands/**/*.js`, async (err, filePaths) => {
       if (err) return console.error();

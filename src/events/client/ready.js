@@ -14,25 +14,6 @@ module.exports = {
     console.log(
       client.chalk.greenBright(`[CLIENT] - ${client.user.tag} has logged into Discord!`)
     );
-
-    async function pickPresence() {
-      const { statusArray } = client;
-      let option = Math.floor(Math.random() * statusArray.length)
-      try {
-        await client.user.setPresence({
-          activities: [
-            {
-              name: statusArray[option].content,
-              type: statusArray[option].type
-            }
-          ],
-          status: statusArray[option].status
-        });
-
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    setInterval(pickPresence, 8000);
+    setInterval(client.pickPresence, 8000);
   }
 };
