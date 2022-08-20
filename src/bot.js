@@ -19,6 +19,7 @@ class BudBot extends Client {
     this.events = new Collection();
 
     this.commands = new Collection();
+    this.legacyCommands = new Collection();
     this.autoCompletes = new Collection();
 
     this.buttons = new Collection();
@@ -26,8 +27,10 @@ class BudBot extends Client {
     this.selectMenus = new Collection();
 
     this.cooldowns = new Collection();
+    this.legacyCooldowns = new Collection();
 
     this.commandArray = [], this.developerArray = [];
+    this.legacyArray = [];
     this.chalk = chalk;
     this.token = BotToken;
     this.color = 0x22b14c;
@@ -47,6 +50,7 @@ class BudBot extends Client {
       for (const file of functionFiles)
         require(`./functions/${folder}/${file}`)(this);
     }
+    this.handleLegacyCommands();
     this.handleCommands();
     this.handleComponents();
     this.handleEvents();

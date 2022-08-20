@@ -1,3 +1,4 @@
+const { EmbedBuilder } = require('discord.js');
 const Guild = require('./models/guild');
 
 module.exports = class Utils {
@@ -51,5 +52,13 @@ module.exports = class Utils {
         if (user != process.env.BotOwnerID)
             return true
         else return false
+    }
+
+    errorEmbed(message, channel) {
+        channel.send({ embeds: [new EmbedBuilder().setDescription(`\\📛 **Error:** \\📛\n ${message} `).setColor("Red")] })
+    }
+
+    successEmbed(message, channel) {
+        channel.send({ embeds: [new EmbedBuilder().setDescription(`\\✅ **Success:** \\✅\n ${message}  `).setColor("Green")] })
     }
 }
