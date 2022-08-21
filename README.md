@@ -74,4 +74,4 @@ Click `Use this template` at the top of this page.
   - Run the bot with `nodemon`.
   - Customize the project to your liking and enjoy!
 
-Found any bugs or have any suggestion about the template? Create a issue or pull request!
+Found any bugs or have any suggestion about the template? Create an issue or pull request!
