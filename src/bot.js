@@ -6,7 +6,7 @@ const { BotToken } = process.env;
 const Util = require("./Utils");
 const glob = require("glob");
 
-class BudBot extends Client {
+class BOT extends Client {
   constructor() {
     super({
       intents: require("./config.json").intents,
@@ -73,4 +73,4 @@ class BudBot extends Client {
   }
 }
 
-module.exports = BudBot;
+module.exports = BOT;
