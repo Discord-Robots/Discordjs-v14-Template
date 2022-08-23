@@ -6,7 +6,8 @@ Features:
 
 - Based on FusionTerrors v14 Handler
 - Supports Only Slash Commands
-  - Will support cooldowns soon
+  - ~~Will support cooldowns soon~~ Supports Cooldowns!!!
+    - Supports Component Cooldowns
 - Executes the bot In a Base Class
 - Custom Handler for Components
 - Anti-Crash Handler
@@ -20,14 +21,31 @@ Features:
 **_Slash Command:_**
 
 ```js
+const { SlashCommandBuilder, PermissionsBitField } = require("discord.js");
+
 module.exports = {
     owner: boolean, //  whether command can only be used by the bot owner?
     developer: boolean, // weather the command is for developer guild or global: true or false
     category: "category",
+    cooldown: Number,
     data: new SlashCommandBuilder()
         .setName('name') // command name
         .setDescription('description') // command description
         .setDefalultMemberPermissions(PermissionsBitField.Flags.<permission>), // member permissions
+  async execute (interaction, client) => {
+    // Code here
+  },
+};
+```
+
+**_Components:_**
+
+```js
+module.exports = {
+    cooldown: Number,
+    data: {
+      name: "Name",
+    }, // member permissions
   async execute (interaction, client) => {
     // Code here
   },

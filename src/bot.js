@@ -19,13 +19,16 @@ class BOT extends Client {
     this.events = new Collection();
 
     this.commands = new Collection();
-    this.autoCompletes = new Collection();
-
     this.buttons = new Collection();
     this.modals = new Collection();
     this.selectMenus = new Collection();
 
     this.cooldowns = new Collection();
+    this.componentCooldowns = {
+      buttons: new Collection(),
+      selectMenus: new Collection(),
+      modals: new Collection()
+    };
 
     (this.commandArray = []), (this.developerArray = []);
     this.chalk = chalk;
