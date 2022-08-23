@@ -19,7 +19,6 @@ class BOT extends Client {
     this.events = new Collection();
 
     this.commands = new Collection();
-    this.legacyCommands = new Collection();
     this.autoCompletes = new Collection();
 
     this.buttons = new Collection();
@@ -27,10 +26,8 @@ class BOT extends Client {
     this.selectMenus = new Collection();
 
     this.cooldowns = new Collection();
-    this.legacyCooldowns = new Collection();
 
-    this.commandArray = [], this.developerArray = [];
-    this.legacyArray = [];
+    (this.commandArray = []), (this.developerArray = []);
     this.chalk = chalk;
     this.token = BotToken;
     this.color = 0x22b14c;
@@ -50,7 +47,6 @@ class BOT extends Client {
       for (const file of functionFiles)
         require(`./functions/${folder}/${file}`)(this);
     }
-    this.handleLegacyCommands();
     this.handleCommands();
     this.handleComponents();
     this.handleEvents();
@@ -58,18 +54,18 @@ class BOT extends Client {
   }
 
   async reload() {
-    this.commands.sweep(() => true)
+    this.commands.sweep(() => true);
     glob(`${__dirname}/commands/**/*.js`, async (err, filePaths) => {
       if (err) return console.error();
       filePaths.forEach((file) => {
-        delete require.cache[require.resolve(file)]
+        delete require.cache[require.resolve(file)];
 
-        const pull = require(file)
+        const pull = require(file);
 
         if (pull.data.name && pull.developer)
-          this.commands.set(pull.data.name, pull)
-      })
-    })
+          this.commands.set(pull.data.name, pull);
+      });
+    });
   }
 }
 

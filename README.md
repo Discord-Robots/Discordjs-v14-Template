@@ -5,9 +5,8 @@ Discord.js v14 Template using Rest API
 Features:
 
 - Based on FusionTerrors v14 Handler
-- ~~Supports Only Slash Commands~~ Now Supports Legacy Commands as well!!!
-- Cooldowns enabled on Legacy Commands
-  - Will support cooldowns with slash commands soon
+- Supports Only Slash Commands
+  - Will support cooldowns soon
 - Executes the bot In a Base Class
 - Custom Handler for Components
 - Anti-Crash Handler
@@ -35,23 +34,6 @@ module.exports = {
 };
 ```
 
-**_Legacy Command:_**
-
-```js
-module.exports = {
-    // The following properties can be in any order and Required options are NAME and EXECUTE function.
-    name: "name",
-    description: "description",
-    category: "category",
-    cooldown: Number, // how many seconds to wait for the command to be used again.
-    owner: boolean, // whether command can only be used by the bot owner?
-    enabled: boolean, // whether the command can be executed?
-  async execute (interaction, client) => {
-    // Code here
-  },
-};
-```
-
 # Getting Started
 
 Click `Use this template` at the top of this page.
@@ -60,7 +42,6 @@ Click `Use this template` at the top of this page.
 
   - Paste in your `BotToken`, `AppID`, `ClientSecret` from the [Discord Developer Portal](https://discord.com/developers/applications)
   - Insert your Developer Guild ID for testing purposes in `DevGuild`
-  - Insert your desired legacy command prefix as `Prefix`
   - Insert your own UserID as `BotOwnerID`
     - If this is not done, `reload` command will not function correctly.
   - Insert your mongoose connection string as `Connect`, Get your free connection string [Here](https://www.mongodb.com/)
