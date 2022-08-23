@@ -1,4 +1,6 @@
 module.exports = {
   name: "emojiDelete",
-  async execute(emoji) {},
+  async execute(emoji) {
+    console.log(`Emoji: **${emoji.id}** has been updated.`);
+  },
 };
