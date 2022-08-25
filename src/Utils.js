@@ -58,7 +58,7 @@ module.exports = class Utils {
   }
 
   checkOwner(user) {
-    return process.env.BotOwnerID === user
+    return process.env.BotOwnerID !== user
   }
 
   errorEmbed(message) {
@@ -66,7 +66,7 @@ module.exports = class Utils {
       new EmbedBuilder(
         {
           description: `\\📛 **Error:** \\📛\n ${message}`,
-          color: "Red",
+          color: 0xfc0303,
         }
       )
     ]
@@ -78,7 +78,7 @@ module.exports = class Utils {
       new EmbedBuilder(
         {
           description: `\\✅ **Success:** \\✅\n ${message}`,
-          color: "Green"
+          color: 0x13ad0e
         }
       )
     ]
