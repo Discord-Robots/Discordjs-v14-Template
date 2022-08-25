@@ -1,10 +1,34 @@
+const { EmbedBuilder, GuildMember, Client } = require("discord.js");
+
 module.exports = {
-  name: "guildMemberAdd",
+  name: "guildMemberRemove",
+  /**
+   * 
+   * @param {GuildMember} member 
+   * @param {Client} client 
+   */
   async execute(member, client) {
-    const message = `${member.user.username} joined server: ${member.guild.name}`;
-    const welcomeChannel = member.guild.channels.cache.find((ch) =>
-      ch.name.includes("welcome")
+    const message = `${member.user.username} left server: ${member.guild.name}`;
+    const memCount = member.guild.members.cache.filter((m) => m.user.bot === false).size
+    const goodbyeChannel = member.guild.channels.cache.find((ch) =>
+      ch.name.includes("leave")
     );
-    welcomeChannel.send(message);
+
+
+    const embed = new EmbedBuilder({
+      author: {
+        name: `${member.user.tag}`,
+      },
+      description: message,
+      title: `Member Count: ${memCount}`,
+      thumbnail: {
+        url: `${member.user.displayAvatarURL({ dynamic: true })}`
+      },
+      footer: {
+        text: `${client.user.username}`,
+      },
+    }).setTimestamp()
+
+    goodbyeChannel.send({ embeds: [embed] });
   },
 };
