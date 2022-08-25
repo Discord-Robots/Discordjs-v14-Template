@@ -1,5 +1,5 @@
 require("dotenv/config");
-const { Client, Collection } = require("discord.js");
+const { Client, Collection, Colors } = require("discord.js");
 const { readdirSync } = require("fs");
 const chalk = require("chalk");
 const { BotToken } = process.env;
@@ -9,7 +9,7 @@ const glob = require("glob");
 class BOT extends Client {
   constructor() {
     super({
-      intents: require("./config.json").intents,
+      intents: 3276799,
       partials: require("./config.json").partials,
     });
 
@@ -35,6 +35,9 @@ class BOT extends Client {
     this.token = BotToken;
     this.color = 0x22b14c;
     this.rds = readdirSync;
+    this.color2 = {
+      main: 0x13EF8E
+    }
   }
 
   async start(token) {
@@ -50,6 +53,7 @@ class BOT extends Client {
       for (const file of functionFiles)
         require(`./functions/${folder}/${file}`)(this);
     }
+    console.clear();
     this.handleCommands();
     this.handleComponents();
     this.handleEvents();
