@@ -60,6 +60,7 @@ Click `Use this template` at the top of this page.
 
   - Paste in your `BotToken`, `AppID`, `ClientSecret` from the [Discord Developer Portal](https://discord.com/developers/applications)
   - Insert your Developer Guild ID for testing purposes in `DevGuild`
+  - Insert a channel id of your choosing to send logs to in `DevChannel`
   - Insert your own UserID as `BotOwnerID`
     - If this is not done, `reload` command will not function correctly.
   - Insert your mongoose connection string as `Connect`, Get your free connection string [Here](https://www.mongodb.com/)
