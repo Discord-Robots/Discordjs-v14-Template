@@ -24,7 +24,7 @@ module.exports = {
                 const cooldownAmount = (modal.cooldown || 10) * 1000; //default of 10 seconds
 
                 if (timestamps.has(interaction.user.id)) {
-                    if (client.utils.checkOwner(interaction.user.id))
+                    if (!client.utils.checkOwner(interaction.user.id))
                         return modal.execute(interaction, client);
                     else {
                         const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
