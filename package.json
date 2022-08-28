@@ -26,7 +26,8 @@
     "mongoose": "^6.5.2",
     "ms": "^2.1.3",
     "node-fetch": "^2.6.7",
-    "node-schedule": "^2.1.0"
+    "node-schedule": "^2.1.0",
+    "runescape-api": "^2.1.6"
   },
   "homepage": "https://github.com/Discord-Robots/discordjs-v14-template#readme",
   "repository": {

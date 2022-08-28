@@ -4,6 +4,8 @@ const Guild = new Schema({
 
     guildID: { type: String },
     guildName: { type: String },
+    guildOwner: { type: String },
+    guildOwnerID: { type: String },
 
 });
 

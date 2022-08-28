@@ -1,5 +1,5 @@
 require("dotenv/config");
-const { Client, Collection, Colors } = require("discord.js");
+const { Client, Collection, ClientPresence } = require("discord.js");
 const { readdirSync } = require("fs");
 const chalk = require("chalk");
 const { BotToken } = process.env;
@@ -11,6 +11,7 @@ class BOT extends Client {
     super({
       intents: 3276799,
       partials: require("./config.json").partials,
+      ws: { properties: { browser: "Discord Android" } }
     });
 
     this.config = require("./config.json");
@@ -53,7 +54,6 @@ class BOT extends Client {
       for (const file of functionFiles)
         require(`./functions/${folder}/${file}`)(this);
     }
-    console.clear();
     this.handleCommands();
     this.handleComponents();
     this.handleEvents();

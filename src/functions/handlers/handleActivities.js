@@ -5,17 +5,14 @@ module.exports = (client) => {
       {
         type: 5,
         content: "/commands",
-        status: "dnd",
       },
       {
         type: 3,
         content: `over ${client.guilds.cache.size} guild(s)`,
-        status: "idle",
       },
       {
         type: 0,
         content: "Discord.js v14",
-        status: "idle",
       },
     ];
 
@@ -28,7 +25,6 @@ module.exports = (client) => {
           type: statusArray[option].type,
         },
       ],
-      status: statusArray[option].status,
     });
   };
 };
