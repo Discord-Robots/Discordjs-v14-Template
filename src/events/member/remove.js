@@ -1,24 +1,45 @@
-const { EmbedBuilder } = require("discord.js");
+const { EmbedBuilder, GuildMember, Client } = require("discord.js");
 
 module.exports = {
   name: "guildMemberRemove",
-  async execute(member) {
-    const count = member.guild.memberCount
-    member.guild.channels.cache
-      .find((ch) => ch.name.includes("leave"))
-      .send({
-        embeds: [
-          new EmbedBuilder(
-            {
-              author: {
-                name: member.user.username + " has left the server",
-                iconURL: member.user.avatarURL({ dynamic: true })
-              },
-              description: ';',
+  /**
+   * 
+   * @param {GuildMember} member 
+   * @param {Client} client 
+   */
+  async execute(member, client) {
+    if (member.user.bot) return;
+    const auditLogs = (await member.guild.fetchAuditLogs({ user: member.id }))
+    console.log(auditLogs.entries.map(m => m.targetType()))
 
-            }
-          )
-        ]
-      });
+    const memCount = member.guild.members.cache.filter((m) => m.user.bot === false).size;
+    const botCount = member.guild.members.cache.filter((m) => m.user.bot === true).size;
+    const totalCount = member.guild.memberCount;
+
+    const message = `${member.user.username} left the server!\n\n` +
+      `Member Counts: \n` +
+      `Users: ${memCount}\n` +
+      `Bots: ${botCount}\n` +
+      `Total: ${totalCount}\n`
+
+    const channel = member.guild.channels.cache.find((ch) =>
+      ch.name.includes("leave")
+    );
+
+
+    const embed = new EmbedBuilder({
+      author: {
+        name: `${member.user.tag}`,
+      },
+      description: message,
+      thumbnail: {
+        url: `${member.user.displayAvatarURL({ dynamic: true })}`
+      },
+      footer: {
+        text: `${client.user.username}`,
+      },
+    }).setTimestamp()
+
+    channel.send({ embeds: [embed] });
   },
 };

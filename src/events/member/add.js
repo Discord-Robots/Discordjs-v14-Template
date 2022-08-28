@@ -1,17 +1,28 @@
 const { EmbedBuilder, GuildMember, Client } = require("discord.js");
 
 module.exports = {
-  name: "guildMemberRemove",
+  name: "guildMemberAdd",
   /**
    * 
    * @param {GuildMember} member 
    * @param {Client} client 
    */
   async execute(member, client) {
-    const message = `${member.user.username} left server: ${member.guild.name}`;
-    const memCount = member.guild.members.cache.filter((m) => m.user.bot === false).size
-    const goodbyeChannel = member.guild.channels.cache.find((ch) =>
-      ch.name.includes("leave")
+    if (member.user.bot) return;
+
+    const memCount = member.guild.members.cache.filter((m) => m.user.bot === false).size;
+    const botCount = member.guild.members.cache.filter((m) => m.user.bot === true).size;
+    const totalCount = member.guild.memberCount;
+
+    const message = `${member.user.username} joined the server!\n` +
+      `Welcome to ${member.guild.name}\n\n` +
+      `Member Counts: \n` +
+      `Users: ${memCount}\n` +
+      `Bots: ${botCount}\n` +
+      `Total: ${totalCount}\n`
+
+    const welcomeChannel = member.guild.channels.cache.find((ch) =>
+      ch.name.includes("welcome")
     );
 
 
@@ -20,7 +31,6 @@ module.exports = {
         name: `${member.user.tag}`,
       },
       description: message,
-      title: `Member Count: ${memCount}`,
       thumbnail: {
         url: `${member.user.displayAvatarURL({ dynamic: true })}`
       },
@@ -29,6 +39,6 @@ module.exports = {
       },
     }).setTimestamp()
 
-    goodbyeChannel.send({ embeds: [embed] });
+    welcomeChannel.send({ embeds: [embed] });
   },
 };
