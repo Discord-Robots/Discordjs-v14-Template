@@ -65,9 +65,9 @@ Click `Use this template` at the top of this page.
     - If this is not done, `reload` command will not function correctly.
   - Insert your mongoose connection string as `Connect`, Get your free connection string [Here](https://www.mongodb.com/)
     - If you don't know how to get this string, there are videos on this like [this one](https://tinyurl.com/mongo-setup)
-  - The `WebhookURL` will setup your anti-crash. You can create this in `Discord Settings > Integrations > Webhooks`
-    - Be careful! This link will have very sensitve data! You only need the string after `https://discord.com/api/webhooks/${AppID}/`.
-    - Paste the long string into `WebhookURL`. This is called your Webhook Token. DO NOT SHARE IT!!!
+  - The `WebhookURL` will setup your anti-crash system. You can create this in `Discord Settings > Integrations > Webhooks`
+    - Be careful! This link will have very sensitve data!
+    - Paste the long link into `WebhookURL`. DO NOT SHARE IT!!!
 
 - After you have edited and saved the `env` file to your needs, you are ready ready to start the bot!
   - Install all dependencies with `npm install` << Remember, DO NOT INCLUDE ANY PACKAGE NAMES HERE!
