@@ -74,8 +74,11 @@ Click `Use this template` at the top of this page.
     - Paste the long link into `WebhookURL`. DO NOT SHARE IT!!!
 
 - After you have edited and saved the `env` file to your needs, you are ready ready to start the bot!
+
   - Install all dependencies with `npm install` << Remember, DO NOT INCLUDE ANY PACKAGE NAMES HERE!
   - Run the bot with `nodemon`.
   - Customize the project to your liking and enjoy!
+
+- For the member add and remove events to work, the guild MUST have the `System Channel` enabled.
 
 Found any bugs or have any suggestion about the template? Create an issue or pull request!

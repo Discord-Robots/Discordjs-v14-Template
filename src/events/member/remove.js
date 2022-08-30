@@ -27,7 +27,7 @@ module.exports = {
       `Bots: ${botCount}\n` +
       `Total: ${totalCount}\n`;
 
-    const goodbyeChannel = member.guild.systemChannelId;
+    const goodbyeChannel = member.guild.systemChannel;
 
     const embed = new EmbedBuilder({
       author: {
