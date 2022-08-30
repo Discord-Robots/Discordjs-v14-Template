@@ -13,7 +13,6 @@ const {
 module.exports = {
   owner: true,
   category: "owner",
-  cooldown: 0,
   data: new SlashCommandBuilder()
     .setName("block")
     .setDescription("Stops a specific server from using the bot.")
