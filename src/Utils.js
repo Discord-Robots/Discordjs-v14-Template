@@ -1,4 +1,3 @@
-const { EmbedBuilder } = require("discord.js");
 const Guild = require("./models/guild");
 
 module.exports = class Utils {
@@ -22,18 +21,17 @@ module.exports = class Utils {
     }
   }
 
-  async getSetup(guildID) {
+  async getSetup(guildID, guildName) {
     const setup = await Guild.findOne({
       guildID,
+      guildName
     });
     return setup;
   }
 
-  async getPrefix(guildID) {
-    const prefix = await Guild.findOne({
-      guildID,
-    });
-    return prefix.prefix;
+  async wait(time) {
+    const wait = require('node:timers/promises').setTimeout;
+    await wait(time)
   }
 
   capitalise(string) {
@@ -61,27 +59,49 @@ module.exports = class Utils {
     return process.env.BotOwnerID !== user
   }
 
-  errorEmbed(message) {
-    embeds: [
-      new EmbedBuilder(
+  async errorEditEmbed(message, interaction) {
+    await interaction.editReply({
+      embeds: [
         {
           description: `\\📛 **Error:** \\📛\n ${message}`,
           color: 0xfc0303,
         }
-      )
-    ]
+      ]
+    })
   }
 
 
-  successEmbed(message) {
-    embeds: [
-      new EmbedBuilder(
+  async successEditEmbed(message, interaction) {
+    await interaction.editReply({
+      embeds: [
         {
           description: `\\✅ **Success:** \\✅\n ${message}`,
           color: 0x13ad0e
         }
-      )
-    ]
+      ],
+    })
   }
 
+  async errorReplyEmbed(message, interaction) {
+    await interaction.reply({
+      embeds: [
+        {
+          description: `\\📛 **Error:** \\📛\n ${message}`,
+          color: 0xfc0303,
+        }
+      ]
+    })
+  }
+
+
+  async successReplyEmbed(message, interaction) {
+    await interaction.reply({
+      embeds: [
+        {
+          description: `\\✅ **Success:** \\✅\n ${message}`,
+          color: 0x13ad0e
+        }
+      ]
+    })
+  }
 };

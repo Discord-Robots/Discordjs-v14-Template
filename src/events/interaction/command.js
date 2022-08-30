@@ -1,4 +1,4 @@
-const { Client, CommandInteraction, InteractionType, EmbedBuilder, Collection } = require("discord.js");
+const { Client, CommandInteraction, InteractionType, EmbedBuilder, Collection, ChannelType } = require("discord.js");
 const data = {};
 const blockedGuids = require("../../models/blocked");
 
@@ -11,6 +11,7 @@ module.exports = {
    */
   async execute(interaction, client) {
     // data.guild = await client.utils.guild(interaction.guild.id);
+    if (!interaction.inGuild()) return interaction.reply({ content: "I do not allow interactions in DM's." })
     const { commands, cooldowns } = client;
     let db = await blockedGuids.findOne({ client_id: client.user.id });
     if (!db) {

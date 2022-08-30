@@ -1,5 +1,5 @@
 const { ButtonInteraction, Client } = require("discord.js");
-const doc = require("../../../models/blocked");
+const doc = require("../../../../models/blocked");
 
 module.exports = {
     data: {

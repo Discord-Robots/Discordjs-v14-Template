@@ -1,7 +1,6 @@
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord.js");
 const { DevGuild, AppID, BotToken } = process.env;
-const wait = require('node:timers/promises').setTimeout;
 
 module.exports = (client) => {
   const { commands, commandArray, developerArray } = client;

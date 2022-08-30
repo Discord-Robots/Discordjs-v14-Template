@@ -1,11 +1,13 @@
 const { EmbedBuilder, WebhookClient } = require("discord.js");
 const { inspect } = require("util");
-const { WebhookURL } = process.env;
+const { AppID, WebhookURL, WebhookToken } = process.env;
 const webhook = new WebhookClient({
   url: WebhookURL,
+  token: WebhookToken
 });
+const Client = require("./bot");
 
-module.exports = (client) => {
+module.exports = async (client) => {
   const embed = new EmbedBuilder();
   client.on("error", (err) => {
     console.log(err);
