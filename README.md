@@ -18,7 +18,7 @@ Features:
 
 ![Imgur](https://i.imgur.com/FxUCwtnl.png)
 
-<!-- **Easy to Read** -->
+# **Easy to Read**
 
 **_Slash Command:_**
 Example Location of command: "./src/commands/(category)/(command)"
