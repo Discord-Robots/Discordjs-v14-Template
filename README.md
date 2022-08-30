@@ -6,19 +6,22 @@ Features:
 
 - Based on FusionTerrors v14 Handler
 - Supports Only Slash Commands
-  - ~~Will support cooldowns soon~~ Supports Cooldowns!!!
+  - Cannot run any interaction commands in Bot's DMs
+  - Supports Cooldowns
     - Supports Component Cooldowns
 - Executes the bot In a Base Class
 - Custom Handler for Components
+- Custom Handler for Pagination Embeds
 - Anti-Crash Handler
 
 **Logs Everything to the console when starting**
 
 ![Imgur](https://i.imgur.com/FxUCwtnl.png)
 
-**Easy to Read**
+<!-- **Easy to Read** -->
 
 **_Slash Command:_**
+Example Location of command: "./src/commands/(category)/(command)"
 
 ```js
 const { SlashCommandBuilder, PermissionsBitField } = require("discord.js");
@@ -39,6 +42,7 @@ module.exports = {
 ```
 
 **_Components:_**
+Example Location of component: "./src/components/(type)/(category)/(command)/(component)"
 
 ```js
 module.exports = {
