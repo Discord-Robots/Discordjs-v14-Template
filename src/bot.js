@@ -11,7 +11,6 @@ class BOT extends Client {
     super({
       intents: 3276799,
       partials: require("./config.json").partials,
-      ws: { properties: { browser: "Discord Android" } }
     });
 
     this.config = require("./config.json");
@@ -28,7 +27,7 @@ class BOT extends Client {
     this.componentCooldowns = {
       buttons: new Collection(),
       selectMenus: new Collection(),
-      modals: new Collection()
+      modals: new Collection(),
     };
 
     (this.commandArray = []), (this.developerArray = []);
@@ -37,8 +36,8 @@ class BOT extends Client {
     this.color = 0x22b14c;
     this.rds = readdirSync;
     this.color2 = {
-      main: 0x13EF8E
-    }
+      main: 0x13ef8e,
+    };
   }
 
   async start(token) {

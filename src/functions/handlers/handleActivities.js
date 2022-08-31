@@ -25,6 +25,7 @@ module.exports = (client) => {
           type: statusArray[option].type,
         },
       ],
+      status: "dnd",
     });
   };
 };
