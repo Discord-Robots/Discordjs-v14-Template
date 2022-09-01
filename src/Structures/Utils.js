@@ -1,4 +1,4 @@
-const Guild = require("./models/guild");
+const Guild = require("../models/guild");
 
 module.exports = class Utils {
   constructor(client) {

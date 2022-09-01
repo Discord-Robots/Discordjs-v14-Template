@@ -4,7 +4,7 @@ Discord.js v14 Template using Rest API
 
 Features:
 
-- Based on FusionTerrors v14 Handler
+- Based on FusionTerrors v14 Handler (Just more advanced)
 - Supports Only Slash Commands
   - Cannot run any interaction commands in Bot's DMs
   - Supports Cooldowns
@@ -13,12 +13,14 @@ Features:
 - Custom Handler for Components
 - Custom Handler for Pagination Embeds
 - Anti-Crash Handler
+- Sends an embed to the guilds system channel when a member joins and leaves.
+- Sends a message to the DevChannel when the bot is added to a new guild (and removed).
 
 **Logs Everything to the console when starting**
 
 ![Imgur](https://i.imgur.com/FxUCwtnl.png)
 
-# **Easy to Read**
+**Easy to Read**
 
 **_Slash Command:_**
 Example Location of command: "./src/commands/(category)/(command)"
@@ -43,6 +45,10 @@ module.exports = {
 
 **_Components:_**
 Example Location of component: "./src/components/(type)/(category)/(command)/(component)"
+type: button/select menu/ modal
+category: should match the command category
+command: folder is named the same as the command name
+component: file that matches the custom id that you created
 
 ```js
 module.exports = {
@@ -61,6 +67,7 @@ module.exports = {
 Click `Use this template` at the top of this page.
 
 - Rename `.env.example` to `.env` (THIS FILE CANNOT HAVE ANY SPACES)
+  **_*Required*_**
 
   - Paste in your `BotToken`, `AppID`, `ClientSecret` from the [Discord Developer Portal](https://discord.com/developers/applications)
   - Insert your Developer Guild ID for testing purposes in `DevGuild`

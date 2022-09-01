@@ -11,6 +11,7 @@ class BOT extends Client {
     super({
       intents: 3276799,
       partials: require("./config.json").partials,
+      // allowedMentions: [{ roles: "everyone" }]
     });
 
     this.config = require("./config.json");
@@ -23,11 +24,11 @@ class BOT extends Client {
     this.modals = new Collection();
     this.selectMenus = new Collection();
 
-    this.cooldowns = new Collection();
-    this.componentCooldowns = {
+    this.cooldowns = {
       buttons: new Collection(),
-      selectMenus: new Collection(),
+      commands: new Collection(),
       modals: new Collection(),
+      selectMenus: new Collection(),
     };
 
     (this.commandArray = []), (this.developerArray = []);
@@ -51,10 +52,11 @@ class BOT extends Client {
         (file) => file.endsWith(".js")
       );
       for (const file of functionFiles)
-        require(`./functions/${folder}/${file}`)(this);
+        require(`../functions/${folder}/${file}`)(this);
     }
     this.handleCommands();
     this.handleComponents();
+    this.handleCooldowns();
     this.handleEvents();
     this.login(token);
   }
