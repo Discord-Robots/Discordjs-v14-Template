@@ -1,10 +1,8 @@
 const {
   ActionRowBuilder,
   ButtonBuilder,
-  ButtonStyle,
   EmbedBuilder,
   Client,
-  CommandInteraction,
   ChatInputCommandInteraction,
 } = require("discord.js");
 
