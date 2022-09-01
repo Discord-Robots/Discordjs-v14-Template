@@ -10,17 +10,17 @@ module.exports = {
      */
     async execute(interaction, client) {
         // data.guild = await client.utils.guild(interaction.guild.id);
-        const { modals, componentCooldowns } = client;
+        const { modals, cooldowns } = client;
         if (interaction.type === InteractionType.ModalSubmit) {
             const modal = modals.get(interaction.customId);
             if (!modal) return;
 
             try {
-                if (!componentCooldowns.modals.has(modal.data.name)) {
-                    componentCooldowns.modals.set(modal.data.name, new Collection());
+                if (!cooldowns.modals.has(modal.data.name)) {
+                    cooldowns.modals.set(modal.data.name, new Collection());
                 }
                 const now = Date.now();
-                const timestamps = componentCooldowns.modals.get(modal.data.name);
+                const timestamps = cooldowns.modals.get(modal.data.name);
                 const cooldownAmount = (modal.cooldown || 10) * 1000; //default of 10 seconds
 
                 if (timestamps.has(interaction.user.id)) {

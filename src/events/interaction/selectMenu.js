@@ -9,17 +9,17 @@ module.exports = {
      * @param {Client} client
      */
     async execute(interaction, client) {
-        const { selectMenus, componentCooldowns } = client;
+        const { selectMenus, cooldowns } = client;
         if (interaction.isSelectMenu()) {
             const menu = selectMenus.get(interaction.customId);
             if (!menu) return;
 
             try {
-                if (!componentCooldowns.selectMenus.has(menu.data.name)) {
-                    componentCooldowns.selectMenus.set(menu.data.name, new Collection());
+                if (!cooldowns.selectMenus.has(menu.data.name)) {
+                    cooldowns.selectMenus.set(menu.data.name, new Collection());
                 }
                 const now = Date.now();
-                const timestamps = componentCooldowns.selectMenus.get(menu.data.name);
+                const timestamps = cooldowns.selectMenus.get(menu.data.name);
                 const cooldownAmount = (menu.cooldown || 10) * 1000; //default of 10 seconds
 
                 if (timestamps.has(interaction.user.id)) {

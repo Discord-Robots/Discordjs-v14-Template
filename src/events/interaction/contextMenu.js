@@ -16,11 +16,11 @@ module.exports = {
             if (!command) return;
 
             try {
-                if (!cooldowns.has(command.data.name)) {
-                    cooldowns.set(command.data.name, new Collection());
+                if (!cooldowns.commands.has(command.data.name)) {
+                    cooldowns.commands.set(command.data.name, new Collection());
                 }
                 const now = Date.now();
-                const timestamps = cooldowns.get(command.data.name);
+                const timestamps = cooldowns.commands.get(command.data.name);
                 const cooldownAmount = (command.cooldown || 10) * 1000; //default of 10 seconds
 
                 if (timestamps.has(interaction.user.id)) {

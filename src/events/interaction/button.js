@@ -9,17 +9,17 @@ module.exports = {
      * @param {Client} client
      */
     async execute(interaction, client) {
-        const { buttons, componentCooldowns } = client;
+        const { buttons, cooldowns } = client;
         if (interaction.isButton()) {
             const button = buttons.get(interaction.customId);
             if (!button) return new Error('There is no code for this button!')
 
             try {
-                if (!componentCooldowns.buttons.has(button.data.name)) {
-                    componentCooldowns.buttons.set(button.data.name, new Collection());
+                if (!cooldowns.buttons.has(button.data.name)) {
+                    cooldowns.buttons.set(button.data.name, new Collection());
                 }
                 const now = Date.now();
-                const timestamps = componentCooldowns.buttons.get(button.data.name);
+                const timestamps = cooldowns.buttons.get(button.data.name);
                 const cooldownAmount = (button.cooldown || 10) * 1000; //default of 10 seconds
 
                 if (timestamps.has(interaction.user.id)) {
