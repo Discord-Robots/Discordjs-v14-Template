@@ -1,7 +1,11 @@
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord.js");
-const { DevGuild, AppID, BotToken } = process.env;
+const { DevGuild, AppID, BotToken, Connect } = process.env;
 
+/**
+ *
+ * @param {import('discord.js').Client} client
+ */
 module.exports = (client) => {
   const { commands, commandArray, developerArray } = client;
 
@@ -17,11 +21,13 @@ module.exports = (client) => {
       for (const file of commandFiles) {
         const command = require(`../../commands/${folder}/${file}`);
         if (command.developer) {
-          developerArray.push(command.data.toJSON())
-          devCount++
+          if (command.dbRequired) {
+          }
+          developerArray.push(command.data.toJSON());
+          devCount++;
         } else {
           commandArray.push(command.data.toJSON());
-          comands++
+          comands++;
         }
         commands.set(command.data.name, command);
       }
@@ -30,9 +36,14 @@ module.exports = (client) => {
     const rest = new REST({ version: "10" }).setToken(BotToken);
     (async () => {
       try {
-        console.log(client.chalk.yellowBright("[APPLICATION] - Started refreshing application (/) commands."));
+        console.log(
+          client.chalk.yellowBright(
+            "[APPLICATION] - Started refreshing application (/) commands."
+          )
+        );
 
-        await rest.put(Routes.applicationGuildCommands(AppID, DevGuild), { body: developerArray })
+        await rest
+          .put(Routes.applicationGuildCommands(AppID, DevGuild), { body: developerArray })
           .then(
             console.log(
               client.chalk.blue(
@@ -40,7 +51,8 @@ module.exports = (client) => {
               )
             )
           );
-        await rest.put(Routes.applicationCommands(AppID), { body: commandArray })
+        await rest
+          .put(Routes.applicationCommands(AppID), { body: commandArray })
           .then(
             console.log(
               client.chalk.blue(
@@ -49,7 +61,11 @@ module.exports = (client) => {
             )
           );
 
-        console.log(client.chalk.greenBright("[APPLICATION] - Successfully reloaded application (/) commands."));
+        console.log(
+          client.chalk.greenBright(
+            "[APPLICATION] - Successfully reloaded application (/) commands."
+          )
+        );
       } catch (error) {
         console.error(error);
       }

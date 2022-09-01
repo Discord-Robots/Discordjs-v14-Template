@@ -1,5 +1,5 @@
 require("dotenv/config");
-const { Client, Collection, ClientPresence } = require("discord.js");
+const { Client, Collection } = require("discord.js");
 const { readdirSync } = require("fs");
 const chalk = require("chalk");
 const { BotToken } = process.env;
@@ -11,7 +11,6 @@ class BOT extends Client {
     super({
       intents: 3276799,
       partials: require("./config.json").partials,
-      // allowedMentions: [{ roles: "everyone" }]
     });
 
     this.config = require("./config.json");
@@ -56,7 +55,6 @@ class BOT extends Client {
     }
     this.handleCommands();
     this.handleComponents();
-    this.handleCooldowns();
     this.handleEvents();
     this.login(token);
   }

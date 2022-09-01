@@ -21,31 +21,28 @@ module.exports = (client) => {
     const pages = {};
     const getRow = (id) => {
       //Create the action row with buttons
-      const row = new ActionRowBuilder();
+      const row = new ActionRowBuilder({
+        components: [
+          new ButtonBuilder({
+            label: "◀",
+            custom_id: "prev_embed",
+            style: 1,
+            disabled: pages[id] === 0
+          }),
+          new ButtonBuilder({
+            label: "❌",
+            custom_id: "end_embed",
+            style: 4
+          }),
+          new ButtonBuilder({
+            label: "▶",
+            custom_id: "next_embed",
+            style: 1,
+            disabled: pages[id] === embeds.length - 1
+          })
+        ]
 
-      row.addComponents(
-        new ButtonBuilder()
-          .setLabel("◀")
-          .setCustomId("prev_embed")
-          .setStyle(ButtonStyle.Primary)
-          .setDisabled(pages[id] === 0)
-      );
-
-      row.addComponents(
-        new ButtonBuilder()
-          .setLabel("❌")
-          .setCustomId("end_embed")
-          .setStyle(ButtonStyle.Danger)
-        //   .setDisabled()
-      );
-
-      row.addComponents(
-        new ButtonBuilder()
-          .setLabel("▶")
-          .setCustomId("next_embed")
-          .setStyle(ButtonStyle.Primary)
-          .setDisabled(pages[id] === embeds.length - 1)
-      );
+      });
 
       // -------------- Any other custom Button (if needed) --------------
       //   row.addComponents(
@@ -115,9 +112,10 @@ module.exports = (client) => {
     // -------------- Not needed --------------
     collector.on("end", async (reason) => {
       if (reason === "time") {
-        const warningEmbed = new EmbedBuilder()
-          .setColor("Yellow")
-          .setDescription(`⚠️ |  Unfortunately, the embed has expired!`);
+        const warningEmbed = new EmbedBuilder({
+          color: 0xd5cf13,
+          description: `⚠️ |  Unfortunately, the embed has expired!`
+        })
 
         await interaction.editReply({
           embeds: [warningEmbed],
