@@ -6,6 +6,7 @@ const Guild = new Schema({
     guildName: { type: String },
     guildOwner: { type: String },
     guildOwnerID: { type: String },
+    modLogsChannelID: { type: String },
 
 });
 
