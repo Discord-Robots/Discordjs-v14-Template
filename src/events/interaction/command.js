@@ -20,10 +20,11 @@ module.exports = {
   async execute(interaction, client) {
     const { commands, cooldowns } = client;
 
-    if (!interaction.inGuild())
+    if (!interaction.inGuild() && interaction.commandName !== "appeal") {
       return interaction.reply({
         content: "I do not allow interactions in DM's.",
       });
+    }
 
     if (Connect) {
       let db = await blockedGuids.findOne({ client_id: client.user.id });

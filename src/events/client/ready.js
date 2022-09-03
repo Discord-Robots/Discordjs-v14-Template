@@ -13,6 +13,6 @@ module.exports = {
         `[CLIENT] - ${client.user.tag} has logged into Discord!`
       )
     );
-    setInterval(client.pickPresence, 8000);
+    client.pickPresence();
   },
 };

@@ -12,9 +12,10 @@ Features:
 - Executes the bot In a Base Class
 - Custom Handler for Components
 - Custom Handler for Pagination Embeds
-- Anti-Crash Handler
 - Sends an embed to the guilds system channel when a member joins and leaves.
 - Sends a message to the DevChannel when the bot is added to a new guild (and removed).
+- Added the ability to block guilds from using/inviting the bot.
+- I am not adding a reload command due to having too many issues with the function.
 
 **Logs Everything to the console when starting**
 
@@ -34,7 +35,7 @@ module.exports = {
     category: "category",
     cooldown: Number,
     data: new SlashCommandBuilder()
-        .setName('name') // command name
+        .setName('name') // command name - Must be lowercase!!
         .setDescription('description') // command description
         .setDefalultMemberPermissions(PermissionsBitField.Flags.<permission>), // member permissions
   async execute (interaction, client) => {
@@ -54,7 +55,7 @@ component: file that matches the custom id that you created
 module.exports = {
     cooldown: Number,
     data: {
-      name: "Name",
+      name: "name", // Must be lowercase
     }, // member permissions
   async execute (interaction, client) => {
     // Code here
@@ -64,7 +65,7 @@ module.exports = {
 
 # Getting Started
 
-Click `Use this template` at the top of this page.
+Click `Use this template` at the top of this page or fork the repo to your own profile.
 
 - Rename `.env.example` to `.env` (THIS FILE CANNOT HAVE ANY SPACES)
   **_*Required*_**
@@ -73,12 +74,9 @@ Click `Use this template` at the top of this page.
   - Insert your Developer Guild ID for testing purposes in `DevGuild`
   - Insert a channel id of your choosing to send logs to in `DevChannel`
   - Insert your own UserID as `BotOwnerID`
-    - If this is not done, `reload` command will not function correctly.
+    - If this is not done, commands with `ownerOnly` will not function.
   - Insert your mongoose connection string as `Connect`, Get your free connection string [Here](https://www.mongodb.com/)
     - If you don't know how to get this string, there are videos on this like [this one](https://tinyurl.com/mongo-setup)
-  - The `WebhookURL` will setup your anti-crash system. You can create this in `Discord Settings > Integrations > Webhooks`
-    - Be careful! This link will have very sensitve data!
-    - Paste the long link into `WebhookURL`. DO NOT SHARE IT!!!
 
 - After you have edited and saved the `env` file to your needs, you are ready ready to start the bot!
 

@@ -58,21 +58,6 @@ class BOT extends Client {
     this.handleEvents();
     this.login(token);
   }
-
-  async reload() {
-    this.commands.sweep(() => true);
-    glob(`${__dirname}/commands/**/*.js`, async (err, filePaths) => {
-      if (err) return console.error();
-      filePaths.forEach((file) => {
-        delete require.cache[require.resolve(file)];
-
-        const pull = require(file);
-
-        if (pull.data.name && pull.developer)
-          this.commands.set(pull.data.name, pull);
-      });
-    });
-  }
 }
 
 module.exports = BOT;

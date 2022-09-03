@@ -1,4 +1,3 @@
-const doc = require("../../models/blocked");
 const {
   SlashCommandBuilder,
   EmbedBuilder,
@@ -6,7 +5,10 @@ const {
   Client,
   ButtonBuilder,
   ActionRowBuilder,
+  ModalBuilder,
+  TextInputBuilder,
 } = require("discord.js");
+const doc = require("../../models/blocked");
 
 module.exports = {
   owner: true,
@@ -15,13 +17,12 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("block")
     .setDescription("Stops a specific server from using the bot.")
-    .addStringOption((option) =>
-      option
+    .addStringOption((id) =>
+      id
         .setName("guildid")
         .setDescription(
           "Specify the guild id of which you would like to block."
         )
-        .setRequired(true)
     ),
 
   /**
@@ -30,60 +31,75 @@ module.exports = {
    * @param {Client} client
    */
   async execute(interaction, client) {
-    await interaction.deferReply({ fetchReply: true, ephemeral: true })
     const { options } = interaction;
     let gid = options.getString("guildid");
-    let guild = client.guilds.cache.get(gid);
     let db = await doc.findOne({ client_id: client.user.id });
-    if (db.guilds.includes(gid)) {
-      const Action = new ActionRowBuilder({
-        type: 1,
-        components: [
-          new ButtonBuilder({
-            customId: "unblock-yes",
-            emoji: "✅",
-            style: 1,
-            type: 2,
-          }),
-          new ButtonBuilder({
-            customId: "unblock-no",
-            emoji: "❌",
-            style: 1,
-            type: 2,
-          })
-        ]
-      });
-
-      return await interaction.editReply({
-        embeds: [
-          new EmbedBuilder({
-            description:
-              "That guild is already blocked. Would you like to unblock it?",
-            footer: { text: guild.id },
-          }),
-        ],
-        components: [Action],
-        ephemeral: true,
-      });
-    }
-    await doc.findOneAndUpdate(
-      {
-        client_id: client.user.id,
-      },
-      {
-        $push: {
-          guilds: gid,
-        },
+    let fetched = db.guilds.find(x => x.guildID === gid)
+    if (gid) {
+      if (fetched) {
+        return await interaction.reply({
+          embeds: [
+            new EmbedBuilder({
+              description:
+                "That guild is already blocked. Would you like to unblock it?",
+              footer: { text: gid },
+            }),
+          ],
+          components: [
+            new ActionRowBuilder({
+              type: 1,
+              components: [
+                new ButtonBuilder({
+                  customId: "unblock-yes",
+                  emoji: "✅",
+                  style: 1,
+                  type: 2,
+                }),
+                new ButtonBuilder({
+                  customId: "unblock-no",
+                  emoji: "❌",
+                  style: 1,
+                  type: 2,
+                })
+              ]
+            })
+          ],
+          ephemeral: true,
+        });
       }
-    );
-    return await interaction.editReply({
-      content: "Guild has been added to document.",
-      embeds: [
-        new EmbedBuilder({
-          description: `${guild.name} has been blocked from using interactions!`,
-        }),
-      ],
-      ephemeral: true,
-    });
+
+    } else
+      await interaction.showModal(
+        new ModalBuilder({
+          custom_id: "block-modal",
+          title: "Block New Guild",
+          components: [
+            new ActionRowBuilder({
+              type: 1,
+              components: [
+                new TextInputBuilder({
+                  custom_id: "block_gid",
+                  label: "Guild ID",
+                  placeholder: "Give me the guild id that should be blocked.",
+                  style: 1,
+                  type: 4
+                })
+              ]
+            }),
+            new ActionRowBuilder({
+              type: 1,
+              components: [
+                new TextInputBuilder({
+                  custom_id: "reason_for_block",
+                  label: "Reason for this block",
+                  placeholder: "Give me a reason for blocking this guild.",
+                  style: 2,
+                  type: 4
+                })
+              ]
+            })
+          ]
+        })
+      )
   },
 };

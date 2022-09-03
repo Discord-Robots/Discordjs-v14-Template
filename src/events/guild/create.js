@@ -1,7 +1,8 @@
-const { Guild, Client, EmbedBuilder } = require("discord.js");
+const { Guild, Client, EmbedBuilder, AuditLogEvent } = require("discord.js");
 const { DevChannel, Connect, DevGuild } = process.env;
 const guildSchema = require("../../models/guild");
 const blockedGuids = require('../../models/blocked');
+const wait = require("node:timers/promises").setTimeout;
 
 module.exports = {
   name: "guildCreate",
@@ -42,8 +43,13 @@ module.exports = {
 
     if (Connect) {
       let blocked = await blockedGuids.findOne({ client_id: client.user.id });
-      if (blocked && blocked.guilds.includes(guild.id)) {
+      let fetched = blocked.guilds.find(x => x.guildID === guild.id)
+      if (blocked && fetched) {
+        let botAdd = (await guild.fetchAuditLogs({ limit: 1, type: AuditLogEvent.BotAdd })).entries.first();
+        const { executor } = botAdd;
+        executor.send({ content: `The guild: \`${guild.name}\` that you have invited me to has been blocked from using my interactions. I will now leave the server. If you wish to re-add me, please check with your server owner for instructions on an appeal.` })
         created.addFields({ name: `Blocked Guild:`, value: `Guild was already blocked from using interactions so I left.` })
+        await wait(5000)
         await guild.leave();
       } else {
         let doc = await guildSchema.findOne({ guildID: guild.id });

@@ -20,7 +20,9 @@ module.exports = {
             },
             {
                 $pull: {
-                    guilds: gid
+                    guilds: {
+                        guildID: gid
+                    }
                 }
             })
 

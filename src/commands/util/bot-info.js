@@ -3,10 +3,6 @@ const {
     SlashCommandBuilder,
     CommandInteraction,
     EmbedBuilder,
-    ButtonBuilder,
-    ButtonStyle,
-    ComponentType,
-    ActionRowBuilder,
     PermissionsBitField,
 } = require("discord.js");
 const { version, dependencies } = require('../../../package.json');
@@ -38,13 +34,13 @@ module.exports = {
                     `**❯ Client:** ${client.user.tag} (${client.user.id})
                 **❯ Commands:** ${client.commands.size}
                 **❯ Servers:** ${client.guilds.cache.size.toLocaleString()} 
-                **❯ Users:** ${client.guilds.cache.reduce((a, b) => a + b.memberCount, 0).toLocaleString()}
+                **❯ Users:** ${client.users.cache.filter(m => !m.bot).size}
                 **❯ Channels:** ${client.channels.cache.size.toLocaleString()}
                 **❯ Creation Date:** ${utc(client.user.createdTimestamp).format('Do MMMM YYYY HH:mm:ss')}
                 **❯ Node.js:** ${process.version}
                 **❯ Version:** v${version}
                 **❯ Discord.js:** v${dependencies["discord.js"]}`,
-            })
+            })//${client.guilds.cache.reduce((a, b) => a + b.memberCount, 0).toLocaleString()}
             .addFields({
                 name: 'System', value:
                     `**❯ Platform:** ${process.platform}
