@@ -2,7 +2,7 @@ const { Collection, Message, Client } = require("discord.js");
 const { Prefix } = process.env;
 
 module.exports = {
-  //   name: "messageCreate",
+  // name: "messageCreate",
   /**
    *
    * @param {Message} message
@@ -10,7 +10,7 @@ module.exports = {
    * @returns
    */
   async execute(message, client) {
-    const { cooldowns, legacyCommands } = client;
+    const { cooldowns, legacyCommands, aliases } = client;
     let msg = message.content.toLowerCase();
     if (
       message.author.bot ||
@@ -25,7 +25,9 @@ module.exports = {
       return message.reply(`My prefix is \`${Prefix}\` in this server.`);
     const args = message.content.substring(Prefix.length).split(/ +/);
 
-    const command = legacyCommands.find((cmd) => cmd.name === args[0]);
+    const command = legacyCommands.find(
+      (cmd) => cmd.name === args[0] || cmd.aliases.includes(args[0])
+    );
 
     if (!command) return null;
 

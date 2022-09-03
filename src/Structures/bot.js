@@ -19,6 +19,8 @@ class BOT extends Client {
     this.events = new Collection();
 
     this.legacyCommands = new Collection();
+    this.aliases = new Collection();
+
     this.commands = new Collection();
     this.buttons = new Collection();
     this.modals = new Collection();

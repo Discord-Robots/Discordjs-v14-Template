@@ -48,6 +48,7 @@ module.exports = {
 ```
 
 **_Legacy Command:_**
+Example Location of command: "./src/legacyCommands/(category)/(command)"
 
 ```js
 module.exports = {
@@ -58,6 +59,7 @@ module.exports = {
     cooldown: Number, // how many seconds to wait for the command to be used again.
     owner: boolean, // whether command can only be used by the bot owner?
     enabled: boolean, // whether the command can be executed?
+    aliases: [], // other words that can activate this command. separate with commas: ["test", "te", "t"]
   async execute (interaction, client) => {
     // Code here
   },

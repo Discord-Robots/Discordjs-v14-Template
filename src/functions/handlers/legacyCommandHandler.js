@@ -1,5 +1,5 @@
 module.exports = (client) => {
-  const { legacyCommands, legacyArray } = client;
+  const { aliases, legacyCommands, legacyArray } = client;
 
   client.handleLegacyCommands = async () => {
     let count = 0;
@@ -14,6 +14,10 @@ module.exports = (client) => {
         legacyArray.push(command);
         count++;
         legacyCommands.set(command.name, command);
+
+        if (command.aliases && Array.isArray(command.aliases)) {
+          command.aliases.forEach((alias) => aliases.set(alias, command.name));
+        }
       }
     }
     console.log(

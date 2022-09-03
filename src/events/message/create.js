@@ -2,7 +2,7 @@ const { Collection, Message, Client } = require("discord.js");
 const { DevGuild } = process.env;
 
 module.exports = {
-  // name: "messageCreate",
+  name: "messageCreate",
   /**
    *
    * @param {Message} message
