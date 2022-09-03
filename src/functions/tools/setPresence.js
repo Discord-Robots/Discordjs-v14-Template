@@ -8,43 +8,46 @@ module.exports = (client) => {
     Watching: 3
     Competing: 5
 
-    Want a changing status? Just change line 47 to `status: statusArray[option].status` and insert your own status into each object above.
+    Want a changing status? Just change line 4 to `status: statusArray[i].status` and insert your own status into each object below.
     Different statuses include "online", "idle", "dnd", and "invisible"
     */
 
-    let statusArray = [
+    let obj = [
       {
         type: 5,
         content: "/commands",
-        status: ""
+        // status: ""
       },
       {
         type: 3,
         content: `over ${client.guilds.cache.size} guild(s)`,
-        status: ""
+        // status: ""
       },
       {
         type: 3,
         content: `over ${client.users.cache.size} user(s)`,
-        status: ""
+        // status: ""
       },
       {
         type: 0,
         content: "with Discord.js v14",
-        status: ""
+        // status: ""
       },
     ];
 
-    let option = Math.floor(Math.random() * statusArray.length);
+    setInterval(async () => {
+      for (const key of Object.keys(obj)) {
+        await client.user.setPresence({
+          activities: [
+            {
+              name: `${obj[key].content}`,
+              type: obj[key].type
+            },
+          ],
+          status: "dnd",
+        })
+      }
+    }, 8000);
 
-    client.user.setPresence({
-      activities: [
-        {
-          name: statusArray[option].content,
-          type: statusArray[option].type,
-        },
-      ],
-      status: "dnd",
-    });
   };
 };

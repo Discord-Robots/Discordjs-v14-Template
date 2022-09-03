@@ -85,9 +85,8 @@ module.exports = {
               const timeLeft = (expirationTime - now) / 1000;
               const message = `please wait ${timeLeft.toFixed(
                 1
-              )} more second(s) before reusing the \`${
-                command.data.name
-              }\` command.`;
+              )} more second(s) before reusing the \`${command.data.name
+                }\` command.`;
               return interaction.reply({
                 embeds: [
                   {

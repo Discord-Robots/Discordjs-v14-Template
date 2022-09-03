@@ -5,13 +5,12 @@ const {
   CommandInteraction,
   Client,
   ButtonBuilder,
-  ButtonStyle,
-  ComponentType,
   ActionRowBuilder,
 } = require("discord.js");
 
 module.exports = {
   owner: true,
+  dbRequired: true,
   category: "owner",
   data: new SlashCommandBuilder()
     .setName("block")
@@ -31,73 +30,60 @@ module.exports = {
    * @param {Client} client
    */
   async execute(interaction, client) {
+    await interaction.deferReply({ fetchReply: true, ephemeral: true })
     const { options } = interaction;
     let gid = options.getString("guildid");
     let guild = client.guilds.cache.get(gid);
     let db = await doc.findOne({ client_id: client.user.id });
-    if (!db) {
-      new doc({
-        client_id: client.user.id,
-        guilds: [],
-      }).save();
-      return await interaction.reply({
-        content: "Document has been added to DB.",
-        embeds: [
-          new EmbedBuilder({
-            description: `${guild.name} has been blocked from using interactions!`,
+    if (db.guilds.includes(gid)) {
+      const Action = new ActionRowBuilder({
+        type: 1,
+        components: [
+          new ButtonBuilder({
+            customId: "unblock-yes",
+            emoji: "✅",
+            style: 1,
+            type: 2,
           }),
-        ],
-        ephemeral: true,
+          new ButtonBuilder({
+            customId: "unblock-no",
+            emoji: "❌",
+            style: 1,
+            type: 2,
+          })
+        ]
       });
-    } else {
-      if (db.guilds.includes(gid)) {
-        const yes = new ButtonBuilder({
-          customId: "unblock-yes",
-          emoji: "✅",
-          style: ButtonStyle.Primary,
-          type: ComponentType.Button,
-        });
-        const no = new ButtonBuilder({
-          customId: "unblock-no",
-          emoji: "❌",
-          style: ButtonStyle.Primary,
-          type: ComponentType.Button,
-        });
-        const Action = new ActionRowBuilder({
-          components: [yes, no],
-          type: ComponentType.ActionRow,
-        });
-        return await interaction.reply({
-          embeds: [
-            new EmbedBuilder({
-              description:
-                "That guild is already blocked. Would you like to unblock it?",
-              footer: { text: guild.id },
-            }),
-          ],
-          components: [Action],
-          ephemeral: true,
-        });
-      }
-      await doc.findOneAndUpdate(
-        {
-          client_id: client.user.id,
-        },
-        {
-          $push: {
-            guilds: gid,
-          },
-        }
-      );
-      return await interaction.reply({
-        content: "Guild has been added to document.",
+
+      return await interaction.editReply({
         embeds: [
           new EmbedBuilder({
-            description: `${guild.name} has been blocked from using interactions!`,
+            description:
+              "That guild is already blocked. Would you like to unblock it?",
+            footer: { text: guild.id },
           }),
         ],
+        components: [Action],
         ephemeral: true,
       });
     }
+    await doc.findOneAndUpdate(
+      {
+        client_id: client.user.id,
+      },
+      {
+        $push: {
+          guilds: gid,
+        },
+      }
+    );
+    return await interaction.editReply({
+      content: "Guild has been added to document.",
+      embeds: [
+        new EmbedBuilder({
+          description: `${guild.name} has been blocked from using interactions!`,
+        }),
+      ],
+      ephemeral: true,
+    });
   },
 };

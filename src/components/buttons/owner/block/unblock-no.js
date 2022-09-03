@@ -6,6 +6,7 @@ module.exports = {
         return interaction.update({
             content: "I have cancelled this action!",
             components: [],
+            embeds: []
         });
     },
 };
