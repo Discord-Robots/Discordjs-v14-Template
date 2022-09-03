@@ -16,11 +16,11 @@ module.exports = (client) => {
             for (const commandName of categories) {
               const componentFiles = client
                 .rds(`./src/components/${type}/${category}/${commandName}`)
-                .filter((componentName) => componentName.endsWith(".js"));
-              for (const componentName of componentFiles) {
-                const button = require(`../../components/${type}/${category}/${commandName}/${componentName}`);
+                .filter((componentID) => componentID.endsWith(".js"));
+              for (const componentID of componentFiles) {
+                const button = require(`../../components/${type}/${category}/${commandName}/${componentID}`);
                 but++;
-                buttons.set(button.data.name, button);
+                buttons.set(button.data.id, button);
               }
             }
           }
@@ -41,11 +41,11 @@ module.exports = (client) => {
             for (const commandName of categories) {
               const componentFiles = client
                 .rds(`./src/components/${type}/${category}/${commandName}`)
-                .filter((componentName) => componentName.endsWith(".js"));
-              for (const componentName of componentFiles) {
-                const selectMenu = require(`../../components/${type}/${category}/${commandName}/${componentName}`);
+                .filter((componentID) => componentID.endsWith(".js"));
+              for (const componentID of componentFiles) {
+                const selectMenu = require(`../../components/${type}/${category}/${commandName}/${componentID}`);
                 sm++;
-                selectMenus.set(selectMenu.data.name, selectMenu);
+                selectMenus.set(selectMenu.data.id, selectMenu);
               }
             }
           }
@@ -65,11 +65,11 @@ module.exports = (client) => {
             for (const commandName of categories) {
               const componentFiles = client
                 .rds(`./src/components/${type}/${category}/${commandName}`)
-                .filter((componentName) => componentName.endsWith(".js"));
-              for (const componentName of componentFiles) {
-                const modal = require(`../../components/${type}/${category}/${commandName}/${componentName}`);
+                .filter((componentID) => componentID.endsWith(".js"));
+              for (const componentID of componentFiles) {
+                const modal = require(`../../components/${type}/${category}/${commandName}/${componentID}`);
                 mod++;
-                modals.set(modal.data.name, modal);
+                modals.set(modal.data.id, modal);
               }
             }
           }

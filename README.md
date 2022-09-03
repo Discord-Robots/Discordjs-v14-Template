@@ -77,7 +77,7 @@ component: file that matches the custom id that you created
 module.exports = {
     cooldown: Number,
     data: {
-      name: "name", // Must be lowercase
+      id: "custom_id", // Must be lowercase
     }, // member permissions
   async execute (interaction, client) => {
     // Code here

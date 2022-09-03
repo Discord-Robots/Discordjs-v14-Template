@@ -4,7 +4,6 @@ const { readdirSync } = require("fs");
 const chalk = require("chalk");
 const { BotToken } = process.env;
 const Util = require("./Utils");
-const glob = require("glob");
 
 class BOT extends Client {
   constructor() {
@@ -38,18 +37,13 @@ class BOT extends Client {
     this.legacyArray = [];
     this.chalk = chalk;
     this.token = BotToken;
-    this.color = 0x22b14c;
-    this.rds = readdirSync;
-    this.color2 = {
-      main: 0x13ef8e,
+    this.colors = {
+      green: 0x22b14c,
     };
+    this.rds = readdirSync;
   }
 
   async start(token) {
-    if (process.env.WebhookURL) {
-      require("./antiCrash")(this);
-      console.log("[WEBHOOK] - Webhook Client Connected!");
-    }
     const functionFolders = readdirSync(`./src/functions`);
     for (const folder of functionFolders) {
       const functionFiles = readdirSync(`./src/functions/${folder}`).filter(
