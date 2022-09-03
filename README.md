@@ -5,7 +5,10 @@ Discord.js v14 Template using Rest API
 Features:
 
 - Based on FusionTerrors v14 Handler (Just more advanced)
-- Supports Only Slash Commands
+- ~~Supports Only Slash Commands~~ Now Supports Legacy Commands as well!!!
+  - Legacy commands are meant for bots which are in less than 100 guilds.
+    - If you plan to use this in more than 100 guilds, You will have to apply for the MessageContent Intent through Discord.
+  - Cooldowns enabled on Legacy Commands
   - Cannot run any interaction commands in Bot's DMs
   - Supports Cooldowns
     - Supports Component Cooldowns
@@ -44,6 +47,23 @@ module.exports = {
 };
 ```
 
+**_Legacy Command:_**
+
+```js
+module.exports = {
+    // The following properties can be in any order and Required options are NAME and EXECUTE function.
+    name: "name",
+    description: "description",
+    category: "category",
+    cooldown: Number, // how many seconds to wait for the command to be used again.
+    owner: boolean, // whether command can only be used by the bot owner?
+    enabled: boolean, // whether the command can be executed?
+  async execute (interaction, client) => {
+    // Code here
+  },
+};
+```
+
 **_Components:_**
 Example Location of component: "./src/components/(type)/(category)/(command)/(component)"
 type: button/select menu/ modal
@@ -76,7 +96,14 @@ Click `Use this template` at the top of this page or fork the repo to your own p
   - Insert your own UserID as `BotOwnerID`
     - If this is not done, commands with `ownerOnly` will not function.
   - Insert your mongoose connection string as `Connect`, Get your free connection string [Here](https://www.mongodb.com/)
+
     - If you don't know how to get this string, there are videos on this like [this one](https://tinyurl.com/mongo-setup)
+
+  - Insert your desired legacy command prefix as `Prefix`.
+    - If you plan to use legacy commands as well, do the following:
+      - uncomment line 59 in `./src/Structures/bot.js`,
+      - unomment line 5 in `./src/events/message/messageCreate.js`,
+      - and delete file: `./src/events/message/create.js`
 
 - After you have edited and saved the `env` file to your needs, you are ready ready to start the bot!
 

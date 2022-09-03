@@ -2,7 +2,7 @@ const { Collection, Message, Client } = require("discord.js");
 const { DevGuild } = process.env;
 
 module.exports = {
-  name: "messageCreate",
+  // name: "messageCreate",
   /**
    *
    * @param {Message} message
@@ -10,7 +10,6 @@ module.exports = {
    * @returns
    */
   async execute(message, client) {
-    let msg = message.content.toLowerCase();
     if (
       message.author.bot ||
       message.system ||

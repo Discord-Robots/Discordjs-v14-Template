@@ -24,14 +24,14 @@ module.exports = class Utils {
   async getSetup(guildID, guildName) {
     const setup = await Guild.findOne({
       guildID,
-      guildName
+      guildName,
     });
     return setup;
   }
 
   async wait(time) {
-    const wait = require('node:timers/promises').setTimeout;
-    await wait(time)
+    const wait = require("node:timers/promises").setTimeout;
+    await wait(time);
   }
 
   capitalise(string) {
@@ -56,7 +56,29 @@ module.exports = class Utils {
   }
 
   checkOwner(user) {
-    return process.env.BotOwnerID !== user
+    return process.env.BotOwnerID !== user;
+  }
+
+  errorEmbed(message, channel) {
+    channel.send({
+      embeds: [
+        {
+          description: `\\📛 **Error:** \\📛\n ${message} `,
+          color: 0xfc0303,
+        },
+      ],
+    });
+  }
+
+  successEmbed(message, channel) {
+    channel.send({
+      embeds: [
+        {
+          description: `\\✅ **Success:** \\✅\n ${message}  `,
+          color: 0x13ad0e,
+        },
+      ],
+    });
   }
 
   async errorEditEmbed(message, interaction) {
@@ -65,21 +87,20 @@ module.exports = class Utils {
         {
           description: `\\📛 **Error:** \\📛\n ${message}`,
           color: 0xfc0303,
-        }
-      ]
-    })
+        },
+      ],
+    });
   }
-
 
   async successEditEmbed(message, interaction) {
     await interaction.editReply({
       embeds: [
         {
           description: `\\✅ **Success:** \\✅\n ${message}`,
-          color: 0x13ad0e
-        }
+          color: 0x13ad0e,
+        },
       ],
-    })
+    });
   }
 
   async errorReplyEmbed(message, interaction) {
@@ -88,20 +109,19 @@ module.exports = class Utils {
         {
           description: `\\📛 **Error:** \\📛\n ${message}`,
           color: 0xfc0303,
-        }
-      ]
-    })
+        },
+      ],
+    });
   }
-
 
   async successReplyEmbed(message, interaction) {
     await interaction.reply({
       embeds: [
         {
           description: `\\✅ **Success:** \\✅\n ${message}`,
-          color: 0x13ad0e
-        }
-      ]
-    })
+          color: 0x13ad0e,
+        },
+      ],
+    });
   }
 };

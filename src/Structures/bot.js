@@ -18,12 +18,14 @@ class BOT extends Client {
     this.setMaxListeners(0);
     this.events = new Collection();
 
+    this.legacyCommands = new Collection();
     this.commands = new Collection();
     this.buttons = new Collection();
     this.modals = new Collection();
     this.selectMenus = new Collection();
 
     this.cooldowns = {
+      legacyCommands: new Collection(),
       buttons: new Collection(),
       commands: new Collection(),
       modals: new Collection(),
@@ -31,6 +33,7 @@ class BOT extends Client {
     };
 
     (this.commandArray = []), (this.developerArray = []);
+    this.legacyArray = [];
     this.chalk = chalk;
     this.token = BotToken;
     this.color = 0x22b14c;
@@ -53,6 +56,7 @@ class BOT extends Client {
       for (const file of functionFiles)
         require(`../functions/${folder}/${file}`)(this);
     }
+    // this.handleLegacyCommands();
     this.handleCommands();
     this.handleComponents();
     this.handleEvents();
