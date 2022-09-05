@@ -52,8 +52,8 @@ class BOT extends Client {
       for (const file of functionFiles)
         require(`../functions/${folder}/${file}`)(this);
     }
-    // this.handleLegacyCommands();
     this.handleCommands();
+    // this.handleLegacyCommands();
     this.handleComponents();
     this.handleEvents();
     this.login(token);
