@@ -8,7 +8,7 @@ module.exports = (client) => {
     Watching: 3
     Competing: 5
 
-    Want a changing status? Just change line 4 to `status: statusArray[i].status` and insert your own status into each object below.
+    Want a changing status? Just change line 47 to `status: obj[i].status` and insert your own status into each object below.
     Different statuses include "online", "idle", "dnd", and "invisible"
     */
 
@@ -41,13 +41,12 @@ module.exports = (client) => {
           activities: [
             {
               name: `${obj[key].content}`,
-              type: obj[key].type
+              type: obj[key].type,
             },
           ],
           status: "dnd",
-        })
+        });
       }
     }, 8000);
-
   };
 };

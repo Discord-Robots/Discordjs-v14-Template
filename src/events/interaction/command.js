@@ -4,11 +4,8 @@ const {
   InteractionType,
   EmbedBuilder,
   Collection,
-  ChannelType,
 } = require("discord.js");
 const { Connect } = process.env;
-const data = {};
-const blockedGuids = require("../../models/blocked");
 
 module.exports = {
   name: "interactionCreate",
@@ -26,24 +23,6 @@ module.exports = {
       });
     }
 
-    if (Connect) {
-      let db = await blockedGuids.findOne({ client_id: client.user.id });
-      if (!db) {
-        new blockedGuids({
-          client_id: client.user.id,
-          guilds: [],
-        })
-          .save()
-          .catch(console.error());
-      }
-      if (db && db.guilds.includes(interaction.guild.id)) {
-        return await interaction.reply({
-          content:
-            "This guild has been blocked from using interactions with this bot.",
-          ephemeral: true,
-        });
-      }
-    }
     if (interaction.isChatInputCommand()) {
       const command = commands.get(interaction.commandName);
       if (!command) return;
@@ -111,6 +90,11 @@ module.exports = {
         await command.execute(interaction, client);
       } catch (error) {
         console.log(error);
+        await interaction.reply({
+          content:
+            "Something went wrong while executing this command, please contact my developer!",
+          ephemeral: true,
+        });
       }
     } else if (
       interaction.type == InteractionType.ApplicationCommandAutocomplete
