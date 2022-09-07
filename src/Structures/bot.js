@@ -44,11 +44,12 @@ class BOT extends Client {
   }
 
   async start(token) {
-    const functionFolders = readdirSync(`./src/functions`);
-    for (const folder of functionFolders) {
-      const functionFiles = readdirSync(`./src/functions/${folder}`).filter(
-        (file) => file.endsWith(".js")
-      );
+    this.login(token).then(() ={
+      const functionFolders = readdirSync(`./src/functions`);
+      for (const folder of functionFolders) {
+        const functionFiles = readdirSync(`./src/functions/${folder}`).filter(
+          (file) => file.endsWith(".js")
+        );
       for (const file of functionFiles)
         require(`../functions/${folder}/${file}`)(this);
     }
@@ -56,7 +57,7 @@ class BOT extends Client {
     // this.handleLegacyCommands();
     this.handleComponents();
     this.handleEvents();
-    this.login(token);
+  });
   }
 }
 
