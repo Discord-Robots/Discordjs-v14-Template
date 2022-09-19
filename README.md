@@ -22,7 +22,7 @@ Features:
 
 **Logs Everything to the console when starting**
 
-![Imgur](https://i.imgur.com/FxUCwtnl.png)
+![Imgur](https://i.imgur.com/6aKOiRg.png)
 
 **Easy to Read**
 
