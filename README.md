@@ -26,8 +26,9 @@ Features:
 
 **Easy to Read**
 
-_Slash Command:_
-Example Location of command: "./src/commands/(category)/(command)"
+Slash Commands:
+
+- Example Location of command: "./src/commands/(category)/(command)"
 
 ```js
 const { SlashCommandBuilder, PermissionsBitField } = require("discord.js");
@@ -47,8 +48,9 @@ module.exports = {
 };
 ```
 
-**Legacy Command:**
-Example Location of command: "./src/legacyCommands/(category)/(command)"
+Legacy Commands:
+
+- Example Location of command: "./src/legacyCommands/(category)/(command)"
 
 ```js
 module.exports = {
@@ -66,12 +68,13 @@ module.exports = {
 };
 ```
 
-**Components:**
-Example Location of component: "./src/components/(type)/(category)/(command)/(component)"
-type: button/select menu/ modal
-category: should match the command category
-command: folder is named the same as the command name
-component: file that matches the custom id that you created
+Components:
+
+- Example Location of component: "./src/components/(type)/(category)/(command)/(component)"
+- type: button/select menu/ modal
+- category: should match the command category
+- command: folder is named the same as the command name
+- component: file that matches the custom id that you created
 
 ```js
 module.exports = {
@@ -91,22 +94,22 @@ Click `Use this template` at the top of this page or fork the repo to your own p
 
 - Rename `.env.example` to `.env` (THIS FILE CANNOT HAVE ANY SPACES)
 
-  **Required**
+  - REQUIRED:
 
-  - Paste in your `BotToken`, `AppID`, `ClientSecret` from the [Discord Developer Portal](https://discord.com/developers/applications)
-  - Insert your Developer Guild ID for testing purposes in `DevGuild`
-  - Insert a channel id of your choosing to send logs to in `DevChannel`
-  - Insert your own UserID as `BotOwnerID`
-    - If this is not done, commands with `ownerOnly` will not function and your project will error and crash.
-  - Insert your mongoose connection string as `Connect`, Get your free connection string [Here](https://www.mongodb.com/)
+    - Paste in your `BotToken`, `AppID`, `ClientSecret` from the [Discord Developer Portal](https://discord.com/developers/applications)
+    - Insert your Developer Guild ID for testing purposes in `DevGuild`
+    - Insert a channel id of your choosing to send logs to in `DevChannel`
+    - Insert your own UserID as `BotOwnerID`
+      - If this is not done, commands with `ownerOnly` will not function and your project will error and crash.
+    - Insert your mongoose connection string as `Connect`, Get your free connection string [Here](https://www.mongodb.com/)
 
-    - If you don't know how to get this string, there are videos on this like [this one](https://tinyurl.com/mongo-setup)
+      - If you don't know how to get this string, there are videos on this like [this one](https://tinyurl.com/mongo-setup)
 
-  - Insert your desired legacy command prefix as `Prefix`.
-    - If you plan to use legacy commands as well, do the following:
-      - uncomment line 59 in `./src/Structures/bot.js`,
-      - uncomment line 5 in `./src/events/message/messageCreate.js`,
-      - and delete file: `./src/events/message/create.js`
+    - Insert your desired legacy command prefix as `Prefix`.
+      - If you plan to use legacy commands as well, do the following:
+        - uncomment line 59 in `./src/Structures/bot.js`,
+        - uncomment line 5 in `./src/events/message/messageCreate.js`,
+        - and delete file: `./src/events/message/create.js`
 
 - After you have edited and saved the `env` file to your needs, you are ready ready to start the bot!
 
