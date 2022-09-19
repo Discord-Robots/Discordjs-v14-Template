@@ -26,7 +26,7 @@ Features:
 
 **Easy to Read**
 
-**Slash Command:**
+_Slash Command:_
 Example Location of command: "./src/commands/(category)/(command)"
 
 ```js
@@ -89,7 +89,8 @@ module.exports = {
 
 Click `Use this template` at the top of this page or fork the repo to your own profile.
 
-- Rename `.env.example` to `.env` (THIS FILE CANNOT HAVE ANY SPACES)\n
+- Rename `.env.example` to `.env` (THIS FILE CANNOT HAVE ANY SPACES)
+
   **Required**
 
   - Paste in your `BotToken`, `AppID`, `ClientSecret` from the [Discord Developer Portal](https://discord.com/developers/applications)
