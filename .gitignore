@@ -132,3 +132,4 @@ src/models/sticky.js
 src/commands/util/sticky.js
 src/commands/owner/emit.js
 .vscode/settings.json
+.vscode/launch.json

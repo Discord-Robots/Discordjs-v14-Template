@@ -1,10 +1,9 @@
 module.exports = (client) => {
   client.removeAllListeners();
   client.handleEvents = async () => {
-    const eventFolders = client.rds(`./src/events`);
-    let count = 0;
+    const eventFolders = global.rds(`./src/events`);
     for (const folder of eventFolders) {
-      const eventFiles = client
+      const eventFiles = global
         .rds(`./src/events/${folder}`)
         .filter((file) => file.endsWith(".js"));
       for (const file of eventFiles) {
@@ -14,9 +13,7 @@ module.exports = (client) => {
           client.once(event.name, execute);
         else client.on(event.name, execute);
         client.events.set(event.name, execute)
-        count++
       }
     }
-    console.log(client.chalk.blue(`[HANDLER] - Loaded ${count} Event(s)!`));
   };
 };

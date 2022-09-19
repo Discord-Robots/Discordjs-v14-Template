@@ -1,7 +1,6 @@
 require("dotenv/config");
 const { Client, Collection } = require("discord.js");
 const { readdirSync } = require("fs");
-const chalk = require("chalk");
 const { BotToken } = process.env;
 const Util = require("./Utils");
 
@@ -35,16 +34,15 @@ class BOT extends Client {
 
     (this.commandArray = []), (this.developerArray = []);
     this.legacyArray = [];
-    this.chalk = chalk;
     this.token = BotToken;
     this.colors = {
       green: 0x22b14c,
     };
-    this.rds = readdirSync;
+    global.rds = readdirSync;
   }
 
   async start(token) {
-    this.login(token).then(() => {
+    this.login(token).then(async () => {
       const functionFolders = readdirSync(`./src/functions`);
       for (const folder of functionFolders) {
         const functionFiles = readdirSync(`./src/functions/${folder}`).filter(
@@ -53,6 +51,7 @@ class BOT extends Client {
         for (const file of functionFiles)
           require(`../functions/${folder}/${file}`)(this);
       }
+      await this.utils.logger();
       this.handleCommands();
       // this.handleLegacyCommands();
       this.handleComponents();
