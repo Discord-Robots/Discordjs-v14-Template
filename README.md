@@ -90,13 +90,13 @@ module.exports = {
 Click `Use this template` at the top of this page or fork the repo to your own profile.
 
 - Rename `.env.example` to `.env` (THIS FILE CANNOT HAVE ANY SPACES)
-  **_*Required*_**
+  **_Required_**
 
   - Paste in your `BotToken`, `AppID`, `ClientSecret` from the [Discord Developer Portal](https://discord.com/developers/applications)
   - Insert your Developer Guild ID for testing purposes in `DevGuild`
   - Insert a channel id of your choosing to send logs to in `DevChannel`
   - Insert your own UserID as `BotOwnerID`
-    - If this is not done, commands with `ownerOnly` will not function.
+    - If this is not done, commands with `ownerOnly` will not function and your project will error and crash.
   - Insert your mongoose connection string as `Connect`, Get your free connection string [Here](https://www.mongodb.com/)
 
     - If you don't know how to get this string, there are videos on this like [this one](https://tinyurl.com/mongo-setup)
@@ -104,7 +104,7 @@ Click `Use this template` at the top of this page or fork the repo to your own p
   - Insert your desired legacy command prefix as `Prefix`.
     - If you plan to use legacy commands as well, do the following:
       - uncomment line 59 in `./src/Structures/bot.js`,
-      - unomment line 5 in `./src/events/message/messageCreate.js`,
+      - uncomment line 5 in `./src/events/message/messageCreate.js`,
       - and delete file: `./src/events/message/create.js`
 
 - After you have edited and saved the `env` file to your needs, you are ready ready to start the bot!
