@@ -19,7 +19,7 @@ module.exports = {
 
     if (!interaction.inGuild()) {
       return interaction.reply({
-        content: "I do not allow commands/ interactions in DM's.",
+        content: "I do not allow commands or interactions in DM's.",
       });
     }
 
