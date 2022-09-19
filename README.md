@@ -26,7 +26,7 @@ Features:
 
 **Easy to Read**
 
-**_Slash Command:_**
+**Slash Command:**
 Example Location of command: "./src/commands/(category)/(command)"
 
 ```js
@@ -47,7 +47,7 @@ module.exports = {
 };
 ```
 
-**_Legacy Command:_**
+**Legacy Command:**
 Example Location of command: "./src/legacyCommands/(category)/(command)"
 
 ```js
@@ -66,7 +66,7 @@ module.exports = {
 };
 ```
 
-**_Components:_**
+**Components:**
 Example Location of component: "./src/components/(type)/(category)/(command)/(component)"
 type: button/select menu/ modal
 category: should match the command category
@@ -89,8 +89,8 @@ module.exports = {
 
 Click `Use this template` at the top of this page or fork the repo to your own profile.
 
-- Rename `.env.example` to `.env` (THIS FILE CANNOT HAVE ANY SPACES)
-  **_Required_**
+- Rename `.env.example` to `.env` (THIS FILE CANNOT HAVE ANY SPACES)\n
+  **Required**
 
   - Paste in your `BotToken`, `AppID`, `ClientSecret` from the [Discord Developer Portal](https://discord.com/developers/applications)
   - Insert your Developer Guild ID for testing purposes in `DevGuild`
