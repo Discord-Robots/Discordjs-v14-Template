@@ -2,14 +2,14 @@ module.exports = (client) => {
   const { buttons, selectMenus, modals } = client;
 
   client.handleComponents = async () => {
-    const componentsFolder = global.rds(`./src/components`);
+    const componentsFolder = rds(`./src/components`);
     for (const type of componentsFolder) {
-      const componentDirs = global.rds(`./src/components/${type}`);
+      const componentDirs = rds(`./src/components/${type}`);
 
       switch (type) {
         case "buttons":
           for (const category of componentDirs) {
-            const categories = global.rds(
+            const categories = rds(
               `./src/components/${type}/${category}`
             );
             for (const commandName of categories) {
@@ -27,7 +27,7 @@ module.exports = (client) => {
 
         case "selectMenus":
           for (const category of componentDirs) {
-            const categories = global.rds(
+            const categories = rds(
               `./src/components/${type}/${category}`
             );
             for (const commandName of categories) {
@@ -45,7 +45,7 @@ module.exports = (client) => {
 
         case "modals":
           for (const category of componentDirs) {
-            const categories = global.rds(
+            const categories = rds(
               `./src/components/${type}/${category}`
             );
             for (const commandName of categories) {

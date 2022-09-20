@@ -71,7 +71,7 @@ module.exports = {
 Components:
 
 - Example Location of component: "./src/components/(type)/(category)/(command)/(component)"
-- type: button/select menu/ modal
+- type: button/ select menu/ modal
 - category: should match the command category
 - command: folder is named the same as the command name
 - component: file that matches the custom id that you created
@@ -81,7 +81,7 @@ module.exports = {
     cooldown: Number,
     data: {
       id: "custom_id", // Must be lowercase
-    }, // member permissions
+    },
   async execute (interaction, client) => {
     // Code here
   },

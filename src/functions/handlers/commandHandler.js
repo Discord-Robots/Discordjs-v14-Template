@@ -1,6 +1,6 @@
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord.js");
-const { DevGuild, AppID, BotToken, Connect } = process.env;
+const { DevGuild, AppID, BotToken } = process.env;
 
 /**
  *
@@ -10,10 +10,9 @@ module.exports = (client) => {
   const { commands, commandArray, developerArray } = client;
 
   client.handleCommands = async () => {
-    const commandFolders = global.rds("./src/commands");
+    const commandFolders = rds("./src/commands");
     for (const folder of commandFolders) {
-      const commandFiles = global
-        .rds(`./src/commands/${folder}`)
+      const commandFiles = rds(`./src/commands/${folder}`)
         .filter((file) => file.endsWith(".js"));
 
       for (const file of commandFiles) {

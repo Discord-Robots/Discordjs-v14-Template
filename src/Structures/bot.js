@@ -13,7 +13,6 @@ class BOT extends Client {
     });
 
     this.config = require("./config.json");
-    this.utils = new Util(this);
     this.setMaxListeners(0);
     this.events = new Collection();
 
@@ -41,6 +40,8 @@ class BOT extends Client {
     };
     global.rds = readdirSync;
     global.chalk = chalk;
+    global.utils = new Util(this);
+
   }
 
   async start(token) {
@@ -53,7 +54,7 @@ class BOT extends Client {
         for (const file of functionFiles)
           require(`../functions/${folder}/${file}`)(this);
       }
-      await this.utils.logger();
+      await utils.logger();
       this.handleCommands();
       this.handleComponents();
       this.handleEvents();

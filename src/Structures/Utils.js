@@ -66,6 +66,11 @@ module.exports = class Utils {
 
   async dbConnect() {
     if (!Connect) return;
+    const HOSTS_REGEX = /^(?<protocol>[^/]+):\/\/(?:(?<username>[^:@]*)(?::(?<password>[^@]*))?@)?(?<hosts>(?!:)[^/?@]*)(?<rest>.*)/;
+    const match = Connect.match(HOSTS_REGEX);
+    if (!match) {
+      return console.error(chalk.red.bold(`[DATABASE]- Invalid connection string "${Connect}"`));
+    }
     const dbOptions = {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -137,7 +142,7 @@ module.exports = class Utils {
     events.forEach((file) => {
       const event = require(file);
       if (!event.name)
-        return console.error(chalk.italic.bold.redBright(`Event: ${file} doesn't have a name.`))
+        return console.error(chalk.italic.bold.redBright(`Event: ${file.split("/").pop()} doesn't have a name. Skipping...`))
       eventCount++
     })
     console.log(
@@ -154,7 +159,7 @@ module.exports = class Utils {
     slashCommands.forEach((file) => {
       const slashCommand = require(file);
       if (!slashCommand.data.name)
-        return console.error(chalk.italic.bold.redBright(`Slash Command: ${file} doesn't have a name.`))
+        return console.error(chalk.italic.bold.redBright(`Slash Command: ${file.split("/").pop()} doesn't have a name.`))
       if (slashCommand.developer)
         devCount++
       else slashCount++
@@ -178,7 +183,7 @@ module.exports = class Utils {
     buttons.forEach((file) => {
       const button = require(file);
       if (!button.data.id)
-        return console.error(chalk.italic.bold.redBright(`Button: ${file} doesn't have an id.`))
+        return console.error(chalk.italic.bold.redBright(`Button: ${file.split("/").pop()} doesn't have an id.`))
       butCount++
     })
     if (butCount > 0)
@@ -190,7 +195,7 @@ module.exports = class Utils {
     modals.forEach((file) => {
       const modal = require(file);
       if (!modal.data.id)
-        return console.error(chalk.italic.bold.redBright(`Modal: ${file} doesn't have an id.`))
+        return console.error(chalk.italic.bold.redBright(`Modal: ${file.split("/").pop()} doesn't have an id.`))
       modCount++
     })
     if (modCount > 0)
@@ -201,7 +206,7 @@ module.exports = class Utils {
     selectMenus.forEach((file) => {
       const selectMenu = require(file);
       if (!selectMenu.data.id)
-        return console.error(chalk.italic.bold.redBright(`Select Menu: ${file} doesn't have an id.`))
+        return console.error(chalk.italic.bold.redBright(`Select Menu: ${file.split("/").pop()} doesn't have an id.`))
       smCount++
     })
     if (smCount > 0)
