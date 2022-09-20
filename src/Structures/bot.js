@@ -1,8 +1,9 @@
 require("dotenv/config");
 const { Client, Collection } = require("discord.js");
 const { readdirSync } = require("fs");
-const { BotToken } = process.env;
+const { BotToken, Prefix } = process.env;
 const Util = require("./Utils");
+const chalk = require("chalk");
 
 class BOT extends Client {
   constructor() {
@@ -39,6 +40,7 @@ class BOT extends Client {
       green: 0x22b14c,
     };
     global.rds = readdirSync;
+    global.chalk = chalk;
   }
 
   async start(token) {
@@ -53,9 +55,10 @@ class BOT extends Client {
       }
       await this.utils.logger();
       this.handleCommands();
-      // this.handleLegacyCommands();
       this.handleComponents();
       this.handleEvents();
+      if (Prefix)
+        this.handleLegacyCommands();
     });
   }
 }

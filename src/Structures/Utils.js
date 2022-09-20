@@ -2,8 +2,7 @@ const Guild = require("../models/guild");
 const { glob } = require("glob");
 const { promisify } = require("util");
 const PG = promisify(glob);
-const chalk = require("chalk");
-const mongoose = require("mongoose");
+const { connect, connection } = require("mongoose");
 const { Connect, Prefix } = process.env;
 
 module.exports = class Utils {
@@ -75,23 +74,23 @@ module.exports = class Utils {
       family: 4,
     };
 
-    mongoose.connection.on("connecting", () => {
-      console.log(chalk.yellowBright("[DATABASE] - Mongoose is connecting..."));
+    connection.on("connecting", () => {
+      console.log(chalk.yellowBright("[DATABASE]- Mongoose is connecting..."));
     });
 
-    mongoose.connect(Connect, dbOptions);
-    mongoose.Promise = global.Promise;
+    connect(Connect, dbOptions);
+    Promise = Promise;
 
-    mongoose.connection.on("connected", () => {
+    connection.on("connected", () => {
       console.log(chalk.greenBright("[DATABASE] - Mongoose has successfully connected!"));
     });
 
-    mongoose.connection.on("err", (err) => {
+    connection.on("err", (err) => {
       console.error(chalk.redBright(`[DATABASE] - Mongoose connection error: \n${err.stack}`));
     });
 
-    mongoose.connection.on("disconnected", () => {
-      console.warn(chalk.red("[DATABASE] - Mongoose connection lost"));
+    connection.on("disconnected", () => {
+      console.warn(chalk.red("[DATABASE]- Mongoose connection lost"));
     });
   }
 
@@ -104,19 +103,21 @@ module.exports = class Utils {
   }
 
   async legacyLogger() {
-    const legacyCommands = await this.loadFiles("./src/legacyCommands");
-    let legacyCount = 0;
-    legacyCommands.forEach((file) => {
-      const legacyCommand = require(file);
-      if (!legacyCommand.name)
-        return console.error(chalk.italic.bold.redBright(`Legacy Command: ${file} doesn't have a name.`))
-      legacyCount++
-    })
-    if (Prefix && legacyCount > 0) {
-      console.log(
-        chalk.blueBright(`[HANDLER] - Loaded ${legacyCount} Legacy Command(s)!`)
-      );
-    } else return;
+    if (Prefix) {
+      const legacyCommands = await this.loadFiles("./src/legacyCommands");
+      let legacyCount = 0;
+      legacyCommands.forEach((file) => {
+        const legacyCommand = require(file);
+        if (!legacyCommand.name)
+          return console.error(chalk.italic.bold.redBright(`Legacy Command: ${file} doesn't have a name.`))
+        legacyCount++
+      })
+      if (legacyCount > 0) {
+        console.log(
+          chalk.blueBright(`[HANDLER] - Loaded ${legacyCount} Legacy Command(s)!`)
+        );
+      } else return;
+    }
   }
 
   async logger() {
@@ -207,6 +208,19 @@ module.exports = class Utils {
       console.log(
         chalk.blueBright(`[HANDLER] - Loaded ${smCount} Select Menu(s)!`)
       );
+
+    //Database Models
+    const dbModels = this.loadFiles("./src/models");
+    let modelCount = 0;
+    (await dbModels).forEach(async (file) => {
+      modelCount++;
+    });
+    if (modelCount > 0) {
+      console.log(
+        chalk.blueBright(`[DATABASE]- Loaded ${modelCount} Model(s)!`)
+      );
+    };
+
     console.log(
       chalk.greenBright(
         "[APPLICATION] - Successfully reloaded application (/) commands."
@@ -217,9 +231,8 @@ module.exports = class Utils {
         `[CLIENT] - Logged into Discord!`
       )
     );
-
     //MongoDB
-    await this.dbConnect();
+    await this.dbConnect()
   }
 
   errorEmbed(message, channel) {
