@@ -25,7 +25,7 @@ module.exports = {
     const embed = new EmbedBuilder({
       title: `Bot and API Latency`,
       description: `Here you can see the Bot's and the API latency.`,
-      color: client.colors.green,
+      color: colors.green,
       fields: [
         {
           name: `Bot Latency`,

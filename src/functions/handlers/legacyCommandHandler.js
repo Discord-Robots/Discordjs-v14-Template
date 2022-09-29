@@ -1,6 +1,4 @@
 module.exports = (client) => {
-  const { aliases, legacyCommands, legacyArray } = client;
-
   client.handleLegacyCommands = async () => {
     const commandFolders = global.rds("./src/legacyCommands");
     for (const folder of commandFolders) {

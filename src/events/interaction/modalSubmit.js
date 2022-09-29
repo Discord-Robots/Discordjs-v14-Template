@@ -15,7 +15,7 @@ module.exports = {
    */
   async execute(interaction, client) {
     // data.guild = await client.utils.guild(interaction.guild.id);
-    const { modals, cooldowns } = client;
+    const { modals } = components;
     if (interaction.type === InteractionType.ModalSubmit) {
       const modal = modals.get(interaction.customId);
       if (!modal) return;
@@ -29,7 +29,7 @@ module.exports = {
         const cooldownAmount = (modal.cooldown || 10) * 1000; //default of 10 seconds
 
         if (timestamps.has(interaction.user.id)) {
-          if (!client.utils.checkOwner(interaction.user.id))
+          if (!utils.checkOwner(interaction.user.id))
             return modal.execute(interaction, client);
           else {
             const expirationTime =
@@ -57,7 +57,7 @@ module.exports = {
           () => timestamps.delete(interaction.user.id),
           cooldownAmount
         );
-        await modal.execute(interaction, client);
+        return await modal.execute(interaction, client);
       } catch (error) {
         console.log(error);
         await interaction.reply({

@@ -1,5 +1,6 @@
-const { Collection, Message, Client } = require("discord.js");
-const { DevGuild } = process.env;
+const { Message, Client } = require("discord.js");
+const { DevGuild, Prefix, Connect } = process.env;
+const db = require("../../models/status");
 
 module.exports = {
   name: "messageCreate",
@@ -10,6 +11,10 @@ module.exports = {
    * @returns
    */
   async execute(message, client) {
+    if (Connect) {
+      let doc = await db.findOne({ client_id: client.user.id });
+      if (doc.status === "offline") return;
+    }
     if (
       message.author.bot ||
       message.system ||
@@ -21,12 +26,10 @@ module.exports = {
     const prefixRegex = new RegExp(`^(<@!?${client.user.id}>)\\s*`);
 
     let str = "";
-    if (message.guild.id !== DevGuild) {
-      str += "This is not my server. Please contact my developer.";
-    }
     if (prefixRegex.test(message.content)) {
       str += `I do not support legacy commands due to Discord limitations.`;
+      return message.reply(str);
     }
-    return message.reply(str);
+
   },
 };

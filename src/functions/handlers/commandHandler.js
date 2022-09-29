@@ -7,8 +7,6 @@ const { DevGuild, AppID, BotToken } = process.env;
  * @param {import('discord.js').Client} client
  */
 module.exports = (client) => {
-  const { commands, commandArray, developerArray } = client;
-
   client.handleCommands = async () => {
     const commandFolders = rds("./src/commands");
     for (const folder of commandFolders) {
@@ -17,6 +15,7 @@ module.exports = (client) => {
 
       for (const file of commandFiles) {
         const command = require(`../../commands/${folder}/${file}`);
+        if (command.subCommand) return
         if (command.developer) {
           developerArray.push(command.data.toJSON());
         } else {
@@ -26,16 +25,19 @@ module.exports = (client) => {
       }
     }
 
-    const rest = new REST({ version: "10" }).setToken(BotToken);
-    (async () => {
-      try {
-        await rest
-          .put(Routes.applicationGuildCommands(AppID, DevGuild), { body: developerArray })
-        await rest
-          .put(Routes.applicationCommands(AppID), { body: commandArray })
-      } catch (error) {
-        console.error(error);
-      }
-    })();
+    await client.application.commands.set(commandArray);
+    const devGuild = client.guilds.cache.get(DevGuild);
+    devGuild.commands.set(developerArray)
+    // const rest = new REST({ version: "10" }).setToken(BotToken);
+    // (async () => {
+    //   try {
+    //     await rest
+    //       .put(Routes.applicationGuildCommands(AppID, DevGuild), { body: developerArray })
+    //     await rest
+    //       .put(Routes.applicationCommands(AppID), { body: commandArray })
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // })();
   };
 };

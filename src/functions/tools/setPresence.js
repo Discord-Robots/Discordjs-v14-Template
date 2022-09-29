@@ -1,3 +1,9 @@
+const { Client } = require("discord.js");
+
+/**
+ * 
+ * @param {Client} client 
+ */
 module.exports = (client) => {
   client.pickPresence = async () => {
     /*
@@ -8,45 +14,46 @@ module.exports = (client) => {
     Watching: 3
     Competing: 5
 
-    Want a changing status? Just change line 47 to `status: obj[i].status` and insert your own status into each object below.
+    Want a changing status? Just change line 47 to `status: key.status` and insert your own status into each object below.
     Different statuses include "online", "idle", "dnd", and "invisible"
     */
 
-    let obj = [
+    let acts = [
       {
         type: 5,
         content: "/commands",
-        // status: ""
+        status: "dnd"
       },
       {
         type: 3,
         content: `over ${client.guilds.cache.size} guild(s)`,
-        // status: ""
+        status: "online"
       },
       {
         type: 3,
         content: `over ${client.users.cache.size} user(s)`,
-        // status: ""
+        status: "online"
       },
       {
         type: 0,
         content: "with Discord.js v14",
-        // status: ""
+        status: "idle"
       },
     ];
 
     setInterval(async () => {
-      for (const key of Object.keys(obj)) {
-        await client.user.setPresence({
-          activities: [
-            {
-              name: `${obj[key].content}`,
-              type: obj[key].type,
-            },
-          ],
-          status: "dnd",
-        });
-      }
-    }, 8000);
+      const currentAct = acts.shift(); //remove first act
+      client.user.setPresence({
+        activities: [
+          {
+            name: currentAct.content.toString(),
+            type: currentAct.type,
+          },
+        ],
+        status: currentAct.status,
+        // status: "invisible"
+      });
+      acts.push(currentAct); //readd act back to array
+    }, 15000);
   };
 };

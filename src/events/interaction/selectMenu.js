@@ -9,7 +9,7 @@ module.exports = {
    * @param {Client} client
    */
   async execute(interaction, client) {
-    const { selectMenus, cooldowns } = client;
+    const { selectMenus } = components;
     if (interaction.isSelectMenu()) {
       const menu = selectMenus.get(interaction.customId);
       if (!menu) return;
@@ -23,7 +23,7 @@ module.exports = {
         const cooldownAmount = (menu.cooldown || 10) * 1000; //default of 10 seconds
 
         if (timestamps.has(interaction.user.id)) {
-          if (!client.utils.checkOwner(interaction.user.id))
+          if (!utils.checkOwner(interaction.user.id))
             menu.execute(interaction, client);
           else {
             const expirationTime =

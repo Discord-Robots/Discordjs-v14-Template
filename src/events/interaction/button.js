@@ -1,5 +1,4 @@
 const { Client, CommandInteraction, Collection } = require("discord.js");
-const data = {};
 
 module.exports = {
   name: "interactionCreate",
@@ -9,7 +8,7 @@ module.exports = {
    * @param {Client} client
    */
   async execute(interaction, client) {
-    const { buttons, cooldowns } = client;
+    const { buttons } = components;
     if (interaction.isButton()) {
       const button = buttons.get(interaction.customId);
       if (!button) return new Error("There is no code for this button!");
@@ -23,7 +22,7 @@ module.exports = {
         const cooldownAmount = (button.cooldown || 10) * 1000; //default of 10 seconds
 
         if (timestamps.has(interaction.user.id)) {
-          if (!client.utils.checkOwner(interaction.user.id))
+          if (!utils.checkOwner(interaction.user.id))
             return button.execute(interaction, client);
           else {
             const expirationTime =
@@ -32,9 +31,8 @@ module.exports = {
               const timeLeft = (expirationTime - now) / 1000;
               const message = `please wait ${timeLeft.toFixed(
                 1
-              )} more second(s) before reusing the \`${
-                button.data.id
-              }\` button.`;
+              )} more second(s) before reusing the \`${button.data.id
+                }\` button.`;
               return interaction.reply({
                 embeds: [
                   {

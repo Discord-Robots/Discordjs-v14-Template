@@ -1,5 +1,5 @@
 module.exports = (client) => {
-  const { buttons, selectMenus, modals } = client;
+  const { buttons, selectMenus, modals } = components;
 
   client.handleComponents = async () => {
     const componentsFolder = rds(`./src/components`);

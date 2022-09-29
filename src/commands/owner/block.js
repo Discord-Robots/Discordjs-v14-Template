@@ -35,6 +35,7 @@ module.exports = {
     let gid = options.getString("guildid");
     let db = await doc.findOne({ client_id: client.user.id });
     let fetched = db.guilds.find(x => x.guildID === gid)
+    if (!fetched) return await interaction.reply({ content: "That guild id does not exist in my database.", ephemeral: true })
     if (gid) {
       if (fetched) {
         return await interaction.reply({

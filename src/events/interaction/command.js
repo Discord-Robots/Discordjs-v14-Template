@@ -15,8 +15,6 @@ module.exports = {
    * @param {Client} client
    */
   async execute(interaction, client) {
-    const { commands, cooldowns } = client;
-
     if (!interaction.inGuild()) {
       return interaction.reply({
         content: "I do not allow commands or interactions in DM's.",
@@ -28,7 +26,7 @@ module.exports = {
       if (!command) return;
 
       try {
-        if (command.owner && client.utils.checkOwner(interaction.user.id)) {
+        if (command.owner && utils.checkOwner(interaction.user.id)) {
           return interaction.reply({
             embeds: [
               new EmbedBuilder()
@@ -56,7 +54,7 @@ module.exports = {
         const cooldownAmount = (command.cooldown || 10) * 1000; //default of 10 seconds
 
         if (timestamps.has(interaction.user.id)) {
-          if (!client.utils.checkOwner(interaction.user.id))
+          if (!utils.checkOwner(interaction.user.id))
             return command.execute(interaction, client);
           else {
             const expirationTime =
@@ -65,9 +63,8 @@ module.exports = {
               const timeLeft = (expirationTime - now) / 1000;
               const message = `please wait ${timeLeft.toFixed(
                 1
-              )} more second(s) before reusing the \`${
-                command.data.name
-              }\` command.`;
+              )} more second(s) before reusing the \`${command.data.name
+                }\` command.`;
               return interaction.reply({
                 embeds: [
                   {
