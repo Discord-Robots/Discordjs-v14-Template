@@ -2,8 +2,7 @@ const {
   EmbedBuilder,
   Client,
   SlashCommandBuilder,
-  CommandInteraction,
-  InteractionType,
+  ChatInputCommandInteraction,
 } = require("discord.js");
 
 module.exports = {
@@ -17,7 +16,7 @@ module.exports = {
 
   /**
    *
-   * @param {CommandInteraction} interaction
+   * @param {ChatInputCommandInteraction} interaction
    * @param {Client} client
    */
   async execute(interaction, client) {

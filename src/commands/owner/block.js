@@ -1,7 +1,7 @@
 const {
   SlashCommandBuilder,
   EmbedBuilder,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   Client,
   ButtonBuilder,
   ActionRowBuilder,
@@ -27,15 +27,19 @@ module.exports = {
 
   /**
    *
-   * @param {CommandInteraction} interaction
+   * @param {ChatInputCommandInteraction} interaction
    * @param {Client} client
    */
   async execute(interaction, client) {
     const { options } = interaction;
     let gid = options.getString("guildid");
     let db = await doc.findOne({ client_id: client.user.id });
-    let fetched = db.guilds.find(x => x.guildID === gid)
-    if (!fetched) return await interaction.reply({ content: "That guild id does not exist in my database.", ephemeral: true })
+    let fetched = db.guilds.find((x) => x.guildID === gid);
+    if (!fetched)
+      return await interaction.reply({
+        content: "That guild id does not exist in my database.",
+        ephemeral: true,
+      });
     if (gid) {
       if (fetched) {
         return await interaction.reply({
@@ -61,14 +65,13 @@ module.exports = {
                   emoji: "❌",
                   style: 1,
                   type: 2,
-                })
-              ]
-            })
+                }),
+              ],
+            }),
           ],
           ephemeral: true,
         });
       }
-
     } else
       await interaction.showModal(
         new ModalBuilder({
@@ -83,9 +86,9 @@ module.exports = {
                   label: "Guild ID",
                   placeholder: "Give me the guild id that should be blocked.",
                   style: 1,
-                  type: 4
-                })
-              ]
+                  type: 4,
+                }),
+              ],
             }),
             new ActionRowBuilder({
               type: 1,
@@ -95,12 +98,12 @@ module.exports = {
                   label: "Reason for this block",
                   placeholder: "Give me a reason for blocking this guild.",
                   style: 2,
-                  type: 4
-                })
-              ]
-            })
-          ]
+                  type: 4,
+                }),
+              ],
+            }),
+          ],
         })
-      )
+      );
   },
 };
