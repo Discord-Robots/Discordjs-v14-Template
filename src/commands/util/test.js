@@ -4,7 +4,6 @@ const {
   CommandInteraction,
   EmbedBuilder,
 } = require("discord.js");
-const ms = require("ms");
 
 module.exports = {
   developer: true,

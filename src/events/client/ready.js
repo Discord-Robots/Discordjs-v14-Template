@@ -9,7 +9,7 @@ module.exports = {
    * @param {import('discord.js').Client} client
    */
   async execute(client) {
-    await utils.wait(3000)
+    await utils.wait(3000);
     if (Connect) {
       let db = await blockedGuids.findOne({ client_id: client.user.id });
       if (!db) {
@@ -24,12 +24,16 @@ module.exports = {
       if (!doc) {
         new presence({
           client_id: client.user.id,
-          status: "online"
+          status: "online",
         })
           .save()
           .catch(console.error());
       }
-      if (doc.status === "offline") await presence.updateOne({ status: "online" })
+      await utils.wait(5000);
+      if (doc.status === "offline")
+        await presence
+          .updateOne({ status: "online" })
+          .then(client.pickPresence());
       if (doc.status === "online") client.pickPresence();
     }
   },

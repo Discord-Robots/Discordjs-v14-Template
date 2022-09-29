@@ -1,5 +1,5 @@
-const { Message, Client } = require("discord.js");
-const { DevGuild, Prefix, Connect } = process.env;
+const { Message, Client, Collection } = require("discord.js");
+const { Prefix, Connect } = process.env;
 const db = require("../../models/status");
 
 module.exports = {
@@ -15,6 +15,7 @@ module.exports = {
       let doc = await db.findOne({ client_id: client.user.id });
       if (doc.status === "offline") return;
     }
+    let msg = message.content.toLowerCase();
     if (
       message.author.bot ||
       message.system ||
@@ -25,11 +26,72 @@ module.exports = {
 
     const prefixRegex = new RegExp(`^(<@!?${client.user.id}>)\\s*`);
 
-    let str = "";
-    if (prefixRegex.test(message.content)) {
-      str += `I do not support legacy commands due to Discord limitations.`;
-      return message.reply(str);
-    }
+    if (!Prefix) {
+      let str = "";
+      if (prefixRegex.test(message.content)) {
+        str += `I do not support legacy commands due to Discord limitations.`;
+        return message.reply(str);
+      }
+    } else {
+      if (prefixRegex.test(message.content))
+        return message.reply(`My prefix is \`${Prefix}\` in this server.`);
+      const args = message.content.substring(Prefix.length).split(/ +/);
 
+      const command = legacyCommands.find(
+        (cmd) => cmd.name === args[0] || cmd.aliases.includes(args[0])
+      );
+
+      if (!command) return null;
+
+      if (command.ownerOnly && utils.checkOwner(message.author.id)) {
+        return utils.errorEmbed(
+          "Sorry, this command can only be used by the bot owner.",
+          message.channel
+        );
+      }
+
+      if (!command.enabled) {
+        return utils.errorEmbed(
+          "This command is currently disabled. Please wait for bot developer to fix this command. Thank you!",
+          message.channel
+        );
+      }
+      if (!cooldowns.legacyCommands.has(command.name)) {
+        cooldowns.legacyCommands.set(command.name, new Collection());
+      }
+      const now = Date.now();
+      const timestamps = cooldowns.legacyCommands.get(command.name);
+      const cooldownAmount = (command.cooldown || 5) * 1000;
+
+      if (timestamps.has(message.author.id)) {
+        if (utils.checkOwner(message.author.id))
+          command.execute(message, args, client);
+        else {
+          const expirationTime =
+            timestamps.get(message.author.id) + cooldownAmount;
+          if (now < expirationTime) {
+            const timeLeft = (expirationTime - now) / 1000;
+            return utils.errorEmbed(
+              `please wait ${timeLeft.toFixed(
+                1
+              )} more second(s) before reusing the \`${
+                command.name
+              }\` command.`,
+              message.channel
+            );
+          }
+        }
+      }
+      timestamps.set(message.author.id, now);
+      setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+
+      if (command && msg.startsWith(Prefix)) {
+        try {
+          command.execute(message, args, client);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    }
   },
 };

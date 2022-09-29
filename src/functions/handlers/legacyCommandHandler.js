@@ -1,10 +1,10 @@
 module.exports = (client) => {
   client.handleLegacyCommands = async () => {
-    const commandFolders = global.rds("./src/legacyCommands");
+    const commandFolders = rds("./src/legacyCommands");
     for (const folder of commandFolders) {
-      const commandFiles = global
-        .rds(`./src/legacyCommands/${folder}`)
-        .filter((file) => file.endsWith(".js"));
+      const commandFiles = rds(`./src/legacyCommands/${folder}`).filter(
+        (file) => file.endsWith(".js")
+      );
 
       for (const file of commandFiles) {
         const command = require(`../../legacyCommands/${folder}/${file}`);

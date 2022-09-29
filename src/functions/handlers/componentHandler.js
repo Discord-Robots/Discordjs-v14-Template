@@ -9,13 +9,11 @@ module.exports = (client) => {
       switch (type) {
         case "buttons":
           for (const category of componentDirs) {
-            const categories = rds(
-              `./src/components/${type}/${category}`
-            );
+            const categories = rds(`./src/components/${type}/${category}`);
             for (const commandName of categories) {
-              const componentFiles = global
-                .rds(`./src/components/${type}/${category}/${commandName}`)
-                .filter((componentID) => componentID.endsWith(".js"));
+              const componentFiles = rds(
+                `./src/components/${type}/${category}/${commandName}`
+              ).filter((componentID) => componentID.endsWith(".js"));
               for (const componentID of componentFiles) {
                 const button = require(`../../components/${type}/${category}/${commandName}/${componentID}`);
                 buttons.set(button.data.id, button);
@@ -27,13 +25,11 @@ module.exports = (client) => {
 
         case "selectMenus":
           for (const category of componentDirs) {
-            const categories = rds(
-              `./src/components/${type}/${category}`
-            );
+            const categories = rds(`./src/components/${type}/${category}`);
             for (const commandName of categories) {
-              const componentFiles = global
-                .rds(`./src/components/${type}/${category}/${commandName}`)
-                .filter((componentID) => componentID.endsWith(".js"));
+              const componentFiles = rds(
+                `./src/components/${type}/${category}/${commandName}`
+              ).filter((componentID) => componentID.endsWith(".js"));
               for (const componentID of componentFiles) {
                 const selectMenu = require(`../../components/${type}/${category}/${commandName}/${componentID}`);
                 selectMenus.set(selectMenu.data.id, selectMenu);
@@ -45,13 +41,11 @@ module.exports = (client) => {
 
         case "modals":
           for (const category of componentDirs) {
-            const categories = rds(
-              `./src/components/${type}/${category}`
-            );
+            const categories = rds(`./src/components/${type}/${category}`);
             for (const commandName of categories) {
-              const componentFiles = global
-                .rds(`./src/components/${type}/${category}/${commandName}`)
-                .filter((componentID) => componentID.endsWith(".js"));
+              const componentFiles = rds(
+                `./src/components/${type}/${category}/${commandName}`
+              ).filter((componentID) => componentID.endsWith(".js"));
               for (const componentID of componentFiles) {
                 const modal = require(`../../components/${type}/${category}/${commandName}/${componentID}`);
                 modals.set(modal.data.id, modal);

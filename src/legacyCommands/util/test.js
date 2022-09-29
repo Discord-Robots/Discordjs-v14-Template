@@ -1,5 +1,4 @@
 module.exports = {
-  owner: true,
   name: "test",
   cooldown: 10,
   enabled: true,

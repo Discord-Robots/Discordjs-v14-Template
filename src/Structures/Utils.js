@@ -10,7 +10,7 @@ module.exports = class Utils {
     this.client = client;
   }
 
-  async guild(guildID, guildName) {
+  async guild(guildID, guildName, prefix) {
     const guild = await Guild.findOne({
       guildID: guildID,
     });
@@ -18,6 +18,7 @@ module.exports = class Utils {
       const newData = new Guild({
         guildID,
         guildName,
+        prefix: Prefix,
       });
       newData.save();
       return newData;
@@ -66,10 +67,13 @@ module.exports = class Utils {
 
   async dbConnect() {
     if (!Connect) return;
-    const HOSTS_REGEX = /^(?<protocol>[^/]+):\/\/(?:(?<username>[^:@]*)(?::(?<password>[^@]*))?@)?(?<hosts>(?!:)[^/?@]*)(?<rest>.*)/;
+    const HOSTS_REGEX =
+      /^(?<protocol>[^/]+):\/\/(?:(?<username>[^:@]*)(?::(?<password>[^@]*))?@)?(?<hosts>(?!:)[^/?@]*)(?<rest>.*)/;
     const match = Connect.match(HOSTS_REGEX);
     if (!match) {
-      return console.error(chalk.red.bold(`[DATABASE]- Invalid connection string "${Connect}"`));
+      return console.error(
+        chalk.red.bold(`[DATABASE]- Invalid connection string "${Connect}"`)
+      );
     }
     const dbOptions = {
       useNewUrlParser: true,
@@ -87,11 +91,17 @@ module.exports = class Utils {
     Promise = Promise;
 
     connection.on("connected", () => {
-      console.log(chalk.greenBright("[DATABASE] - Mongoose has successfully connected!"));
+      console.log(
+        chalk.greenBright("[DATABASE] - Mongoose has successfully connected!")
+      );
     });
 
     connection.on("err", (err) => {
-      console.error(chalk.redBright(`[DATABASE] - Mongoose connection error: \n${err.stack}`));
+      console.error(
+        chalk.redBright(
+          `[DATABASE] - Mongoose connection error: \n${err.stack}`
+        )
+      );
     });
 
     connection.on("disconnected", () => {
@@ -114,12 +124,18 @@ module.exports = class Utils {
       legacyCommands.forEach((file) => {
         const legacyCommand = require(file);
         if (!legacyCommand.name)
-          return console.error(chalk.italic.bold.redBright(`Legacy Command: ${file} doesn't have a name.`))
-        legacyCount++
-      })
+          return console.error(
+            chalk.italic.bold.redBright(
+              `Legacy Command: ${file} doesn't have a name.`
+            )
+          );
+        legacyCount++;
+      });
       if (legacyCount > 0) {
         console.log(
-          chalk.blueBright(`[HANDLER] - Loaded ${legacyCount} Legacy Command(s)!`)
+          chalk.blueBright(
+            `[HANDLER] - Loaded ${legacyCount} Legacy Command(s)!`
+          )
         );
       } else return;
     }
@@ -127,9 +143,7 @@ module.exports = class Utils {
 
   async logger() {
     //Client
-    console.log(
-      chalk.yellowBright(`[CLIENT] - Logging into Discord...`)
-    );
+    console.log(chalk.yellowBright(`[CLIENT] - Logging into Discord...`));
     console.log(
       chalk.yellowBright(
         "[APPLICATION] - Started refreshing application (/) commands."
@@ -142,33 +156,42 @@ module.exports = class Utils {
     events.forEach((file) => {
       const event = require(file);
       if (!event.name)
-        return console.error(chalk.italic.bold.redBright(`Event: ${file.split("/").pop()} doesn't have a name. Skipping...`))
-      eventCount++
-    })
-    console.log(
-      chalk.blueBright(`[HANDLER] - Loaded ${eventCount} Event(s)!`)
-    );
+        return console.error(
+          chalk.italic.bold.redBright(
+            `Event: ${file.split("/").pop()} doesn't have a name. Skipping...`
+          )
+        );
+      eventCount++;
+    });
+    console.log(chalk.blueBright(`[HANDLER] - Loaded ${eventCount} Event(s)!`));
 
     //Legacy Commands
-    await this.legacyLogger()
+    await this.legacyLogger();
 
-    //Slash Commands    
+    //Slash Commands
     const slashCommands = await this.loadFiles("./src/commands");
     let slashCount = 0;
     let devCount = 0;
     slashCommands.forEach((file) => {
       const slashCommand = require(file);
       if (!slashCommand.data.name)
-        return console.error(chalk.italic.bold.redBright(`Slash Command: ${file.split("/").pop()} doesn't have a name.`))
-      if (slashCommand.developer)
-        devCount++
-      else slashCount++
-    })
+        return console.error(
+          chalk.italic.bold.redBright(
+            `Slash Command: ${file.split("/").pop()} doesn't have a name.`
+          )
+        );
+      if (slashCommand.developer) devCount++;
+      else slashCount++;
+    });
     console.log(
-      chalk.blueBright(`[HANDLER] - Loaded ${slashCount} Global Slash Command(s)!`)
+      chalk.blueBright(
+        `[HANDLER] - Loaded ${slashCount} Global Slash Command(s)!`
+      )
     );
     console.log(
-      chalk.blueBright(`[HANDLER] - Loaded ${devCount} Developer Slash Command(s)!`)
+      chalk.blueBright(
+        `[HANDLER] - Loaded ${devCount} Developer Slash Command(s)!`
+      )
     );
 
     //Components
@@ -183,32 +206,41 @@ module.exports = class Utils {
     buttons.forEach((file) => {
       const button = require(file);
       if (!button.data.id)
-        return console.error(chalk.italic.bold.redBright(`Button: ${file.split("/").pop()} doesn't have an id.`))
-      butCount++
-    })
+        return console.error(
+          chalk.italic.bold.redBright(
+            `Button: ${file.split("/").pop()} doesn't have an id.`
+          )
+        );
+      butCount++;
+    });
     if (butCount > 0)
       console.log(
         chalk.blueBright(`[HANDLER] - Loaded ${butCount} Button(s)!`)
       );
 
-
     modals.forEach((file) => {
       const modal = require(file);
       if (!modal.data.id)
-        return console.error(chalk.italic.bold.redBright(`Modal: ${file.split("/").pop()} doesn't have an id.`))
-      modCount++
-    })
+        return console.error(
+          chalk.italic.bold.redBright(
+            `Modal: ${file.split("/").pop()} doesn't have an id.`
+          )
+        );
+      modCount++;
+    });
     if (modCount > 0)
-      console.log(
-        chalk.blueBright(`[HANDLER] - Loaded ${modCount} Modal(s)!`)
-      );
+      console.log(chalk.blueBright(`[HANDLER] - Loaded ${modCount} Modal(s)!`));
 
     selectMenus.forEach((file) => {
       const selectMenu = require(file);
       if (!selectMenu.data.id)
-        return console.error(chalk.italic.bold.redBright(`Select Menu: ${file.split("/").pop()} doesn't have an id.`))
-      smCount++
-    })
+        return console.error(
+          chalk.italic.bold.redBright(
+            `Select Menu: ${file.split("/").pop()} doesn't have an id.`
+          )
+        );
+      smCount++;
+    });
     if (smCount > 0)
       console.log(
         chalk.blueBright(`[HANDLER] - Loaded ${smCount} Select Menu(s)!`)
@@ -224,20 +256,16 @@ module.exports = class Utils {
       console.log(
         chalk.blueBright(`[DATABASE]- Loaded ${modelCount} Model(s)!`)
       );
-    };
+    }
 
     console.log(
       chalk.greenBright(
         "[APPLICATION] - Successfully reloaded application (/) commands."
       )
     );
-    console.log(
-      chalk.greenBright(
-        `[CLIENT] - Logged into Discord!`
-      )
-    );
+    console.log(chalk.greenBright(`[CLIENT] - Logged into Discord!`));
     //MongoDB
-    await this.dbConnect()
+    await this.dbConnect();
   }
 
   errorEmbed(message, channel) {

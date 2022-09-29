@@ -11,7 +11,7 @@ const {
 module.exports = {
   category: "context",
   data: new ContextMenuCommandBuilder()
-    .setName("getavatar")
+    .setName("Avatar")
     .setType(ApplicationCommandType.User),
 
   /**
