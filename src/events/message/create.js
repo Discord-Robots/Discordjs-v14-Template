@@ -25,16 +25,18 @@ module.exports = {
       return null;
 
     const prefixRegex = new RegExp(`^(<@!?${client.user.id}>)\\s*`);
-
+    let str = "";
     if (!Prefix) {
-      let str = "";
       if (prefixRegex.test(message.content)) {
         str += `I do not support legacy commands due to Discord limitations.`;
         return message.reply(str);
       }
     } else {
-      if (prefixRegex.test(message.content))
-        return message.reply(`My prefix is \`${Prefix}\` in this server.`);
+      if (prefixRegex.test(message.content)) {
+        str += `My prefix is \`${Prefix}\` in this server.`;
+        return message.reply(str);
+      }
+
       const args = message.content.substring(Prefix.length).split(/ +/);
 
       const command = legacyCommands.find(
@@ -44,17 +46,14 @@ module.exports = {
       if (!command) return null;
 
       if (command.ownerOnly && utils.checkOwner(message.author.id)) {
-        return utils.errorEmbed(
-          "Sorry, this command can only be used by the bot owner.",
-          message.channel
-        );
+        str += "Sorry, this command can only be used by the bot owner.";
+        return utils.errorEmbed(str, message.channel);
       }
 
       if (!command.enabled) {
-        return utils.errorEmbed(
-          "This command is currently disabled. Please wait for bot developer to fix this command. Thank you!",
-          message.channel
-        );
+        str +=
+          "This command is currently disabled. Please wait for bot developer to fix this command. Thank you!";
+        return utils.errorEmbed(str, message.channel);
       }
       if (!cooldowns.legacyCommands.has(command.name)) {
         cooldowns.legacyCommands.set(command.name, new Collection());
@@ -71,14 +70,10 @@ module.exports = {
             timestamps.get(message.author.id) + cooldownAmount;
           if (now < expirationTime) {
             const timeLeft = (expirationTime - now) / 1000;
-            return utils.errorEmbed(
-              `please wait ${timeLeft.toFixed(
-                1
-              )} more second(s) before reusing the \`${
-                command.name
-              }\` command.`,
-              message.channel
-            );
+            str += `please wait ${timeLeft.toFixed(
+              1
+            )} more second(s) before reusing the \`${command.name}\` command.`;
+            return utils.errorEmbed(str, message.channel);
           }
         }
       }

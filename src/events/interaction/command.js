@@ -5,7 +5,8 @@ const {
   EmbedBuilder,
   Collection,
 } = require("discord.js");
-const { Connect } = process.env;
+const { Connect, BotOwnerID } = process.env;
+const db = require("../../models/status");
 
 module.exports = {
   name: "interactionCreate",
@@ -39,11 +40,23 @@ module.exports = {
           });
         }
 
-        if (!Connect && command.dbRequired) {
-          return await interaction.reply({
-            content: `This command is unavailable due to having no database setup.`,
-            ephemeral: true,
-          });
+        if (!Connect) {
+          if (command.dbRequired) {
+            return await interaction.reply({
+              content: `This command is unavailable due to having no database setup.`,
+              ephemeral: true,
+            });
+          }
+          let doc = await db.findOne({ client_id: client.user.id });
+          if (
+            doc.status === "offline" &&
+            interaction.member.id !== BotOwnerID
+          ) {
+            return await interaction.reply({
+              content: "The application did not respond",
+              ephemeral: true,
+            });
+          }
         }
 
         if (!cooldowns.commands.has(command.data.name)) {
@@ -63,8 +76,9 @@ module.exports = {
               const timeLeft = (expirationTime - now) / 1000;
               const message = `please wait ${timeLeft.toFixed(
                 1
-              )} more second(s) before reusing the \`${command.data.name
-                }\` command.`;
+              )} more second(s) before reusing the \`${
+                command.data.name
+              }\` command.`;
               return interaction.reply({
                 embeds: [
                   {
