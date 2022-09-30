@@ -27,14 +27,9 @@ module.exports = {
           status: "online",
         })
           .save()
-          .catch(console.error());
-      }
-      await utils.wait(5000);
-      if (doc.status === "offline")
-        await presence
-          .updateOne({ status: "online" })
+          .catch(console.error())
           .then(client.pickPresence());
-      if (doc.status === "online") client.pickPresence();
+      }
     }
   },
 };

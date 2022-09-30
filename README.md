@@ -16,6 +16,7 @@ Features:
 - Sends an embed to the guilds system channel when a member joins and leaves.
 - Sends a message to the DevChannel when the bot is added to a new guild (and removed).
 - Added the ability to block guilds from using/inviting the bot.
+  - Will be adding ability for users to appeal directly in Bot's DM's (Will be checking to see if it is the owner of the appealed guild).
 - I am not adding a reload command due to having too many issues with the function.
 
 **Logs Everything to the console when starting**
@@ -29,7 +30,7 @@ Slash Commands:
 - Example Location of command: "./src/commands/(category)/(command)"
 
 ```js
-const { SlashCommandBuilder, PermissionsBitField } = require("discord.js");
+const { SlashCommandBuilder, PermissionsFlagsBits } = require("discord.js");
 
 module.exports = {
     owner: boolean, //  whether command can only be used by the bot owner?
@@ -39,7 +40,7 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('name') // command name - Must be lowercase!!
         .setDescription('description') // command description
-        .setDefalultMemberPermissions(PermissionsBitField.Flags.<permission>), // member permissions
+        .setDefalultMemberPermissions(PermissionsFlagsBits.<permission>), // member permissions
   async execute (interaction, client) => {
     // Code here
   },
@@ -110,10 +111,5 @@ Click `Use this template` at the top of this page or fork the repo to your own p
   - Customize the project to your liking and enjoy!
 
 - For the member add and remove events to work, the guild MUST have the `System Channel` enabled.
-
-## KNOWN ISSUES
-
-- Receiving error upon first run with database setup.
-  - Status: Investigating
 
 Found any bugs or have any suggestion about the template? Create an issue or pull request!
