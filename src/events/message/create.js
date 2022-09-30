@@ -15,14 +15,9 @@ module.exports = {
       let doc = await db.findOne({ client_id: client.user.id });
       if (doc.status === "offline") return;
     }
+
     let msg = message.content.toLowerCase();
-    if (
-      message.author.bot ||
-      message.system ||
-      message.channel.type === "dm" ||
-      !message.guild
-    )
-      return null;
+    if (message.author.bot) return null;
 
     const prefixRegex = new RegExp(`^(<@!?${client.user.id}>)\\s*`);
     let str = "";
@@ -42,6 +37,13 @@ module.exports = {
       const command = legacyCommands.find(
         (cmd) => cmd.name === args[0] || cmd.aliases.includes(args[0])
       );
+
+      if (!Connect && command.dbRequired) {
+        return await interaction.reply({
+          content: `This command is unavailable due to having no database setup.`,
+          ephemeral: true,
+        });
+      }
 
       if (!command) return null;
 
