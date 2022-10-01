@@ -25,6 +25,8 @@ module.exports = {
           guilds: {
             guildID: gid,
             reason: reason,
+            guildOwnerId: guild.ownerId,
+            guildOwnerTag: ownerTag,
           },
         },
       }

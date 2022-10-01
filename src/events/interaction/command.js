@@ -16,11 +16,11 @@ module.exports = {
    * @param {Client} client
    */
   async execute(interaction, client) {
-    if (!interaction.inGuild()) {
-      return interaction.reply({
-        content: "I do not allow commands or interactions in DM's.",
-      });
-    }
+    // if (!interaction.inGuild()) {
+    //   return interaction.reply({
+    //     content: "I do not allow commands or interactions in DM's.",
+    //   });
+    // }
 
     if (interaction.isChatInputCommand()) {
       const command = commands.get(interaction.commandName);
@@ -40,18 +40,15 @@ module.exports = {
           });
         }
 
-        if (!Connect) {
-          if (command.dbRequired) {
-            return await interaction.reply({
-              content: `This command is unavailable due to having no database setup.`,
-              ephemeral: true,
-            });
-          }
+        if (!Connect && command.dbRequired) {
+          return await interaction.reply({
+            content: `This command is unavailable due to having no database setup.`,
+            ephemeral: true,
+          });
+        }
+        if (Connect) {
           let doc = await db.findOne({ client_id: client.user.id });
-          if (
-            doc.status === "offline" &&
-            interaction.member.id !== BotOwnerID
-          ) {
+          if (doc.status === "offline" && interaction.user.id !== BotOwnerID) {
             return await interaction.reply({
               content: "The application did not respond",
               ephemeral: true,

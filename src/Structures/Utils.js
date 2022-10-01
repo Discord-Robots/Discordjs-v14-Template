@@ -92,15 +92,13 @@ module.exports = class Utils {
 
     connection.on("connected", () => {
       console.log(
-        chalk.greenBright("[DATABASE] - Mongoose has successfully connected!")
+        chalk.greenBright("[DATABASE]- Mongoose has successfully connected!")
       );
     });
 
     connection.on("err", (err) => {
       console.error(
-        chalk.redBright(
-          `[DATABASE] - Mongoose connection error: \n${err.stack}`
-        )
+        chalk.redBright(`[DATABASE]- Mongoose connection error: \n${err.stack}`)
       );
     });
 

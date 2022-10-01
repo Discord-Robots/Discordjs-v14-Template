@@ -8,16 +8,17 @@ module.exports = {
    *
    * @param {Message} message
    * @param {Client} client
-   * @returns
+   *
    */
   async execute(message, client) {
+    if (message.author.bot) return;
+
     if (Connect) {
       let doc = await db.findOne({ client_id: client.user.id });
       if (doc.status === "offline") return;
     }
 
     let msg = message.content.toLowerCase();
-    if (message.author.bot) return null;
 
     const prefixRegex = new RegExp(`^(<@!?${client.user.id}>)\\s*`);
     let str = "";
@@ -87,6 +88,15 @@ module.exports = {
           command.execute(message, args, client);
         } catch (error) {
           console.log(error);
+        }
+      }
+      if (command && !message.inGuild()) {
+        if (command && msg.startsWith(Prefix)) {
+          try {
+            command.execute(message, args, client);
+          } catch (error) {
+            console.log(error);
+          }
         }
       }
     }

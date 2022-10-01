@@ -1,7 +1,7 @@
 {
   "name": "discordjs-v14-template",
   "version": "1.0.0",
-  "description": "Discord.js v14 Template using Rest API",
+  "description": "Discord.js v14 Template",
   "main": "client.js",
   "scripts": {
     "test": "node client.js",
@@ -15,7 +15,7 @@
     "template",
     "mongoose"
   ],
-  "author": "marve1icious#4986",
+  "author": "په زړه پورې#8280",
   "license": "ISC",
   "dependencies": {
     "chalk": "^4.1.2",
