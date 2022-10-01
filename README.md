@@ -2,7 +2,7 @@
 
 Features:
 
-- Based on FusionTerrors v14 Handler (Just more advanced)
+- Advanced DJS v14 Handler
 - ~~Supports Only Slash Commands~~ Now Supports Legacy Commands as well!!!
   - Legacy commands are meant for bots which are in less than 100 guilds.
     - If you plan to use this in more than 100 guilds, You will have to apply for the MessageContent Intent through Discord.
