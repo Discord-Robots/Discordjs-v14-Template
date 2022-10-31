@@ -125,11 +125,5 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
-src/commands/owner/moderate.js
-src/commands/owner/mute.js
-src/commands/util/schedule.js
-src/models/sticky.js
-src/commands/util/sticky.js
-src/commands/owner/emit.js
 .vscode/settings.json
 .vscode/launch.json
