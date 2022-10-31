@@ -1,4 +1,9 @@
 module.exports = {
   name: "guildMemberUpdate",
-  async execute(member) {},
+  /**
+ *
+ * @param {GuildMember} member
+ * @param {import("../../Structures/bot")} client
+ */
+  async execute(member) { },
 };

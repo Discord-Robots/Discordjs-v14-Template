@@ -1,37 +1,31 @@
-const { Message, Client, Collection } = require("discord.js");
-const { Prefix, Connect } = process.env;
-const db = require("../../models/status");
+const { Message, Collection } = require("discord.js");
+const { Prefix, Connect, DevGuild } = process.env;
 
 module.exports = {
   name: "messageCreate",
   /**
    *
    * @param {Message} message
-   * @param {Client} client
+   * @param {import("../../Structures/bot")} client
    *
    */
   async execute(message, client) {
+    const { cooldowns, legacyCommands, utils } = client;
     if (message.author.bot) return;
-
-    if (Connect) {
-      let doc = await db.findOne({ client_id: client.user.id });
-      if (doc.status === "offline") return;
-    }
-
     let msg = message.content.toLowerCase();
 
     const prefixRegex = new RegExp(`^(<@!?${client.user.id}>)\\s*`);
     let str = "";
     if (!Prefix) {
       if (prefixRegex.test(message.content)) {
-        str += `I do not support legacy commands due to Discord limitations.`;
+        str += `I do not support legacy commands due to Discord limitations. Please check out my slash (/) commands!`;
         return message.reply(str);
       }
     } else {
-      if (prefixRegex.test(message.content)) {
-        str += `My prefix is \`${Prefix}\` in this server.`;
-        return message.reply(str);
-      }
+      // if (message.guild.id === DevGuild && prefixRegex.test(message.content)) {
+      //   str += `My prefix is \`${Prefix}\` in this server.`;
+      //   return message.reply(str);
+      // }
 
       const args = message.content.substring(Prefix.length).split(/ +/);
 
@@ -40,9 +34,8 @@ module.exports = {
       );
 
       if (!Connect && command.dbRequired) {
-        return await interaction.reply({
+        return await message.reply({
           content: `This command is unavailable due to having no database setup.`,
-          ephemeral: true,
         });
       }
 
@@ -88,15 +81,6 @@ module.exports = {
           command.execute(message, args, client);
         } catch (error) {
           console.log(error);
-        }
-      }
-      if (command && !message.inGuild()) {
-        if (command && msg.startsWith(Prefix)) {
-          try {
-            command.execute(message, args, client);
-          } catch (error) {
-            console.log(error);
-          }
         }
       }
     }

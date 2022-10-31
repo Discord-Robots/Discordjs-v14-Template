@@ -1,14 +1,15 @@
 const {
   SlashCommandBuilder,
   ChatInputCommandInteraction,
-  Client,
 } = require("discord.js");
 
 module.exports = {
+  category: "util",
   developer: true,
   data: new SlashCommandBuilder()
     .setName("autocomplete")
-    .setDescription("Returns an autocomplete!")
+    .setDescription("Returns an autocomplete example!")
+    .setDMPermission(false)
     .addStringOption((option) =>
       option
         .setName("color")
@@ -19,7 +20,7 @@ module.exports = {
   /**
    *
    * @param {ChatInputCommandInteraction} interaction
-   * @param {Client} client
+   * @param {import("../../Structures/bot")} client
    */
   async autocomplete(interaction, client) {
     const focusedValue = interaction.options.getFocused();

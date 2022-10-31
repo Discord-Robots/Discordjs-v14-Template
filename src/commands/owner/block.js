@@ -17,6 +17,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("block")
     .setDescription("Stops a specific server from using the bot.")
+    .setDMPermission(true)
     .addStringOption((id) =>
       id
         .setName("guildid")

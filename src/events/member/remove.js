@@ -1,11 +1,11 @@
-const { EmbedBuilder, GuildMember, Client } = require("discord.js");
+const { EmbedBuilder, GuildMember } = require("discord.js");
 
 module.exports = {
   name: "guildMemberRemove",
   /**
    *
    * @param {GuildMember} member
-   * @param {Client} client
+   * @param {import("../../Structures/bot")} client
    */
   async execute(member, client) {
     if (member.user.bot) return;

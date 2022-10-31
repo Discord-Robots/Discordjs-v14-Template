@@ -1,27 +1,20 @@
 const {
-  Client,
-  CommandInteraction,
+  ChatInputCommandInteraction,
   InteractionType,
   EmbedBuilder,
   Collection,
 } = require("discord.js");
 const { Connect, BotOwnerID } = process.env;
-const db = require("../../models/status");
 
 module.exports = {
   name: "interactionCreate",
   /**
    *
-   * @param {CommandInteraction} interaction
-   * @param {Client} client
+   * @param {ChatInputCommandInteraction} interaction
+   * @param {import("../../Structures/bot")} client
    */
   async execute(interaction, client) {
-    // if (!interaction.inGuild()) {
-    //   return interaction.reply({
-    //     content: "I do not allow commands or interactions in DM's.",
-    //   });
-    // }
-
+    const { commands, cooldowns, utils } = client;
     if (interaction.isChatInputCommand()) {
       const command = commands.get(interaction.commandName);
       if (!command) return;
@@ -32,7 +25,7 @@ module.exports = {
             embeds: [
               new EmbedBuilder()
                 .setDescription(
-                  `\\📛 **Error:** \\📛\n You cannot use that command!`
+                  `\\📛 **Error:** \\📛\n You cannot use that command as it is only available to my owner!`
                 )
                 .setColor("Red"),
             ],
@@ -45,15 +38,6 @@ module.exports = {
             content: `This command is unavailable due to having no database setup.`,
             ephemeral: true,
           });
-        }
-        if (Connect) {
-          let doc = await db.findOne({ client_id: client.user.id });
-          if (doc.status === "offline" && interaction.user.id !== BotOwnerID) {
-            return await interaction.reply({
-              content: "The application did not respond",
-              ephemeral: true,
-            });
-          }
         }
 
         if (!cooldowns.commands.has(command.data.name)) {

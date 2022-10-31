@@ -1,4 +1,4 @@
-const { Guild, Client, EmbedBuilder } = require("discord.js");
+const { Guild, EmbedBuilder } = require("discord.js");
 const { DevChannel, Connect } = process.env;
 const guildSchema = require("../../models/guild");
 const blockedGuids = require('../../models/blocked');
@@ -8,7 +8,7 @@ module.exports = {
   /**
    *
    * @param {Guild} guild
-   * @param {Client} client
+   * @param {import("../../Structures/bot")} client
    */
   async execute(guild, client) {
     console.log(`I've been removed from guild: ${guild.name}`);

@@ -1,20 +1,18 @@
 const {
-  Client,
-  CommandInteraction,
   InteractionType,
   Collection,
+  ModalSubmitInteraction,
 } = require("discord.js");
-const data = {};
 
 module.exports = {
   name: "interactionCreate",
   /**
    *
-   * @param {CommandInteraction} interaction
-   * @param {Client} client
+   * @param {ModalSubmitInteraction} interaction
+   * @param {import("../../Structures/bot")} client
    */
   async execute(interaction, client) {
-    // data.guild = await client.utils.guild(interaction.guild.id);
+    const { components, cooldowns, utils } = client;
     const { modals } = components;
     if (interaction.type === InteractionType.ModalSubmit) {
       const modal = modals.get(interaction.customId);

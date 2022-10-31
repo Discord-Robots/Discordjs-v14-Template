@@ -1,8 +1,6 @@
-const { Client } = require("discord.js");
-
 /**
  *
- * @param {Client} client
+ * @param {import("../../Structures/bot")} client
  */
 module.exports = (client) => {
   client.pickPresence = async () => {

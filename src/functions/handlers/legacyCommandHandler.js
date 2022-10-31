@@ -1,4 +1,9 @@
+/**
+ *
+ * @param {import("../../Structures/bot")} client
+ */
 module.exports = (client) => {
+  const { aliases, legacyArray, legacyCommands, rds } = client;
   client.handleLegacyCommands = async () => {
     const commandFolders = rds("./src/legacyCommands");
     for (const folder of commandFolders) {

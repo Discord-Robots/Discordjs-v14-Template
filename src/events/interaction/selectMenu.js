@@ -1,14 +1,14 @@
-const { Client, CommandInteraction, Collection } = require("discord.js");
-const data = {};
+const { Collection, SelectMenuInteraction } = require("discord.js");
 
 module.exports = {
   name: "interactionCreate",
   /**
    *
-   * @param {CommandInteraction} interaction
-   * @param {Client} client
+   * @param {SelectMenuInteraction} interaction
+   * @param {import("../../Structures/bot")} client
    */
   async execute(interaction, client) {
+    const { components, cooldowns, utils } = client;
     const { selectMenus } = components;
     if (interaction.isSelectMenu()) {
       const menu = selectMenus.get(interaction.customId);

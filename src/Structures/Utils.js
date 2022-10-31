@@ -153,10 +153,12 @@ module.exports = class Utils {
     let eventCount = 0;
     events.forEach((file) => {
       const event = require(file);
-      if (!event.name)
+      if (!event.name || !event.execute)
         return console.error(
           chalk.italic.bold.redBright(
-            `Event: ${file.split("/").pop()} doesn't have a name. Skipping...`
+            `Event: ${file
+              .split("/")
+              .pop()} is missing the 'name' or 'execute' property. Skipping...`
           )
         );
       eventCount++;
@@ -172,10 +174,12 @@ module.exports = class Utils {
     let devCount = 0;
     slashCommands.forEach((file) => {
       const slashCommand = require(file);
-      if (!slashCommand.data.name)
+      if (!slashCommand.data.name || !slashCommand.execute)
         return console.error(
           chalk.italic.bold.redBright(
-            `Slash Command: ${file.split("/").pop()} doesn't have a name.`
+            `Slash Command: ${file
+              .split("/")
+              .pop()} is missing a name or the 'execute' property.`
           )
         );
       if (slashCommand.developer) devCount++;
@@ -203,10 +207,12 @@ module.exports = class Utils {
 
     buttons.forEach((file) => {
       const button = require(file);
-      if (!button.data.id)
+      if (!button.data || !button.execute)
         return console.error(
           chalk.italic.bold.redBright(
-            `Button: ${file.split("/").pop()} doesn't have an id.`
+            `Button: ${file
+              .split("/")
+              .pop()} is missing the 'data' or 'execute' property.`
           )
         );
       butCount++;
@@ -218,10 +224,12 @@ module.exports = class Utils {
 
     modals.forEach((file) => {
       const modal = require(file);
-      if (!modal.data.id)
+      if (!modal.data || !modal.execute)
         return console.error(
           chalk.italic.bold.redBright(
-            `Modal: ${file.split("/").pop()} doesn't have an id.`
+            `Modal: ${file
+              .split("/")
+              .pop()} is missing the 'data' or 'execute' property.`
           )
         );
       modCount++;
@@ -231,10 +239,12 @@ module.exports = class Utils {
 
     selectMenus.forEach((file) => {
       const selectMenu = require(file);
-      if (!selectMenu.data.id)
+      if (!selectMenu.data || !selectMenu.execute)
         return console.error(
           chalk.italic.bold.redBright(
-            `Select Menu: ${file.split("/").pop()} doesn't have an id.`
+            `Select Menu: ${file
+              .split("/")
+              .pop()} is missing the 'data' or 'execute' property.`
           )
         );
       smCount++;
@@ -244,18 +254,6 @@ module.exports = class Utils {
         chalk.blueBright(`[HANDLER] - Loaded ${smCount} Select Menu(s)!`)
       );
 
-    //Database Models
-    const dbModels = this.loadFiles("./src/models");
-    let modelCount = 0;
-    (await dbModels).forEach(async (file) => {
-      modelCount++;
-    });
-    if (modelCount > 0) {
-      console.log(
-        chalk.blueBright(`[DATABASE]- Loaded ${modelCount} Model(s)!`)
-      );
-    }
-
     console.log(
       chalk.greenBright(
         "[APPLICATION] - Successfully reloaded application (/) commands."
@@ -264,6 +262,18 @@ module.exports = class Utils {
     console.log(chalk.greenBright(`[CLIENT] - Logged into Discord!`));
     //MongoDB
     await this.dbConnect();
+
+    //Database Models
+    const dbModels = await this.loadFiles("./src/models");
+    let modelCount = 0;
+    dbModels.forEach(() => {
+      modelCount++;
+    });
+    if (modelCount > 0) {
+      console.log(
+        chalk.blueBright(`[DATABASE]- Loaded ${modelCount} Model(s)!`)
+      );
+    }
   }
 
   errorEmbed(message, channel) {

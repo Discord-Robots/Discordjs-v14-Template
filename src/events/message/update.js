@@ -1,4 +1,11 @@
+const { Message } = require("discord.js");
+
 module.exports = {
   name: "messageUpdate",
-  async execute(message) {},
+  /**
+ *
+ * @param {Message} message
+ * @param {import("../../Structures/bot")} client
+ */
+  async execute(message, client) { },
 };

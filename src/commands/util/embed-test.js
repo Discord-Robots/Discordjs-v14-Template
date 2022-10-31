@@ -1,5 +1,4 @@
 const {
-  Client,
   SlashCommandBuilder,
   ChatInputCommandInteraction,
   EmbedBuilder,
@@ -9,11 +8,12 @@ module.exports = {
   developer: true,
   category: "util",
   data: new SlashCommandBuilder()
-    .setName("test")
-    .setDescription("Returns an embed."),
+    .setName("embed-test")
+    .setDescription("Returns example embeds using page handler.")
+    .setDMPermission(false),
   /**
    *
-   * @param {Client} client
+   * @param {import("../../Structures/bot")} client
    * @param {ChatInputCommandInteraction} interaction
    * @returns
    */

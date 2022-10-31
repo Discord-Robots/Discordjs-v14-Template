@@ -1,15 +1,14 @@
 const { Connect } = process.env;
 const blockedGuids = require("../../models/blocked");
-const presence = require("../../models/status");
 
 module.exports = {
   name: "ready",
   /**
    *
-   * @param {import('discord.js').Client} client
+   * @param {import("../../Structures/bot")} client
    */
   async execute(client) {
-    await utils.wait(3000);
+    await client.utils.wait(3000);
     if (Connect) {
       let db = await blockedGuids.findOne({ client_id: client.user.id });
       if (!db) {
@@ -20,16 +19,7 @@ module.exports = {
           .save()
           .catch(console.error());
       }
-      let doc = await presence.findOne({ client_id: client.user.id });
-      if (!doc) {
-        new presence({
-          client_id: client.user.id,
-          status: "online",
-        })
-          .save()
-          .catch(console.error())
-          .then(client.pickPresence());
-      }
+      client.pickPresence();
     }
   },
 };

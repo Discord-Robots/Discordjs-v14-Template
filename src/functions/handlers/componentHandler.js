@@ -1,4 +1,9 @@
+/**
+ *
+ * @param {import("../../Structures/bot")} client
+ */
 module.exports = (client) => {
+  const { components, rds } = client;
   const { buttons, selectMenus, modals } = components;
 
   client.handleComponents = async () => {

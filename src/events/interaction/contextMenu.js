@@ -1,13 +1,14 @@
-const { Client, CommandInteraction, Collection } = require("discord.js");
+const { Collection, ContextMenuCommandInteraction } = require("discord.js");
 
 module.exports = {
   name: "interactionCreate",
   /**
    *
-   * @param {CommandInteraction} interaction
-   * @param {Client} client
+   * @param {ContextMenuCommandInteraction} interaction
+   * @param {import("../../Structures/bot")} client
    */
   async execute(interaction, client) {
+    const { commands, cooldowns, utils } = client;
     if (interaction.isContextMenuCommand()) {
       const command = commands.get(interaction.commandName);
       if (!command) return;
@@ -30,8 +31,9 @@ module.exports = {
               const timeLeft = (expirationTime - now) / 1000;
               const message = `please wait ${timeLeft.toFixed(
                 1
-              )} more second(s) before reusing the \`${command.data.name
-                }\` Context Menu Command.`;
+              )} more second(s) before reusing the \`${
+                command.data.name
+              }\` Context Menu Command.`;
               return interaction.reply({
                 embeds: [
                   {

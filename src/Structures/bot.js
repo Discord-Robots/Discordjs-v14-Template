@@ -1,5 +1,14 @@
 require("dotenv/config");
-const { Client, Collection } = require("discord.js");
+const { Client, Collection, Partials } = require("discord.js");
+const {
+  Channel,
+  GuildMember,
+  GuildScheduledEvent,
+  Message,
+  Reaction,
+  ThreadMember,
+  User,
+} = Partials;
 const { readdirSync } = require("fs");
 const { BotToken, Prefix } = process.env;
 const Util = require("./Utils");
@@ -9,41 +18,49 @@ class BOT extends Client {
   constructor() {
     super({
       intents: 3276799,
-      partials: require("./config.json").partials,
+      partials: [
+        Channel,
+        GuildMember,
+        GuildScheduledEvent,
+        Message,
+        Reaction,
+        ThreadMember,
+        User,
+      ],
     });
     this.token = BotToken;
     this.config = require("./config.json");
     this.setMaxListeners(0);
     this.events = new Collection();
-    global.legacyCommands = new Collection();
-    global.aliases = new Collection();
-    global.commands = new Collection();
-    global.components = {
+    this.legacyCommands = new Collection();
+    this.aliases = new Collection();
+    this.commands = new Collection();
+    this.components = {
       buttons: new Collection(),
       modals: new Collection(),
       selectMenus: new Collection(),
-    }
-    global.cooldowns = {
+    };
+    this.cooldowns = {
       legacyCommands: new Collection(),
       buttons: new Collection(),
       commands: new Collection(),
       modals: new Collection(),
       selectMenus: new Collection(),
     };
-    (global.commandArray = []), (global.developerArray = []);
-    global.legacyArray = [];
-    global.colors = {
+    (this.commandArray = []), (this.developerArray = []);
+    this.legacyArray = [];
+    this.colors = {
       green: 0x22b14c,
     };
-    global.rds = readdirSync;
+    this.rds = readdirSync;
     global.chalk = chalk;
-    global.utils = new Util(this);
+    this.utils = new Util(this);
   }
 
   async start(token) {
-    const functionFolders = readdirSync(`./src/functions`);
+    const functionFolders = this.rds(`./src/functions`);
     for (const folder of functionFolders) {
-      const functionFiles = readdirSync(`./src/functions/${folder}`).filter(
+      const functionFiles = this.rds(`./src/functions/${folder}`).filter(
         (file) => file.endsWith(".js")
       );
       for (const file of functionFiles)
@@ -51,11 +68,10 @@ class BOT extends Client {
     }
     this.handleEvents();
     this.login(token).then(async () => {
-      await utils.logger();
+      await this.utils.logger();
       this.handleCommands();
       this.handleComponents();
-      if (Prefix)
-        this.handleLegacyCommands();
+      if (Prefix) this.handleLegacyCommands();
     });
   }
 }

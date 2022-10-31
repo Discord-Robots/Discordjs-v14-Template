@@ -1,8 +1,9 @@
 /**
  *
- * @param {import('discord.js').Client} client
+ * @param {import("../../Structures/bot")} client
  */
 module.exports = (client) => {
+  const { commands, commandArray, developerArray, rds } = client;
   client.handleCommands = async () => {
     const commandFolders = rds("./src/commands");
     for (const folder of commandFolders) {
@@ -12,6 +13,7 @@ module.exports = (client) => {
 
       for (const file of commandFiles) {
         const command = require(`../../commands/${folder}/${file}`);
+
         if (command.developer) {
           developerArray.push(command.data.toJSON());
         } else {

@@ -1,9 +1,9 @@
 const {
-  Client,
   SlashCommandBuilder,
   ChatInputCommandInteraction,
   EmbedBuilder,
   PermissionsBitField,
+  PermissionFlagsBits,
 } = require("discord.js");
 const { version, dependencies } = require("../../../package.json");
 const ms = require("ms");
@@ -16,10 +16,11 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("bot-info")
     .setDescription("Returns Bot OS info.")
-    .setDefaultMemberPermissions(PermissionsBitField.Flags.Administrator),
+    .setDMPermission(false)
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
   /**
    *
-   * @param {Client} client
+   * @param {import("../../Structures/bot")} client
    * @param {ChatInputCommandInteraction} interaction
    * @returns
    */
@@ -31,7 +32,7 @@ module.exports = {
       .addFields({
         name: "General",
         value: `**❯ Client:** ${client.user.tag} (${client.user.id})
-                **❯ Commands:** ${commands.size}
+                **❯ Commands:** ${client.commands.size}
                 **❯ Servers:** ${client.guilds.cache.size.toLocaleString()} 
                 **❯ Users:** ${client.users.cache.filter((m) => !m.bot).size}
                 **❯ Channels:** ${client.channels.cache.size.toLocaleString()}
@@ -51,10 +52,10 @@ module.exports = {
                 \u3000 Model: ${core.model}
                 \u3000 Speed: ${core.speed}MHz
                 **❯ Memory:**
-                \u3000 Total: ${utils.formatBytes(
+                \u3000 Total: ${client.utils.formatBytes(
                   process.memoryUsage().heapTotal
                 )}
-                \u3000 Used: ${utils.formatBytes(
+                \u3000 Used: ${client.utils.formatBytes(
                   process.memoryUsage().heapUsed
                 )}`,
       })

@@ -1,29 +1,9 @@
 {
-  "intents": [
-    "DirectMessageReactions",
-    "DirectMessageTyping",
-    "DirectMessages",
-    "GuildBans",
-    "GuildEmojisAndStickers",
-    "GuildIntegrations",
-    "GuildInvites",
-    "GuildMembers",
-    "GuildMessageReactions",
-    "GuildMessageTyping",
-    "GuildMessages",
-    "GuildPresences",
-    "GuildVoiceStates",
-    "GuildWebhooks",
-    "Guilds",
-    "MessageContent"
-  ],
-  "partials": [
-    "Channel",
-    "GuildMember",
-    "GuildScheduledEvent",
-    "Message",
-    "Reaction",
-    "ThreadMember",
-    "User"
-  ]
+  "devs": ["", ""],
+  "emojis": {
+    "fun": "🎉",
+    "mod": "🔨",
+    "owner": "😎",
+    "util": "⚙️"
+  }
 }

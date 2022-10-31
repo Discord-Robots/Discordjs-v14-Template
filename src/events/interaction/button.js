@@ -1,13 +1,15 @@
-const { Client, CommandInteraction, Collection } = require("discord.js");
+const { Collection, ButtonInteraction } = require("discord.js");
 
 module.exports = {
   name: "interactionCreate",
   /**
-   *
-   * @param {CommandInteraction} interaction
-   * @param {Client} client
+   * 
+   * @param {ButtonInteraction} interaction 
+   * @param {import("../../Structures/bot")} client 
+   * @returns 
    */
   async execute(interaction, client) {
+    const { components, cooldowns, utils } = client;
     const { buttons } = components;
     if (interaction.isButton()) {
       const button = buttons.get(interaction.customId);

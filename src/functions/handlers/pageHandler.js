@@ -2,13 +2,12 @@ const {
   ActionRowBuilder,
   ButtonBuilder,
   EmbedBuilder,
-  Client,
   ChatInputCommandInteraction,
 } = require("discord.js");
 
 /**
  *
- * @param {Client} client
+ * @param {import("../../Structures/bot")} client
  */
 module.exports = (client) => {
   /**

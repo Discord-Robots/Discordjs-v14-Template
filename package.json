@@ -18,6 +18,7 @@
   "author": "په زړه پورې#8280",
   "license": "ISC",
   "dependencies": {
+    "canvas": "^2.10.2",
     "chalk": "^4.1.2",
     "discord.js": "^14.3.0",
     "dotenv": "^16.0.1",

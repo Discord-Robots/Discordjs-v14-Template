@@ -1,4 +1,4 @@
-const { Guild, Client, EmbedBuilder, AuditLogEvent } = require("discord.js");
+const { Guild, EmbedBuilder, AuditLogEvent } = require("discord.js");
 const { DevChannel, Connect, DevGuild } = process.env;
 const guildSchema = require("../../models/guild");
 const blockedGuids = require("../../models/blocked");
@@ -9,7 +9,7 @@ module.exports = {
   /**
    *
    * @param {Guild} guild
-   * @param {Client} client
+   * @param {import("../../Structures/bot")} client
    */
   async execute(guild, client) {
     console.log(`I joined a new guild: ${guild.name}`);
@@ -56,7 +56,7 @@ module.exports = {
           name: `Blocked Guild:`,
           value: `Guild was already blocked from using interactions so I left.`,
         });
-        await wait(5000);
+        await client.utils.wait(5000);
         await guild.leave();
       } else {
         let doc = await guildSchema.findOne({ guildID: guild.id });
