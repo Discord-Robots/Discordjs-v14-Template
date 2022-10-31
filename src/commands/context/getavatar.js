@@ -16,7 +16,7 @@ module.exports = {
 
   /**
    *
-   * @param {ContextMenuCommandBuilder} interaction
+   * @param {import("discord.js").ContextMenuCommandInteraction} interaction
    * @param {import("../../Structures/bot")} client
    */
   async execute(interaction, client) {

@@ -1,4 +1,3 @@
-const { ModalSubmitInteraction, Client, EmbedBuilder } = require("discord.js");
 const db = require("../../../../models/blocked");
 
 module.exports = {
@@ -7,8 +6,9 @@ module.exports = {
   },
   /**
    *
-   * @param {ModalSubmitInteraction} interaction
-   * @param {Client} client
+   * @param {import("discord.js").ModalSubmitInteraction} interaction
+   * @param {import("../../../../Structures/bot")} client
+   * @returns
    */
   async execute(interaction, client) {
     const reason = interaction.fields.getTextInputValue("appeal_reason");

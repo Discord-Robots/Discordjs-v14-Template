@@ -1,12 +1,12 @@
-const { Collection, ButtonInteraction } = require("discord.js");
+const { Collection } = require("discord.js");
 
 module.exports = {
   name: "interactionCreate",
   /**
-   * 
-   * @param {ButtonInteraction} interaction 
-   * @param {import("../../Structures/bot")} client 
-   * @returns 
+   *
+   * @param {import("discord.js").ButtonInteraction} interaction
+   * @param {import("../../Structures/bot")} client
+   * @returns
    */
   async execute(interaction, client) {
     const { components, cooldowns, utils } = client;
@@ -33,8 +33,9 @@ module.exports = {
               const timeLeft = (expirationTime - now) / 1000;
               const message = `please wait ${timeLeft.toFixed(
                 1
-              )} more second(s) before reusing the \`${button.data.id
-                }\` button.`;
+              )} more second(s) before reusing the \`${
+                button.data.id
+              }\` button.`;
               return interaction.reply({
                 embeds: [
                   {

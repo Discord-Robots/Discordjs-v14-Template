@@ -1,10 +1,10 @@
-const { Collection, SelectMenuInteraction } = require("discord.js");
+const { Collection } = require("discord.js");
 
 module.exports = {
   name: "interactionCreate",
   /**
    *
-   * @param {SelectMenuInteraction} interaction
+   * @param {import("discord.js").SelectMenuInteraction} interaction
    * @param {import("../../Structures/bot")} client
    */
   async execute(interaction, client) {

@@ -1,4 +1,3 @@
-const { ButtonInteraction, Client } = require("discord.js");
 const doc = require("../../../../models/blocked");
 
 module.exports = {
@@ -7,8 +6,8 @@ module.exports = {
   },
   /**
    *
-   * @param {ButtonInteraction} interaction
-   * @param {Client} client
+   * @param {import("discord.js").ButtonInteraction} interaction
+   * @param {import("../../../../Structures/bot")} client
    * @returns
    */
   async execute(interaction, client) {

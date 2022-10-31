@@ -1,13 +1,13 @@
-const { Guild, EmbedBuilder } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 const { DevChannel, Connect } = process.env;
 const guildSchema = require("../../models/guild");
-const blockedGuids = require('../../models/blocked');
+const blockedGuids = require("../../models/blocked");
 
 module.exports = {
   name: "guildDelete",
   /**
    *
-   * @param {Guild} guild
+   * @param {import("discord.js").Guild} guild
    * @param {import("../../Structures/bot")} client
    */
   async execute(guild, client) {
@@ -19,7 +19,7 @@ module.exports = {
       footer: {
         text: `${client.user.tag}`,
         iconURL: `${client.user.displayAvatarURL({ dynamic: true })}`,
-      }
+      },
     }).setTimestamp();
     if (guild.icon) removed.setThumbnail(`${guild.iconURL({ dynamic: true })}`);
 
@@ -27,17 +27,21 @@ module.exports = {
       await guildSchema.findOneAndDelete({ guildID: guild.id });
       let blocked = await blockedGuids.findOne({ client_id: client.user.id });
 
-      if (blocked && blocked.guilds.includes(guild.id)) removed.addFields({ name: `Reason for Removal:`, value: `Guild was blocked from using interactions.` })
+      if (blocked && blocked.guilds.includes(guild.id))
+        removed.addFields({
+          name: `Reason for Removal:`,
+          value: `Guild was blocked from using interactions.`,
+        });
       if (devChan) {
         devChan.send({ embeds: [removed] });
-      }
-      else guild.systemChannel.send({ embeds: [removed] })
-
+      } else guild.systemChannel.send({ embeds: [removed] });
     } else {
       if (devChan) {
         devChan.send({ embeds: [removed] });
-      }
-      else client.guilds.cache.get(DevGuild).systemChannel.send({ embeds: [removed] });
+      } else
+        client.guilds.cache
+          .get(DevGuild)
+          .systemChannel.send({ embeds: [removed] });
     }
   },
 };

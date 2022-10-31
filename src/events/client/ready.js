@@ -8,7 +8,6 @@ module.exports = {
    * @param {import("../../Structures/bot")} client
    */
   async execute(client) {
-    await client.utils.wait(3000);
     if (Connect) {
       let db = await blockedGuids.findOne({ client_id: client.user.id });
       if (!db) {

@@ -1,8 +1,4 @@
-const {
-  SlashCommandBuilder,
-  EmbedBuilder,
-  ChatInputCommandInteraction,
-} = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 
 module.exports = {
   category: "owner",
@@ -18,7 +14,7 @@ module.exports = {
     ),
   /**
    *
-   * @param {ChatInputCommandInteraction} interaction
+   * @param {import("discord.js").ChatInputCommandInteraction} interaction
    * @param {import("../../Structures/bot")} client
    * @returns
    */

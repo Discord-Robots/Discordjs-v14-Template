@@ -1,6 +1,4 @@
 const {
-  Client,
-  ChatInputCommandInteraction,
   ModalBuilder,
   TextInputBuilder,
   TextInputStyle,
@@ -38,7 +36,7 @@ module.exports = {
       send.setName("send").setDescription("Send the announcement")
     ),
   /**
-   * @param {ChatInputCommandInteraction} interaction
+   * @param {import("discord.js").ChatInputCommandInteraction} interaction
    * @param {import("../../Structures/bot")} client
    */
   async execute(interaction, client) {

@@ -1,7 +1,4 @@
-const {
-  SlashCommandBuilder,
-  ChatInputCommandInteraction,
-} = require("discord.js");
+const { SlashCommandBuilder } = require("discord.js");
 
 module.exports = {
   category: "util",
@@ -19,7 +16,7 @@ module.exports = {
     ),
   /**
    *
-   * @param {ChatInputCommandInteraction} interaction
+   * @param {import("discord.js").ChatInputCommandInteraction} interaction
    * @param {import("../../Structures/bot")} client
    */
   async autocomplete(interaction, client) {

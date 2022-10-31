@@ -1,7 +1,4 @@
-const {
-  SlashCommandBuilder,
-  ChatInputCommandInteraction,
-} = require("discord.js");
+const { SlashCommandBuilder } = require("discord.js");
 const fetch = require("node-fetch");
 
 module.exports = {
@@ -73,7 +70,7 @@ module.exports = {
     ),
   /**
    *
-   * @param {ChatInputCommandInteraction} interaction
+   * @param {import("discord.js").ChatInputCommandInteraction} interaction
    * @param {import("../../Structures/bot")} client
    * @returns
    */

@@ -1,16 +1,11 @@
-const {
-  ChatInputCommandInteraction,
-  InteractionType,
-  EmbedBuilder,
-  Collection,
-} = require("discord.js");
-const { Connect, BotOwnerID } = process.env;
+const { InteractionType, EmbedBuilder, Collection } = require("discord.js");
+const { Connect } = process.env;
 
 module.exports = {
   name: "interactionCreate",
   /**
    *
-   * @param {ChatInputCommandInteraction} interaction
+   * @param {import("discord.js").ChatInputCommandInteraction} interaction
    * @param {import("../../Structures/bot")} client
    */
   async execute(interaction, client) {

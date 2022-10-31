@@ -1,6 +1,5 @@
 const {
   SlashCommandBuilder,
-  ChatInputCommandInteraction,
   ActionRowBuilder,
   ModalBuilder,
   TextInputBuilder,
@@ -21,7 +20,7 @@ module.exports = {
     ),
   /**
    *
-   * @param {ChatInputCommandInteraction} interaction
+   * @param {import("discord.js").ChatInputCommandInteraction} interaction
    * @param {import("../../Structures/bot")} client
    */
   async execute(interaction, client) {

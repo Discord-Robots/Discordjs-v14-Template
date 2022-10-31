@@ -1,11 +1,9 @@
-const { Emoji } = require("discord.js");
-
 module.exports = {
   name: "emojiUpdate",
   /**
    *
-   * @param {Emoji} oldEmoji
-   * @param {Emoji} newEmoji
+   * @param {import("discord.js").Emoji} oldEmoji
+   * @param {import("discord.js").Emoji} newEmoji
    * @param {import("../../Structures/bot")} client
    */
   async execute(oldEmoji, newEmoji, client) {

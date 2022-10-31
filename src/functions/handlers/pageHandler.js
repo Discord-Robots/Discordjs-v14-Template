@@ -1,9 +1,4 @@
-const {
-  ActionRowBuilder,
-  ButtonBuilder,
-  EmbedBuilder,
-  ChatInputCommandInteraction,
-} = require("discord.js");
+const { ActionRowBuilder, ButtonBuilder, EmbedBuilder } = require("discord.js");
 
 /**
  *
@@ -12,7 +7,7 @@ const {
 module.exports = (client) => {
   /**
    *
-   * @param {ChatInputCommandInteraction} interaction
+   * @param {import("discord.js").ChatInputCommandInteraction} interaction
    */
   client.embedPages = async (interaction, embeds) => {
     const pages = {};
@@ -24,21 +19,20 @@ module.exports = (client) => {
             label: "◀",
             custom_id: "prev_embed",
             style: 1,
-            disabled: pages[id] === 0
+            disabled: pages[id] === 0,
           }),
           new ButtonBuilder({
             label: "❌",
             custom_id: "end_embed",
-            style: 4
+            style: 4,
           }),
           new ButtonBuilder({
             label: "▶",
             custom_id: "next_embed",
             style: 1,
-            disabled: pages[id] === embeds.length - 1
-          })
-        ]
-
+            disabled: pages[id] === embeds.length - 1,
+          }),
+        ],
       });
 
       // -------------- Any other custom Button (if needed) --------------
@@ -111,8 +105,8 @@ module.exports = (client) => {
       if (reason === "time") {
         const warningEmbed = new EmbedBuilder({
           color: 0xd5cf13,
-          description: `⚠️ |  Unfortunately, the embed has expired!`
-        })
+          description: `⚠️ |  Unfortunately, the embed has expired!`,
+        });
 
         await interaction.editReply({
           embeds: [warningEmbed],

@@ -1,4 +1,4 @@
-const { Guild, EmbedBuilder, AuditLogEvent } = require("discord.js");
+const { EmbedBuilder, AuditLogEvent } = require("discord.js");
 const { DevChannel, Connect, DevGuild } = process.env;
 const guildSchema = require("../../models/guild");
 const blockedGuids = require("../../models/blocked");
@@ -8,7 +8,7 @@ module.exports = {
   name: "guildCreate",
   /**
    *
-   * @param {Guild} guild
+   * @param {import("discord.js").Guild} guild
    * @param {import("../../Structures/bot")} client
    */
   async execute(guild, client) {

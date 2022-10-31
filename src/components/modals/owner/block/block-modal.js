@@ -1,4 +1,3 @@
-const { ModalSubmitInteraction, Client } = require("discord.js");
 const doc = require("../../../../models/blocked");
 const { BotOwnerID } = process.env;
 
@@ -8,8 +7,9 @@ module.exports = {
   },
   /**
    *
-   * @param {ModalSubmitInteraction} interaction
-   * @param {Client} client
+   * @param {import("discord.js").ModalSubmitInteraction} interaction
+   * @param {import("../../../../Structures/bot")} client
+   * @returns
    */
   async execute(interaction, client) {
     const gid = interaction.fields.getTextInputValue("block_gid");

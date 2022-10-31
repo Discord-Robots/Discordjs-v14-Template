@@ -1,6 +1,5 @@
 const {
   SlashCommandBuilder,
-  ChatInputCommandInteraction,
   EmbedBuilder,
   ComponentType,
 } = require("discord.js");
@@ -14,7 +13,7 @@ module.exports = {
   /**
    *
    * @param {import("../../Structures/bot.js")} client
-   * @param {ChatInputCommandInteraction} interaction
+   * @param {import("discord.js").ChatInputCommandInteraction} interaction
    * @returns
    */
   async execute(interaction, client) {

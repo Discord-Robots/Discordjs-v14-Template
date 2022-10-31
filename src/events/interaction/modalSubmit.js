@@ -1,14 +1,10 @@
-const {
-  InteractionType,
-  Collection,
-  ModalSubmitInteraction,
-} = require("discord.js");
+const { InteractionType, Collection } = require("discord.js");
 
 module.exports = {
   name: "interactionCreate",
   /**
    *
-   * @param {ModalSubmitInteraction} interaction
+   * @param {import("discord.js").ModalSubmitInteraction} interaction
    * @param {import("../../Structures/bot")} client
    */
   async execute(interaction, client) {
