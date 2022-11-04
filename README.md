@@ -6,6 +6,7 @@ Features:
 - ~~Supports Only Slash Commands~~ Now Supports Legacy Commands as well!!!
   - Legacy commands are meant for bots which are in less than 100 guilds.
     - If you plan to use this in more than 100 guilds, You will have to apply for the MessageContent Intent through Discord.
+    - Legacy Commands are meant for the developer of the bot only!
   - Cooldowns enabled on Legacy Commands
   - Cannot run any interaction commands in Bot's DMs
   - Supports Cooldowns
@@ -110,6 +111,11 @@ Click `Use this template` at the top of this page or fork the repo to your own p
   - Run the bot with `nodemon`.
   - Customize the project to your liking and enjoy!
 
-- For the member add and remove events to work, the guild MUST have the `System Channel` enabled.
+#
+
+- Member add event fires a canvas to welcome the new member.
+- For the member remove events to work, the guild MUST have the `System Channel` enabled.
+
+#
 
 Found any bugs or have any suggestion about the template? Create an issue or pull request!

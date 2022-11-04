@@ -9,8 +9,10 @@ module.exports = {
    */
   async execute(member, client) {
     if (member.user.bot) return;
-    const auditLogs = await member.guild.fetchAuditLogs({ user: member.id });
-    console.log(auditLogs.entries.map((m) => m.targetType()));
+    const auditLogs = await member.guild.fetchAuditLogs({
+      user: member.id,
+      limit: 1,
+    });
 
     const memCount = member.guild.members.cache.filter(
       (m) => m.user.bot === false

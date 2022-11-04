@@ -1,4 +1,4 @@
-const { EmbedBuilder } = require("discord.js");
+const { welcomeCreate } = require("../../Structures/Welcome/welcomer");
 
 module.exports = {
   name: "guildMemberAdd",
@@ -9,6 +9,7 @@ module.exports = {
    */
   async execute(member, client) {
     if (member.user.bot) return;
+    const { guild } = member;
 
     const memCount = member.guild.members.cache.filter(
       (m) => m.user.bot === false
@@ -18,29 +19,9 @@ module.exports = {
     ).size;
     const totalCount = member.guild.memberCount;
 
-    const message =
-      `${member.user.username} joined the server!\n` +
-      `Welcome to ${member.guild.name}\n\n` +
-      `Member Counts: \n` +
-      `Users: ${memCount}\n` +
-      `Bots: ${botCount}\n` +
-      `Total: ${totalCount}\n`;
-
     const welcomeChannel = member.guild.systemChannel;
 
-    const embed = new EmbedBuilder({
-      author: {
-        name: `${member.user.tag}`,
-      },
-      description: message,
-      thumbnail: {
-        url: `${member.user.displayAvatarURL({ dynamic: true })}`,
-      },
-      footer: {
-        text: `${client.user.username}`,
-      },
-    }).setTimestamp();
-
-    if (welcomeChannel) welcomeChannel.send({ embeds: [embed] });
+    if (welcomeChannel)
+      await welcomeCreate(member, guild, memCount, welcomeChannel);
   },
 };
