@@ -21,7 +21,6 @@ module.exports = {
 
     const welcomeChannel = member.guild.systemChannel;
 
-    if (welcomeChannel)
-      await welcomeCreate(member, guild, memCount, welcomeChannel);
+    if (welcomeChannel) welcomeCreate(member, guild, memCount, welcomeChannel);
   },
 };

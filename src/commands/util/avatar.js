@@ -26,14 +26,19 @@ module.exports = {
       interaction.options.getUser("target") || interaction.user;
     const id = targetUser.id;
     const avatar = targetUser.avatar;
+    const animated = avatar.startsWith("a_");
+    const pfp = targetUser.avatarURL({ dynamic: true });
+    const member = await interaction.guild.members.fetch(id);
+    let op = member.nickname ? member.nickname : targetUser.username;
 
     const buttons = [
+      reverse(pfp),
       button("png", id, avatar),
       button("jpg", id, avatar),
       button("webp", id, avatar),
     ];
 
-    if (avatar.startsWith("a_")) {
+    if (animated) {
       buttons.push(button("gif", id, avatar));
     }
 
@@ -43,7 +48,7 @@ module.exports = {
     });
 
     const avatarEmbed = new EmbedBuilder()
-      .setAuthor({ name: `${targetUser.username}'s avatar!` })
+      .setAuthor({ name: `${op}'s avatar!` })
       .setImage(`${targetUser.displayAvatarURL({ size: 1024 })}`);
 
     await interaction.reply({
@@ -59,6 +64,14 @@ function button(type, user, avatar) {
     label: type,
     style: ButtonStyle.Link,
     url: `https://cdn.discordapp.com/avatars/${user}/${avatar}.${type}?size=1024`,
+    type: 2,
+  });
+}
+function reverse(type) {
+  return new ButtonBuilder({
+    label: "Reverse Lookup",
+    style: ButtonStyle.Link,
+    url: `https://www.google.com/searchbyimage?&image_url=${type}`,
     type: 2,
   });
 }
