@@ -20,9 +20,13 @@ Features:
   - Will be adding ability for users to appeal directly in Bot's DM's (Will be checking to see if it is the owner of the appealed guild).
 - I am not adding a reload command due to having too many issues with the function.
 
+#
+
 **Logs Everything to the console when starting**
 
 ![Imgur](https://i.imgur.com/MXaA4Ww.png)
+
+#
 
 **Easy to Read**
 
@@ -48,6 +52,8 @@ module.exports = {
 };
 ```
 
+#
+
 Legacy Commands:
 
 - Example Location of command: "./src/legacyCommands/(category)/(command)"
@@ -67,6 +73,8 @@ module.exports = {
   },
 };
 ```
+
+#
 
 Components:
 
@@ -107,9 +115,23 @@ Click `Use this template` at the top of this page or fork the repo to your own p
 
 - After you have edited and saved the `env` file to your needs, you are ready ready to start the bot!
 
-  - Install all dependencies with `npm install` << Remember, DO NOT INCLUDE ANY PACKAGE NAMES HERE!
-  - Run the bot with `nodemon`.
-  - Customize the project to your liking and enjoy!
+#
+
+## Important installation prerequisites for MACOS users!
+
+- In order to install certain packages namely: [node-canvas](https://npmjs.com/package/canvas), the following is REQUIRED.
+- Please install homebrew from the terminal using the following command:
+  - Please copy and paste these commands exactly into a terminal!
+    - `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+    - `arch -arm64 brew install pkg-config cairo pango libpng jpeg giflib librsvg`
+  - These commands do take a while to download and install so be patient.
+  - After the second one is finished, it will tell you to export a few paths to finish as shown below. Please do these or it won't work. ![Imgur](https://i.imgur.com/lE3ThaC.png)
+
+#
+
+- Install all dependencies with `npm install` << Remember, DO NOT INCLUDE ANY PACKAGE NAMES HERE!
+- Run the bot with `nodemon`.
+- Customize the project to your liking and enjoy!
 
 #
 
