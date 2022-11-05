@@ -1,3 +1,4 @@
+const { DevGuild } = process.env;
 /**
  *
  * @param {import("../../Structures/bot")} client
@@ -23,8 +24,13 @@ module.exports = (client) => {
       }
     }
 
+    //Global Commands!
     await client.application.commands.set(commandArray);
-    const devGuild = client.guilds.cache.get(process.env.DevGuild);
-    devGuild.commands.set(developerArray);
+
+    //Single Guild Commands!
+    if (DevGuild) {
+      const devGuild = client.guilds.cache.get(DevGuild);
+      devGuild.commands.set(developerArray);
+    }
   };
 };

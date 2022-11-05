@@ -1,4 +1,4 @@
-const { welcomeCreate } = require("../../Structures/Welcome/welcomer");
+const { welcomeCreate } = require("../../Structures/welcomer");
 
 module.exports = {
   name: "guildMemberAdd",
