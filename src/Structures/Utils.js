@@ -158,7 +158,11 @@ module.exports = class Utils {
           chalk.italic.bold.redBright(
             `Event: ${file
               .split("/")
-              .pop()} is missing the 'name' or 'execute' property. Skipping...`
+              .pop()
+              .replace(
+                ".js",
+                ""
+              )} is missing the 'name' or 'execute' property. Skipping...`
           )
         );
       eventCount++;
