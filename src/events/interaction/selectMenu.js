@@ -4,13 +4,13 @@ module.exports = {
   name: "interactionCreate",
   /**
    *
-   * @param {import("discord.js").SelectMenuInteraction} interaction
+   * @param {import("discord.js").StringSelectMenuInteraction} interaction
    * @param {import("../../Structures/bot")} client
    */
   async execute(interaction, client) {
     const { components, cooldowns, utils } = client;
     const { selectMenus } = components;
-    if (interaction.isSelectMenu()) {
+    if (interaction.isStringSelectMenu()) {
       const menu = selectMenus.get(interaction.customId);
       if (!menu) return;
 
