@@ -127,3 +127,4 @@ dist
 .pnp.*
 .vscode/settings.json
 .vscode/launch.json
+package-lock.json
