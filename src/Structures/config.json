@@ -1,9 +1,14 @@
 {
-  "devs": ["", ""],
-  "emojis": {
-    "fun": "🎉",
-    "mod": "🔨",
-    "owner": "😎",
-    "util": "⚙️"
-  }
+	"devs": ["", ""],
+	"emojis": {
+		"fun": "🎉",
+		"mod": "🔨",
+		"owner": "😎",
+		"util": "⚙️"
+	},
+	"economy": {
+		"currency": "",
+		"bank": "https://informationsecuritybuzz.com/wp-content/uploads/bank-and-security.jpg",
+		"wallet": "https://ae01.alicdn.com/kf/HTB1cBiJQpXXXXbuXXXXq6xXFXXXf/New-men-s-wallet-card-package-short-leather-wallet.jpg"
+	}
 }
