@@ -1,15 +1,17 @@
-const { Schema, model } = require("mongoose");
+import { Schema, model } from 'mongoose';
 
-const msgReport = new Schema({
-    messageId: { type: String },
-    messageLink: { type: String },
-    guild: {
-        guildId: { type: String },
-        channelId: { type: String },
-        msgUserId: { type: String },
-        msgUserTag: { type: String },
-        reporterId: { type: String },
-    },
-});
-
-module.exports = model("msgReport", msgReport, "msgReports");
+export default model(
+	'msgReport',
+	new Schema({
+		messageId: { type: String },
+		messageLink: { type: String },
+		guild: {
+			guildId: { type: String },
+			channelId: { type: String },
+			msgUserId: { type: String },
+			msgUserTag: { type: String },
+			reporterId: { type: String },
+		},
+	}),
+	'msgReports'
+);

@@ -1,8 +1,10 @@
-const { Schema, model } = require("mongoose");
+import { Schema, model } from 'mongoose';
 
-const blocked = new Schema({
-    client_id: { type: String },
-    guilds: [Object]
-})
-
-module.exports = model("blocked", blocked, "blocks");
+export default model(
+	'blocked',
+	new Schema({
+		client_id: String,
+		guilds: [Object],
+	}),
+	'blocks'
+);

@@ -1,20 +1,20 @@
-const { SlashCommandBuilder } = require("discord.js");
+import { SlashCommandBuilder } from 'discord.js';
+import Eco from '../../models/economy';
 
-module.exports = {
-    category: "economy",
-    cooldown: 1000,
-    data: new SlashCommandBuilder()
-        .setName("beg")
-        .setDescription("Beg for cards")
-        .setDMPermission(false),
-    /**
-     *
-     * @param {import("discord.js").ChatInputCommandInteraction} interaction
-     * @param {import("../../Structures/bot")} client
-     * @returns
-     */
-    async execute(interaction, client) {
-        const { currency, bank, wallet } = client.config.economy;
-
-    },
+export default {
+	category: 'economy',
+	cooldown: [1, 'day'],
+	data: new SlashCommandBuilder()
+		.setName('beg')
+		.setDescription('Beg for currency.')
+		.setDMPermission(false),
+	/**
+	 *
+	 * @param {import("discord.js").ChatInputCommandInteraction} interaction
+	 * @param {import("../../Structures/bot")} client
+	 * @returns
+	 */
+	execute: async (interaction, client) => {
+		const { currency, bank, wallet } = client.config.economy;
+	},
 };

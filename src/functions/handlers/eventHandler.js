@@ -2,7 +2,7 @@
  *
  * @param {import("../../Structures/bot")} client
  */
-module.exports = (client) => {
+export default (client) => {
 	const { events, rds } = client;
 	client.removeAllListeners();
 	client.handleEvents = async () => {

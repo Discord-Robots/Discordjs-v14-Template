@@ -1,5 +1,5 @@
-require("dotenv/config");
-const Bot = require("./src/Structures/bot.js");
+import 'dotenv/config';
+import Bot from './src/Structures/bot.js';
 const client = new Bot();
 
 client.start();

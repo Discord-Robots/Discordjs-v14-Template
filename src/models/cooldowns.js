@@ -1,14 +1,12 @@
 import { Schema, model } from 'mongoose';
 
 export default model(
-	'Economy',
+	'Cooldowns',
 	new Schema({
 		guildID: String,
 		guildName: String,
 		userID: String,
 		userName: String,
-		wallet: String,
-		bank: String,
 	}),
-	'Economy'
+	'Cooldowns'
 );
