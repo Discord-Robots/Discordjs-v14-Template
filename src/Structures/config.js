@@ -1,9 +1,9 @@
 export const config = {
-	devs: ['371759410009341952', ''],
+	devs: ['', ''],
 	emojis: {
 		economy: '💰',
 		fun: '🎉',
-		mod: '🔨',
+		moderation: '🔨',
 		owner: '😎',
 		util: '⚙️',
 	},
