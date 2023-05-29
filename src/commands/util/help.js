@@ -9,7 +9,7 @@ export default {
 		.setDMPermission(false),
 	/**
 	 *
-	 * @param {import("../../Structures/bot.js")} client
+	 * @param {import("#BOT").default} client
 	 * @param {import("discord.js").ChatInputCommandInteraction} interaction
 	 * @returns
 	 */
@@ -22,28 +22,30 @@ export default {
 					...new Set(
 						client.commands
 							.filter(
-								(cmd) => cmd.category !== 'owner' && cmd.category !== 'context'
+								(cmd) =>
+									cmd.default.category !== 'owner' &&
+									cmd.default.category !== 'context'
 							)
-							.map((cmd) => cmd.category)
+							.map((cmd) => cmd.default.category)
 					),
 				];
 			} else {
 				directories = [
 					...new Set(
 						client.commands
-							.filter((cmd) => cmd.category !== 'context')
-							.map((cmd) => cmd.category)
+							.filter((cmd) => cmd.default.category !== 'context')
+							.map((cmd) => cmd.default.category)
 					),
 				];
 			}
 
 			const categories = directories.map((dir) => {
 				const getcmds = client.commands
-					.filter((cmd) => cmd.category === dir)
+					.filter((cmd) => cmd.default.category === dir)
 					.map((cmd) => {
 						return {
-							name: cmd.data.name,
-							description: cmd.data.description,
+							name: cmd.default.data.name,
+							description: cmd.default.data.description,
 							inline: true,
 						};
 					});
@@ -56,7 +58,7 @@ export default {
 			const embed = new EmbedBuilder({
 				description: 'Please choose a category from the dropdown menu.',
 			});
-			const components = (state) => [
+			const components = (/** @type {boolean} */ state) => [
 				{
 					type: 1,
 					components: [
@@ -67,10 +69,11 @@ export default {
 							placeholder: 'Please select a category',
 							options: categories.map((cmd) => {
 								return {
-									label: `${cmd.directory}` || '.',
-									value: `${cmd.directory.toLowerCase()}` || '.',
-									description: `Commands from ${cmd.directory} category` || '.',
-									emoji: `${emoji[cmd.directory.toLowerCase()]}` || '❤️',
+									label: `${cmd.directory}`,
+									value: `${cmd.directory.toLowerCase()}`,
+									description: `Commands from ${cmd.directory} category`,
+									// @ts-ignore
+									emoji: `${emoji[cmd.directory.toLowerCase()]}`,
 								};
 							}),
 						},
@@ -84,18 +87,20 @@ export default {
 				fetchReply: true,
 				ephemeral: true,
 			});
-			const collector = interaction.channel.createMessageComponentCollector({
+			console.log(new Date(300000).getSeconds());
+			const collector = interaction.channel?.createMessageComponentCollector({
 				componentType: ComponentType.StringSelect,
-				timeout: 5000,
+				time: 5000,
 			});
 
-			collector.on('collect', (interaction) => {
+			collector?.on('collect', (interaction) => {
 				const [directory] = interaction.values;
 				const category = categories.find(
 					(x) => x.directory.toLowerCase() === directory
 				);
 
 				const embed2 = new EmbedBuilder().addFields(
+					// @ts-ignore
 					category.commands.map((cmd) => {
 						return {
 							name: `\`${cmd.name}\``,
@@ -105,39 +110,32 @@ export default {
 					})
 				);
 
-				for (const dir of directory) {
+				[directory].forEach(() => {
 					embed2.setDescription(
+						// @ts-ignore
 						`${emoji[directory]} ${client.utils.capitalise(
 							directory
 						)} Commands:`
 					);
-				}
-				// if (directory === 'fun') {
-				// 	embed2.setDescription(
-				// 		`${emoji.fun} ${client.utils.capitalise(directory)} Commands:`
-				// 	);
-				// }
-				// if (directory === 'mod') {
-				// 	embed2.setDescription(
-				// 		`${emoji.mod} ${client.utils.capitalise(directory)} Commands:`
-				// 	);
-				// }
-				// if (directory === 'owner') {
-				// 	embed2.setDescription(
-				// 		`${emoji.owner} ${client.utils.capitalise(directory)} Commands:`
-				// 	);
-				// }
-				// if (directory === 'util') {
-				// 	embed2.setDescription(
-				// 		`${emoji.util} ${client.utils.capitalise(directory)} Commands:`
-				// 	);
-				// }
+				});
 
 				interaction.update({ embeds: [embed2] });
 			});
 
-			collector.on('end', () => {
-				interaction.update({ components: components(true) });
+			collector?.on('end', async (i) => {
+				await interaction.editReply({
+					embeds: [
+						{
+							description: `Deleting message in <t:${client.utils.prettyTime(
+								5000
+							)}:R>`,
+						},
+					],
+					components: [],
+				});
+				setTimeout(async () => {
+					interaction.deleteReply();
+				}, 5000);
 			});
 		} catch (error) {
 			console.log(error);

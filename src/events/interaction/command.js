@@ -1,4 +1,4 @@
-import { InteractionType, EmbedBuilder } from 'discord.js';
+import { EmbedBuilder } from 'discord.js';
 const { Connect } = process.env;
 
 export default {
@@ -6,12 +6,12 @@ export default {
 	/**
 	 *
 	 * @param {import("discord.js").ChatInputCommandInteraction} interaction
-	 * @param {import("../../Structures/bot")} client
+	 * @param {import("#BOT").default} client
 	 */
 	async execute(interaction, client) {
 		const { commands, utils } = client;
 		if (interaction.isChatInputCommand()) {
-			const command = commands.get(interaction.commandName);
+			const command = commands.get(interaction.commandName).default;
 			if (!command) return;
 
 			try {
@@ -34,28 +34,16 @@ export default {
 						ephemeral: true,
 					});
 				}
-				client.cool();
+
+				if (command.cooldown && Array.isArray(command.cooldown)) {
+				}
+
 				await command.execute(interaction, client);
 			} catch (error) {
 				console.log(error);
 				await interaction.reply({
 					content:
 						'Something went wrong while executing this command, please contact my developer!',
-					ephemeral: true,
-				});
-			}
-		} else if (
-			interaction.type == InteractionType.ApplicationCommandAutocomplete
-		) {
-			const auto = commands.get(interaction.commandName);
-			if (!auto) return;
-
-			try {
-				await auto.autocomplete(interaction, client);
-			} catch (error) {
-				console.log(error);
-				await interaction.reply({
-					content: 'Something went wrong...',
 					ephemeral: true,
 				});
 			}

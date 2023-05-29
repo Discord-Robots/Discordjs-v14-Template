@@ -1,4 +1,4 @@
-import doc from '../../../../models/blocked';
+import doc from '#schemas/blocked.js';
 const { BotOwnerID } = process.env;
 
 export default {
@@ -8,7 +8,7 @@ export default {
 	/**
 	 *
 	 * @param {import("discord.js").ModalSubmitInteraction} interaction
-	 * @param {import("../../../../Structures/bot")} client
+	 * @param {import("#BOT").default} client
 	 * @returns
 	 */
 	async execute(interaction, client) {

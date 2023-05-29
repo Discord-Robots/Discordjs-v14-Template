@@ -1,17 +1,18 @@
-const {
+import {
 	SlashCommandBuilder,
 	EmbedBuilder,
 	ButtonBuilder,
 	ActionRowBuilder,
 	ModalBuilder,
 	TextInputBuilder,
-} = require('discord.js');
-const doc = require('../../models/blocked');
+} from 'discord.js';
+import doc from '#schemas/blocked.js';
 
-module.exports = {
+export default {
 	owner: true,
 	dbRequired: true,
 	category: 'owner',
+	cooldown: [1, 'sec'],
 	data: new SlashCommandBuilder()
 		.setName('block')
 		.setDescription('Stops a specific server from using the bot.')
@@ -27,7 +28,7 @@ module.exports = {
 	/**
 	 *
 	 * @param {import("discord.js").ChatInputCommandInteraction} interaction
-	 * @param {import("../../Structures/bot")} client
+	 * @param {import("#BOT").default} client
 	 */
 	execute: async (interaction, client) => {
 		const { options } = interaction;
@@ -41,6 +42,28 @@ module.exports = {
 			});
 		if (gid) {
 			if (fetched) {
+				/**
+				 * @type {ActionRowBuilder<ButtonBuilder>[]}
+				 */
+				let row = [
+					new ActionRowBuilder({
+						type: 1,
+						components: [
+							new ButtonBuilder({
+								customId: 'unblock-yes',
+								emoji: '✅',
+								style: 1,
+								type: 2,
+							}),
+							new ButtonBuilder({
+								customId: 'unblock-no',
+								emoji: '❌',
+								style: 1,
+								type: 2,
+							}),
+						],
+					}),
+				];
 				return await interaction.reply({
 					embeds: [
 						new EmbedBuilder({
@@ -49,60 +72,47 @@ module.exports = {
 							footer: { text: gid },
 						}),
 					],
-					components: [
-						new ActionRowBuilder({
-							type: 1,
-							components: [
-								new ButtonBuilder({
-									customId: 'unblock-yes',
-									emoji: '✅',
-									style: 1,
-									type: 2,
-								}),
-								new ButtonBuilder({
-									customId: 'unblock-no',
-									emoji: '❌',
-									style: 1,
-									type: 2,
-								}),
-							],
-						}),
-					],
+					components: row,
 					ephemeral: true,
 				});
 			}
-		} else
+		} else {
+			/**
+			 * @type {ActionRowBuilder<TextInputBuilder>[]}
+			 */
+			let rows = [
+				new ActionRowBuilder({
+					type: 1,
+					components: [
+						new TextInputBuilder({
+							custom_id: 'block_gid',
+							label: 'Guild ID',
+							placeholder: 'Give me the guild id that should be blocked.',
+							style: 1,
+							type: 4,
+						}),
+					],
+				}),
+				new ActionRowBuilder({
+					type: 1,
+					components: [
+						new TextInputBuilder({
+							custom_id: 'reason_for_block',
+							label: 'Reason for this block',
+							placeholder: 'Give me a reason for blocking this guild.',
+							style: 2,
+							type: 4,
+						}),
+					],
+				}),
+			];
 			await interaction.showModal(
 				new ModalBuilder({
 					custom_id: 'block-modal',
 					title: 'Block New Guild',
-					components: [
-						new ActionRowBuilder({
-							type: 1,
-							components: [
-								new TextInputBuilder({
-									custom_id: 'block_gid',
-									label: 'Guild ID',
-									placeholder: 'Give me the guild id that should be blocked.',
-									style: 1,
-									type: 4,
-								}),
-							],
-						}),
-						new ActionRowBuilder({
-							type: 1,
-							components: [
-								new TextInputBuilder({
-									custom_id: 'reason_for_block',
-									label: 'Reason for this block',
-									placeholder: 'Give me a reason for blocking this guild.',
-									style: 2,
-									type: 4,
-								}),
-							],
-						}),
-					],
+					components: rows,
 				})
 			);
+		}
 	},
 };

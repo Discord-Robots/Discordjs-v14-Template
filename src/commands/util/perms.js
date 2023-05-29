@@ -1,5 +1,4 @@
 import {
-	Client,
 	ChatInputCommandInteraction,
 	EmbedBuilder,
 	PermissionFlagsBits,
@@ -8,6 +7,7 @@ import {
 
 export default {
 	category: 'util',
+	cooldown: [1, 'sec'],
 	data: new SlashCommandBuilder()
 		.setName('permissions')
 		.setDescription('Displays Permissions')
@@ -15,13 +15,14 @@ export default {
 			user.setName('user').setDescription('Select a user').setRequired(true)
 		),
 	/**
-	 * @param {Client} client
+	 * @param {import('#BOT').default} client
 	 * @param {ChatInputCommandInteraction} interaction
 	 */
 	execute: async (interaction, client) => {
 		const { options } = interaction;
-		const Member = options.getMember('user');
+		// const Member = options.getMember('user');
 		const USER = options.getUser('user');
+		const Member = interaction.guild.members.cache.get(USER.id);
 
 		let Embed = new EmbedBuilder().setColor('DarkRed');
 
@@ -35,6 +36,7 @@ export default {
 		let output = `Permissions of ${Member}\n\`\`\``;
 		for (let i = 0; i < permissionFlags.length; i++) {
 			let permissionName = permissionFlags[i];
+			// @ts-ignore
 			let hasPermission = Member.permissions.has(permissionName);
 			output += `${permissionName} ${hasPermission ? '✅' : '❌'}\n`;
 		}

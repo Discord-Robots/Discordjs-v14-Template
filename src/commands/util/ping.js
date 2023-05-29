@@ -10,7 +10,7 @@ export default {
 		.setDMPermission(false),
 	/**
 	 *
-	 * @param {import("../../Structures/bot")} client
+	 * @param {import("#BOT").default} client
 	 * @param {import("discord.js").ChatInputCommandInteraction} interaction
 	 * @returns
 	 */

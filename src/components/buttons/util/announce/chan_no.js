@@ -5,7 +5,7 @@ export default {
 	/**
 	 *
 	 * @param {import("discord.js").ButtonInteraction} interaction
-	 * @param {import("../../../../Structures/bot")} client
+	 * @param {import("#BOT").default} client
 	 * @returns
 	 */
 	async execute(interaction, client) {

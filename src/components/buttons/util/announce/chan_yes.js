@@ -1,4 +1,4 @@
-import Guild from `../../../../models/guild.js`;
+import Guild from '#schemas/guild.js';
 
 export default {
 	data: {
@@ -7,14 +7,14 @@ export default {
 	/**
 	 *
 	 * @param {import("discord.js").ButtonInteraction} interaction
-	 * @param {import("../../../../Structures/bot")} client
+	 * @param {import("#BOT").default} client
 	 * @returns
 	 */
 	async execute(interaction, client) {
 		let doc = await Guild.findOne({ guildID: interaction.guildId });
-		const channelToSave = interaction.message.embeds[0].footer.text;
+		const channelToSave = interaction?.message?.embeds[0]?.footer?.text;
 
-		let newChannel = await doc.updateOne({
+		let newChannel = await doc?.updateOne({
 			announcementsChannel: channelToSave,
 		});
 		return await interaction.update({

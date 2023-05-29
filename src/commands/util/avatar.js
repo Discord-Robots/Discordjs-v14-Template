@@ -1,13 +1,15 @@
-const {
+import {
 	EmbedBuilder,
 	SlashCommandBuilder,
 	ActionRowBuilder,
 	ButtonBuilder,
 	ButtonStyle,
-} = require('discord.js');
+	GuildMember,
+} from 'discord.js';
 
-module.exports = {
+export default {
 	category: 'util',
+	cooldown: [1, 'sec'],
 	data: new SlashCommandBuilder()
 		.setName('avatar')
 		.setDescription('Gets a users avatar!')
@@ -19,7 +21,7 @@ module.exports = {
 	/**
 	 *
 	 * @param {import("discord.js").ChatInputCommandInteraction} interaction
-	 * @param {import("../../Structures/bot")} client
+	 * @param {import("#BOT").default} client
 	 */
 	execute: async (interaction, client) => {
 		const targetUser =
@@ -27,21 +29,24 @@ module.exports = {
 		const id = targetUser.id;
 		const avatar = targetUser.avatar;
 		const animated = avatar.startsWith('a_');
-		const pfp = targetUser.avatarURL({ dynamic: true });
 		const member = await interaction.guild.members.fetch(id);
 		let op = member.nickname ? member.nickname : targetUser.username;
+		const pfp = member.displayAvatarURL();
 
 		const buttons = [
 			reverse(pfp),
-			button('png', id, avatar),
-			button('jpg', id, avatar),
-			button('webp', id, avatar),
+			button('png', member),
+			button('jpg', member),
+			button('webp', member),
 		];
 
 		if (animated) {
-			buttons.push(button('gif', id, avatar));
+			buttons.push(button('gif', member));
 		}
 
+		/**
+		 * @type {ActionRowBuilder<ButtonBuilder>}
+		 */
 		const row = new ActionRowBuilder();
 		buttons.forEach((button) => {
 			row.addComponents(button);
@@ -58,15 +63,23 @@ module.exports = {
 		});
 	},
 };
-
-function button(type, user, avatar) {
+/**
+ *
+ * @param {string} type
+ * @param {GuildMember} user
+ * @returns
+ */
+function button(type, user) {
 	return new ButtonBuilder({
 		label: type,
 		style: ButtonStyle.Link,
-		url: `https://cdn.discordapp.com/avatars/${user}/${avatar}.${type}?size=1024`,
+		url: user.displayAvatarURL(),
 		type: 2,
 	});
 }
+/**
+ * @param {string} type
+ */
 function reverse(type) {
 	return new ButtonBuilder({
 		label: 'Reverse Lookup',

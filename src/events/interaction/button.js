@@ -5,14 +5,14 @@ export default {
 	/**
 	 *
 	 * @param {import("discord.js").ButtonInteraction} interaction
-	 * @param {import("../../Structures/bot")} client
+	 * @param {import("#BOT").default} client
 	 * @returns
 	 */
 	async execute(interaction, client) {
 		const { components, cooldowns, utils } = client;
 		const { buttons } = components;
 		if (interaction.isButton()) {
-			const button = buttons.get(interaction.customId);
+			const button = buttons.get(interaction.customId).default;
 			if (!button) return new Error('There is no code for this button!');
 
 			try {

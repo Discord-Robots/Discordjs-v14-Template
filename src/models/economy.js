@@ -7,8 +7,8 @@ export default model(
 		guildName: String,
 		userID: String,
 		userName: String,
-		wallet: String,
-		bank: String,
+		wallet: Number,
+		bank: Number,
 	}),
 	'Economy'
 );

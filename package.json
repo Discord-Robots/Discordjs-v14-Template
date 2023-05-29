@@ -4,8 +4,10 @@
 	"description": "Discord.js v14 Template",
 	"main": "client.js",
 	"scripts": {
-		"test": "node client.js",
-		"dev": "nodemon client.js"
+		"test": "node client.js --dev",
+		"dev": "nodemon client.js --global",
+		"lint": "npx -p typescript@4.x -- tsc -p ./jsconfig.json",
+		"fmt": "npx -p prettier@2.x -- prettier -w '**/*.{js,md}'"
 	},
 	"type": "module",
 	"keywords": [
@@ -24,10 +26,11 @@
 		"discord.js": "^14.11.0",
 		"dotenv": "^16.0.3",
 		"glob": "^8.0.3",
+		"jsconfig-init": "^1.0.2",
 		"moment": "^2.29.4",
 		"mongoose": "^7.2.1",
 		"ms": "^2.1.3",
-		"node-fetch": "^2.6.7",
+		"node-fetch": "^3.3.1",
 		"node-schedule": "^2.1.0"
 	},
 	"homepage": "https://github.com/Discord-Robots/discordjs-v14-template#readme",
@@ -45,5 +48,19 @@
 	"engines": {
 		"node": ">=19.0.1",
 		"npm": ">=8.19.2"
+	},
+	"imports": {
+		"#handlers": [
+			"./src/functions/handlers/handlers.js"
+		],
+		"#client": [
+			"./client.js"
+		],
+		"#BOT": [
+			"./src/Structures/bot.js"
+		],
+		"#schemas/*": [
+			"./src/models/*"
+		]
 	}
 }

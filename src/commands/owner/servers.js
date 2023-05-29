@@ -1,7 +1,8 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 
-module.exports = {
+export default {
 	category: 'owner',
+	cooldown: [1, 'sec'],
 	owner: true,
 	data: new SlashCommandBuilder()
 		.setName('servers')
@@ -15,7 +16,7 @@ module.exports = {
 	/**
 	 *
 	 * @param {import("discord.js").ChatInputCommandInteraction} interaction
-	 * @param {import("../../Structures/bot")} client
+	 * @param {import("#BOT").default} client
 	 * @returns
 	 */
 	execute: async (interaction, client) => {
@@ -33,6 +34,7 @@ module.exports = {
 			const bCount = Guild.members.cache.filter(
 				(m) => m.user.bot === true
 			).size;
+			// @ts-ignore
 			const date = `<t:${Math.floor(Guild.createdAt / 1000) + 3600}:D>`;
 			let comOp;
 			if (Guild.features.includes('COMMUNITY')) {
@@ -41,7 +43,6 @@ module.exports = {
 
 			const info = new EmbedBuilder({
 				title: name,
-				thumbnail: Guild.iconURL(),
 				fields: [
 					{ name: `Guild ID`, value: `${ID}`, inline: true },
 					{ name: `Community?`, value: `${comOp}`, inline: true },
@@ -55,10 +56,11 @@ module.exports = {
 				],
 				footer: {
 					text: client.user.username,
-					iconURL: client.user.avatarURL({ dynamic: true }),
+					iconURL: client.user.avatarURL(),
 				},
 			});
-			if (Guild.banner) info.setImage(Guild.bannerURL({ dynamic: true }));
+			if (Guild.banner) info.setImage(Guild.bannerURL());
+			if (Guild.icon) info.setThumbnail(`${Guild.iconURL()}`);
 			return await interaction.reply({ embeds: [info], ephemeral: true });
 		} else {
 			let d = '';

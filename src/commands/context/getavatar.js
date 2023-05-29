@@ -5,10 +5,12 @@ import {
 	ButtonBuilder,
 	ButtonStyle,
 	ActionRowBuilder,
+	GuildMember,
 } from 'discord.js';
 
 export default {
 	category: 'context',
+	cooldown: [1, 'sec'],
 	data: new ContextMenuCommandBuilder()
 		.setName('Avatar')
 		.setDMPermission(false)
@@ -17,28 +19,33 @@ export default {
 	/**
 	 *
 	 * @param {import("discord.js").ContextMenuCommandInteraction} interaction
-	 * @param {import("../../Structures/bot")} client
+	 * @param {import("#BOT").default} client
 	 */
 	async execute(interaction, client) {
-		const user = interaction.targetUser;
-		const member = await interaction.guild.members.fetch(user.id);
-		const id = member.id;
-		const pfp = member.user.avatarURL({ dynamic: true });
-		const avatar = member.user.avatar;
-		const animated = member.user.avatar.startsWith('a_');
-		let op = member.nickname ? member.nickname : member.user.username;
+		const userId = interaction.targetId;
+		/**
+		 * @type {GuildMember}
+		 */
+		// @ts-ignore
+		const member = await interaction.guild?.members.fetch(userId);
+		const pfp = member?.avatarURL();
+		const animated = member?.user?.avatar?.startsWith('a_');
+		let op = member?.nickname ? member.nickname : member?.user.username;
 
 		const buttons = [
 			reverse(pfp),
-			button('png', id, avatar),
-			button('jpg', id, avatar),
-			button('webp', id, avatar),
+			button('png', member),
+			button('jpg', member),
+			button('webp', member),
 		];
 
 		if (animated) {
-			buttons.push(button('gif', id, avatar));
+			buttons.push(button('gif', member));
 		}
 
+		/**
+		 * @type {ActionRowBuilder<ButtonBuilder>}
+		 */
 		const row = new ActionRowBuilder();
 		buttons.forEach((button) => {
 			row.addComponents(button);
@@ -46,9 +53,7 @@ export default {
 
 		const avatarEmbed = new EmbedBuilder()
 			.setAuthor({ name: `${op}'s avatar!` })
-			.setImage(
-				`${member.user.displayAvatarURL({ dynamic: true, size: 4096 })}`
-			);
+			.setImage(`${member?.user.displayAvatarURL({ size: 4096 })}`);
 
 		await interaction.reply({
 			embeds: [avatarEmbed],
@@ -57,19 +62,26 @@ export default {
 		});
 	},
 };
-function button(type, user, avatar) {
+/**
+ * @param {string} label
+ * @param {GuildMember} member
+ */
+function button(label, member) {
 	return new ButtonBuilder({
-		label: type,
+		label,
 		style: ButtonStyle.Link,
-		url: `https://cdn.discordapp.com/avatars/${user}/${avatar}.${type}?size=1024`,
+		url: member.displayAvatarURL(),
 		type: 2,
 	});
 }
-function reverse(type) {
+/**
+ * @param {string | null} link
+ */
+function reverse(link) {
 	return new ButtonBuilder({
 		label: 'Reverse Lookup',
 		style: ButtonStyle.Link,
-		url: `https://www.google.com/searchbyimage?&image_url=${type}`,
+		url: `https://www.google.com/searchbyimage?&image_url=${link}`,
 		type: 2,
 	});
 }

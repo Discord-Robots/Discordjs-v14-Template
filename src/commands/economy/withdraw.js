@@ -1,9 +1,10 @@
-const { SlashCommandBuilder } = require('discord.js');
-const Eco = require('../../models/economy');
+import { SlashCommandBuilder } from 'discord.js';
+import Eco from '#schemas/economy.js';
 
-module.exports = {
+export default {
 	category: 'economy',
-	cooldown: 1000,
+	dbRequired: true,
+	cooldown: [1, 'sec'],
 	data: new SlashCommandBuilder()
 		.setName('withdraw')
 		.setDescription('Withraw from bank to wallet.')
@@ -11,7 +12,7 @@ module.exports = {
 	/**
 	 *
 	 * @param {import("discord.js").ChatInputCommandInteraction} interaction
-	 * @param {import("../../Structures/bot")} client
+	 * @param {import("#BOT").default} client
 	 * @returns
 	 */
 	execute: async (interaction, client) => {

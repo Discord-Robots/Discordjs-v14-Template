@@ -1,4 +1,4 @@
-const {
+import {
 	ModalBuilder,
 	TextInputBuilder,
 	TextInputStyle,
@@ -9,11 +9,12 @@ const {
 	EmbedBuilder,
 	ButtonBuilder,
 	ButtonStyle,
-} = require('discord.js');
-const db = require('../../models/guild');
+} from 'discord.js';
+import db from '#schemas/guild.js';
 
-module.exports = {
+export default {
 	category: 'util',
+	cooldown: [1, 'sec'],
 	dbRequired: true,
 	data: new SlashCommandBuilder()
 		.setName('announcement')
@@ -37,20 +38,22 @@ module.exports = {
 		),
 	/**
 	 * @param {import("discord.js").ChatInputCommandInteraction} interaction
-	 * @param {import("../../Structures/bot")} client
+	 * @param {import("#BOT").default} client
 	 */
 	execute: async (interaction, client) => {
 		const sub = interaction.options.getSubcommand();
 		switch (sub) {
 			case 'setup':
 				let doc = await db.findOne({ guildID: interaction.guildId });
-				const channelToSave = interaction.options.getChannel('channel');
-				const currentChannel = doc.announcementsChannel;
+				if (!doc) {
+				}
+				const channelToSave = interaction.options.getChannel('channel', true);
+				const currentChannel = doc?.announcementsChannel;
 				if (currentChannel) {
-					const newChan = interaction.guild.channels.cache.get(
+					const newChan = interaction.guild?.channels.cache.get(
 						channelToSave.id
 					);
-					if (currentChannel === newChan.id) {
+					if (currentChannel === newChan?.id) {
 						await interaction.reply({
 							content: `${newChan} is already saved in my database. Ignoring your command....`,
 						});
@@ -59,36 +62,43 @@ module.exports = {
 						}, 3000);
 						return;
 					}
-					const chanExists = new EmbedBuilder({
-						description: `You already have a channel set up in my database as: <#${currentChannel}>\nWould you like to change this channel?`,
-						footer: {
-							text: `${channelToSave.id}`,
-						},
-					});
-					const ROW = new ActionRowBuilder({
-						type: 1,
-						components: [
-							new ButtonBuilder({
-								label: 'Yes',
-								type: 2,
-								custom_id: 'chan_yes',
-								style: ButtonStyle.Success,
-							}),
-							new ButtonBuilder({
-								label: 'No',
-								type: 2,
-								custom_id: 'chan_no',
-								style: ButtonStyle.Danger,
-							}),
-						],
-					});
+					const chanExists = [
+						new EmbedBuilder({
+							description: `You already have a channel set up in my database as: <#${currentChannel}>\nWould you like to change this channel?`,
+							footer: {
+								text: `${channelToSave?.id}`,
+							},
+						}),
+					];
+					/**
+					 * @type {ActionRowBuilder<ButtonBuilder>[]}
+					 */
+					const row = [
+						new ActionRowBuilder({
+							type: 1,
+							components: [
+								new ButtonBuilder({
+									label: 'Yes',
+									type: 2,
+									custom_id: 'chan_yes',
+									style: ButtonStyle.Success,
+								}),
+								new ButtonBuilder({
+									label: 'No',
+									type: 2,
+									custom_id: 'chan_no',
+									style: ButtonStyle.Danger,
+								}),
+							],
+						}),
+					];
 					return await interaction.reply({
-						embeds: [chanExists],
-						components: [ROW],
+						embeds: chanExists,
+						components: row,
 						ephemeral: true,
 					});
 				} else {
-					await doc.updateOne({ announcementsChannel: channelToSave.id });
+					await doc?.updateOne({ announcementsChannel: channelToSave?.id });
 					await interaction.reply({
 						content: `✅ Successfully setup announcements channel as: ${channelToSave}`,
 						ephemeral: true,
@@ -108,7 +118,12 @@ module.exports = {
 					.setPlaceholder('Enter the announcement message')
 					.setRequired(true);
 
-				const Row = new ActionRowBuilder().addComponents(messageInput);
+				/**
+				 * @type {ActionRowBuilder<TextInputBuilder>}
+				 */
+				const Row = new ActionRowBuilder({
+					components: [messageInput],
+				});
 
 				modal.addComponents(Row);
 

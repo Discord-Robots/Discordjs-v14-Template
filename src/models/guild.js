@@ -11,6 +11,7 @@ export default model(
 		prefix: { type: String, default: process.env.Prefix },
 		botSpamChannel: String,
 		botCommandsChannel: String,
+		announcementsChannel: String,
 	}),
 	'Guild'
 );

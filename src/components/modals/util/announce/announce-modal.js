@@ -1,5 +1,5 @@
-import { EmbedBuilder } from 'discord.js';
-import db from '../../../../models/guild';
+import { EmbedBuilder, TextChannel } from 'discord.js';
+import db from '#schemas/guild.js';
 
 export default {
 	data: {
@@ -8,21 +8,21 @@ export default {
 	/**
 	 *
 	 * @param {import("discord.js").ModalSubmitInteraction} interaction
-	 * @param {import("../../../../Structures/bot")} client
+	 * @param {import("#BOT").default} client
 	 * @returns
 	 */
 	async execute(interaction, client) {
 		const guildDB = await db.findOne({ guildID: interaction.guildId });
-		const dbChan = guildDB.announcementsChannel;
+		const dbChan = guildDB?.announcementsChannel;
 		const { guild, fields } = interaction;
-		const channel = guild.channels.cache.get(dbChan);
+		const channel = guild?.channels.cache.get(dbChan);
 
 		const messageInput = fields.getTextInputValue('message-input');
 
 		const Embed = new EmbedBuilder()
-			.setColor(colors.green)
+			.setColor(client.colors.green)
 			.setTitle('New Announcement')
-			.setThumbnail(guild.iconURL())
+			.setThumbnail(guild?.iconURL())
 			.setDescription(messageInput)
 			.setTimestamp();
 
@@ -31,7 +31,8 @@ export default {
 			ephemeral: true,
 		});
 
-		channel.sen0d({ embeds: [Embed] }).then(async (msg) => {
+		// @ts-ignore
+		channel?.send({ embeds: [Embed] }).then(async (msg) => {
 			await msg.react('⬆️');
 			await msg.react('⬇️');
 		});

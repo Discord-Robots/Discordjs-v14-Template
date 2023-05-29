@@ -1,4 +1,5 @@
-import doc from '../../../../models/blocked';
+import db from '#schemas/blocked.js';
+import { EmbedBuilder } from 'discord.js';
 
 export default {
 	data: {
@@ -7,13 +8,15 @@ export default {
 	/**
 	 *
 	 * @param {import("discord.js").ModalSubmitInteraction} interaction
-	 * @param {import("../../../../Structures/bot")} client
+	 * @param {import("#BOT").default} client
 	 * @returns
 	 */
 	async execute(interaction, client) {
 		const reason = interaction.fields.getTextInputValue('appeal_reason');
 		const doc = await db.findOne({ client_id: client.user.id });
-		const user = doc.guilds.guildOwnerId;
+		const user = doc?.guilds?.forEach((x) => {
+			return x.guildOwnerId;
+		});
 		const embed = new EmbedBuilder({
 			title: 'A new guild block appeal has been submitted!',
 			description: reason,

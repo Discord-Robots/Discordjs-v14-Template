@@ -1,9 +1,10 @@
 import { SlashCommandBuilder } from 'discord.js';
-import Eco from '../../models/economy';
+import Eco from '#schemas/economy.js';
 
 export default {
 	category: 'economy',
-	cooldown: 1000,
+	dbRequired: true,
+	cooldown: [1, 'sec'],
 	data: new SlashCommandBuilder()
 		.setName('deposit')
 		.setDescription('Deposit currency into bank from wallet.')
@@ -11,7 +12,7 @@ export default {
 	/**
 	 *
 	 * @param {import("discord.js").ChatInputCommandInteraction} interaction
-	 * @param {import("../../Structures/bot")} client
+	 * @param {import("#BOT").default} client
 	 * @returns
 	 */
 	execute: async (interaction, client) => {

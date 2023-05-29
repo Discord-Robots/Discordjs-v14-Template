@@ -1,8 +1,10 @@
-const { SlashCommandBuilder } = require('discord.js');
-const fetch = require('node-fetch');
+// @ts-nocheck
+import { EmbedBuilder, GuildMember, SlashCommandBuilder } from 'discord.js';
+import fetch from 'node-fetch';
 
-module.exports = {
+export default {
 	category: 'fun',
+	cooldown: [1, 'sec'],
 	developer: true,
 	data: new SlashCommandBuilder()
 		.setName('together')
@@ -71,12 +73,16 @@ module.exports = {
 	/**
 	 *
 	 * @param {import("discord.js").ChatInputCommandInteraction} interaction
-	 * @param {import("../../Structures/bot")} client
+	 * @param {import("#BOT").default} client
 	 * @returns
 	 */
 	execute: async (interaction, client) => {
 		const game = interaction.options.getString('game');
-		if (interaction.member.voice.channel) {
+		/**
+		 * @type {GuildMember}
+		 */
+		let member = interaction.guild.members.cache.get(interaction.user.id);
+		if (member.voice.channel) {
 			try {
 				await fetch(
 					`https://discord.com/api/v8/channels/${interaction.member.voice.channel.id}/invites`,
@@ -113,17 +119,19 @@ module.exports = {
 				);
 			}
 		}
-		return interaction.reply({
-			embeds: [
-				{
-					author: {
-						name: 'Discord Together',
-						iconURL: interaction.guild.iconURL(),
-					},
-					description: `ERROR: You must be in a voice channel and on a desktop to use this feature.`,
-					color: 0xad1a1f,
+		const embeds = [
+			new EmbedBuilder({
+				author: {
+					name: 'Discord Together',
 				},
-			],
+				description: `ERROR: You must be in a voice channel and on a desktop to use this feature.`,
+				color: 0xad1a1f,
+			}),
+		];
+		if (interaction.guild.icon)
+			embeds[0].data.author.icon_url = interaction.guild.iconURL();
+		return interaction.reply({
+			embeds,
 			ephemeral: true,
 		});
 	},

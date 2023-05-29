@@ -5,12 +5,12 @@ export default {
 	/**
 	 *
 	 * @param {import("discord.js").ContextMenuCommandInteraction} interaction
-	 * @param {import("../../Structures/bot")} client
+	 * @param {import("#BOT").default} client
 	 */
 	async execute(interaction, client) {
 		const { commands, cooldowns, utils } = client;
 		if (interaction.isContextMenuCommand()) {
-			const command = commands.get(interaction.commandName);
+			const command = commands.get(interaction.commandName).default;
 			if (!command) return;
 
 			try {
@@ -18,7 +18,7 @@ export default {
 					cooldowns.commands.set(command.data.name, new Collection());
 				}
 				const now = Date.now();
-				const timestamps = cooldowns.commands.get(command.data.name);
+				const timestamps = cooldowns.commands.get(command.default.data.name);
 				const cooldownAmount = (command.cooldown || 10) * 1000; //default of 10 seconds
 
 				if (timestamps.has(interaction.user.id)) {

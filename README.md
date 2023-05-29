@@ -2,7 +2,7 @@
 
 Features:
 
-- Advanced DJS v14 Handler
+- Advanced DJS v14 Handler (Complete rewrite to support ES6 typings!)
 - ~~Supports Only Slash Commands~~ Now Supports Legacy Commands as well!!!
   - Legacy commands are meant for bots which are in less than 100 guilds.
     - If you plan to use this in more than 100 guilds, You will have to apply for the MessageContent Intent through Discord.
@@ -13,7 +13,6 @@ Features:
     - Supports Component Cooldowns
 - Executes the bot In a Base Class
 - Custom Handler for Components
-- Custom Handler for Pagination Embeds
 - Sends an embed to the guilds system channel when a member joins and leaves.
 - Sends a message to the DevChannel when the bot is added to a new guild (and removed).
 - Added the ability to block guilds from using/inviting the bot.
@@ -37,11 +36,11 @@ Slash Commands:
 ```js
 const { SlashCommandBuilder, PermissionsFlagsBits } = require("discord.js");
 
-module.exports = {
+export default {
     owner: boolean, //  whether command can only be used by the bot owner?
     developer: boolean, // weather the command is for developer guild or global: true or false
     category: "category",
-    cooldown: Number,
+    cooldown: [number, "interval"], // how long to wait for the command to be used again. intervals: "sec", "min", "hr", "day", "month", "year"
     data: new SlashCommandBuilder()
         .setName('name') // command name - Must be lowercase!!
         .setDescription('description') // command description
@@ -59,12 +58,12 @@ Legacy Commands:
 - Example Location of command: "./src/legacyCommands/(category)/(command)"
 
 ```js
-module.exports = {
+export default {
     // The following properties can be in any order and Required options are NAME and EXECUTE function.
     name: "name",
     description: "description",
     category: "category",
-    cooldown: Number, // how many seconds to wait for the command to be used again.
+    cooldown: [number, "interval"], // how long to wait for the command to be used again. intervals: "sec", "min", "hr", "day", "month", "year"
     owner: boolean, // whether command can only be used by the bot owner?
     enabled: boolean, // whether the command can be executed?
     aliases: [], // other words that can activate this command. separate with commas: ["test", "te", "t"]
@@ -85,8 +84,8 @@ Components:
 - component: file that matches the custom id that you created
 
 ```js
-module.exports = {
-    cooldown: Number,
+export default {
+    cooldown: [number, "interval"], // how long to wait for the command to be used again. intervals: "sec", "min", "hr", "day", "month", "year"
     data: {
       id: "custom_id", // Must be lowercase
     },
@@ -113,7 +112,7 @@ Click `Use this template` at the top of this page or fork the repo to your own p
       - If you don't know how to get this string, there are videos on this like [this one](https://tinyurl.com/mongo-setup)
     - Insert your desired legacy command prefix as `Prefix`.
 
-- After you have edited and saved the `env` file to your needs, you are ready ready to start the bot!
+- After you have edited and saved the `env` file to your needs, you are ready to start the bot!
 
 #
 
@@ -130,13 +129,15 @@ Click `Use this template` at the top of this page or fork the repo to your own p
 #
 
 - Install all dependencies with `npm install` << Remember, DO NOT INCLUDE ANY PACKAGE NAMES HERE!
-- Run the bot with `nodemon`.
+- Run the bot:
+  - `npm run test` will start the bot with guild commands (Only a test guild)
+  - `npm run dev` will start the bot with global commands (All Guilds)
 - Customize the project to your liking and enjoy!
 
 #
 
 - Member add event fires a canvas to welcome the new member.
-- For the member remove events to work, the guild MUST have the `System Channel` enabled.
+- For the member remove events to work, the guild MUST have the `System Channel` enabled or choose your own channel.
 
 #
 

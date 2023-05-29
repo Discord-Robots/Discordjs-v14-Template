@@ -1,19 +1,23 @@
-import { EmbedBuilder, AuditLogEvent } from 'discord.js';
-import guildSchema from '../../models/guild';
-import blockedGuids from '../../models/blocked';
-const { DevChannel, Connect, DevGuild } = process.env;
+import { EmbedBuilder, AuditLogEvent, TextChannel } from 'discord.js';
+import guildSchema from '#schemas/guild.js';
+import blockedGuids from '#schemas/blocked.js';
 
 export default {
 	name: 'guildCreate',
 	/**
 	 *
 	 * @param {import("discord.js").Guild} guild
-	 * @param {import("../../Structures/bot")} client
+	 * @param {import("#BOT").default} client
 	 */
 	async execute(guild, client) {
+		const { Connect, DevChannel, DevGuild, Prefix } = client.config.env;
 		console.log(`I joined a new guild: ${guild.name}`);
-		const devChan = client.channels.cache.get(DevChannel);
-		const ownerTag = guild.members.cache.get(guild.ownerId).user.tag;
+		/**
+		 * @type {TextChannel}
+		 */
+		// @ts-ignore
+		const devChan = await guild.channels.fetch(DevChannel);
+		const ownerTag = guild.members.cache.get(guild.ownerId)?.user.username;
 		const userCount = guild.members.cache.filter((m) => !m.user.bot).size;
 		const botCount = guild.members.cache.filter((m) => !m.user.bot).size;
 		const created = new EmbedBuilder({
@@ -30,25 +34,22 @@ export default {
 				{ name: `Bot Count:`, value: `${botCount}`, inline: true },
 				{ name: '\u200b', value: '\u200b', inline: true },
 			],
-			thumbnail: {
-				url: guild.iconURL({ dynamic: true }),
-			},
 			footer: {
-				text: `${client.user.tag}`,
-				iconURL: `${client.user.displayAvatarURL({ dynamic: true })}`,
+				text: `${client.user?.tag}`,
+				icon_url: `${client.user?.displayAvatarURL()}`,
 			},
 		}).setTimestamp();
-		if (guild.banner) created.setImage(guild.bannerURL({ dynamic: true }));
+		if (guild.banner) created.setImage(guild.bannerURL());
+		if (guild.icon) created.setThumbnail(`${guild.iconURL()}`);
 
 		if (Connect) {
-			let blocked = await blockedGuids.findOne({ client_id: client.user.id });
-			let fetched = blocked.guilds.find((x) => x.guildID === guild.id);
+			let blocked = await blockedGuids.findOne({ client_id: client.user?.id });
+			let fetched = blocked?.guilds.find((x) => x.guildID === guild.id);
 			if (blocked && fetched) {
 				let botAdd = (
 					await guild.fetchAuditLogs({ limit: 1, type: AuditLogEvent.BotAdd })
 				).entries.first();
-				const { executor } = botAdd;
-				executor.send({
+				botAdd?.executor?.send({
 					content: `The guild: \`${guild.name}\` that you have invited me to has been blocked from using my interactions. I will now leave the server. If you wish to re-add me, please check with your server owner for instructions on an appeal.`,
 				});
 				created.addFields({
@@ -66,21 +67,21 @@ export default {
 							guildName: guild.name,
 							guildOwnerID: guild.ownerId,
 							guildOwner: ownerTag,
-							prefix,
+							prefix: Prefix,
 						})
 						.then((m) => m.save());
 				}
 				if (devChan) {
-					devChan.send({ embeds: [created] });
-				} else guild.systemChannel.send({ embeds: [created] });
+					devChan?.send({ embeds: [created] });
+				} else guild?.systemChannel?.send({ embeds: [created] });
 			}
 		} else {
 			if (devChan) {
-				devChan.send({ embeds: [created] });
+				devChan?.send({ embeds: [created] });
 			} else
 				client.guilds.cache
 					.get(DevGuild)
-					.systemChannel.send({ embeds: [created] });
+					?.systemChannel?.send({ embeds: [created] });
 		}
 	},
 };

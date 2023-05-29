@@ -1,5 +1,5 @@
-import 'dotenv/config';
-import Bot from './src/Structures/bot.js';
-const client = new Bot();
+import "dotenv/config";
+import Bot from "#BOT";
+export const client = new Bot();
 
 client.start();

@@ -5,13 +5,13 @@ export default {
 	/**
 	 *
 	 * @param {import("discord.js").StringSelectMenuInteraction} interaction
-	 * @param {import("../../Structures/bot")} client
+	 * @param {import("#BOT").default} client
 	 */
 	async execute(interaction, client) {
 		const { components, cooldowns, utils } = client;
 		const { selectMenus } = components;
 		if (interaction.isStringSelectMenu()) {
-			const menu = selectMenus.get(interaction.customId);
+			const menu = selectMenus.get(interaction.customId).default;
 			if (!menu) return;
 
 			try {

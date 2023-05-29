@@ -5,13 +5,13 @@ export default {
 	/**
 	 *
 	 * @param {import("discord.js").ModalSubmitInteraction} interaction
-	 * @param {import("../../Structures/bot")} client
+	 * @param {import("#BOT").default} client
 	 */
 	async execute(interaction, client) {
 		const { components, cooldowns, utils } = client;
 		const { modals } = components;
-		if (interaction.type === InteractionType.ModalSubmit) {
-			const modal = modals.get(interaction.customId);
+		if (interaction.isModalSubmit()) {
+			const modal = modals.get(interaction.customId).default;
 			if (!modal) return;
 
 			try {
@@ -24,7 +24,7 @@ export default {
 
 				if (timestamps.has(interaction.user.id)) {
 					if (!utils.checkOwner(interaction.user.id))
-						return modal.execute(interaction, client);
+						return modal.default.execute(interaction, client);
 					else {
 						const expirationTime =
 							timestamps.get(interaction.user.id) + cooldownAmount;
