@@ -85,7 +85,7 @@ export default {
 		if (member.voice.channel) {
 			try {
 				await fetch(
-					`https://discord.com/api/v8/channels/${interaction.member.voice.channel.id}/invites`,
+					`https://discord.com/api/v8/channels/${member.voice.channel.id}/invites`,
 					{
 						method: 'POST',
 						body: JSON.stringify({
