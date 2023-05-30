@@ -11,13 +11,13 @@ Features:
   - Cannot run any interaction commands in Bot's DMs
   - Supports Cooldowns
     - Supports Component Cooldowns
+    - New custom cooldown function (activated by default if the file has `cooldown: [number, 'string']`).
 - Executes the bot In a Base Class
 - Custom Handler for Components
 - Sends an embed to the guilds system channel when a member joins and leaves.
 - Sends a message to the DevChannel when the bot is added to a new guild (and removed).
 - Added the ability to block guilds from using/inviting the bot.
   - Will be adding ability for users to appeal directly in Bot's DM's (Will be checking to see if it is the owner of the appealed guild).
-- I am not adding a reload command due to having too many issues with the function.
 
 #
 
@@ -129,6 +129,8 @@ Click `Use this template` at the top of this page or fork the repo to your own p
 #
 
 - Install all dependencies with `npm install` << Remember, DO NOT INCLUDE ANY PACKAGE NAMES HERE!
+- Optional (but recommended):
+  - `npm run fmt` will format your coding using prettier to make it easier to read.
 - Run the bot:
   - `npm run test` will start the bot with guild commands (Only a test guild)
   - `npm run dev` will start the bot with global commands (All Guilds)
