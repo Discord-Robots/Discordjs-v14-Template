@@ -1,12 +1,11 @@
 {
 	"name": "discordjs-v14-template",
 	"version": "1.0.0",
-	"description": "Discord.js v14 Template",
+	"description": "Advanced ESM Discord.js v14 Template",
 	"main": "client.js",
 	"scripts": {
 		"test": "node client.js",
 		"dev": "nodemon client.js",
-		"lint": "npx -p typescript@4.x -- tsc -p ./jsconfig.json",
 		"fmt": "npx -p prettier@2.x -- prettier -w '**/*.{js,md}'"
 	},
 	"type": "module",
@@ -26,7 +25,6 @@
 		"discord.js": "^14.11.0",
 		"dotenv": "^16.0.3",
 		"glob": "^8.0.3",
-		"jsconfig-init": "^1.0.2",
 		"moment": "^2.29.4",
 		"mongoose": "^7.2.1",
 		"ms": "^2.1.3",
