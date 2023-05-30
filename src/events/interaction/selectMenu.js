@@ -9,10 +9,9 @@ export default {
 	 */
 	async execute(interaction, client) {
 		const { selectMenus } = client.components;
-		if (
-			interaction.isStringSelectMenu() &&
-			interaction.customId !== 'help-menu'
-		) {
+		const { deniedCustomIDs } = client.config;
+		if (interaction.isStringSelectMenu()) {
+			if (deniedCustomIDs.includes(interaction.customId)) return;
 			const menu = selectMenus.get(interaction.customId).default;
 			if (!menu) return;
 
@@ -20,7 +19,7 @@ export default {
 				if (menu.cooldown && Array.isArray(menu.cooldown)) {
 					await cooldown(menu, 'selectMenu', interaction);
 				}
-				// await menu.execute(interaction, client);
+				await menu.execute(interaction, client);
 			} catch (error) {
 				console.log(error);
 				await interaction.reply({

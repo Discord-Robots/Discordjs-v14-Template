@@ -23,4 +23,5 @@ export const config = {
 		Devs: process.env.Devs,
 		Prefix: `${process.env.Prefix}`,
 	},
+	deniedCustomIDs: ['help-menu'],
 };

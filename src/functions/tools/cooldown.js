@@ -76,25 +76,24 @@ export async function cooldown(module, type, interaction) {
 			const expirationTime =
 				timestamps.get(interaction.user.id) + cooldownAmount;
 			if (now < expirationTime) {
-				// const timeLeft = (expirationTime - now) / 1000;
 				const remaining = `<t:${(
 					(new Date().getTime() + cooldownAmount) /
 					1000
 				).toFixed(0)}:R>`;
+				const deleteTime = expirationTime - now;
 				const message = `The \`${mod}\` ${type} will be available for use ${remaining}.`;
 
-				const msg = await interaction.reply({
+				const msg = await interaction.channel.send({
 					embeds: [
 						{
 							title: `${capitalise(type)}: \`${mod}\` is on cooldown!`,
 							description: `${message}`,
 						},
 					],
-					ephemeral: true,
 				});
 				setTimeout(async () => {
-					await interaction.deleteReply();
-				}, 5000);
+					await msg.delete();
+				}, deleteTime);
 			}
 		}
 	}

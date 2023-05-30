@@ -9,7 +9,9 @@ export default {
 	 */
 	async execute(interaction, client) {
 		const { modals } = client.components;
+		const { deniedCustomIDs } = client.config;
 		if (interaction.isModalSubmit()) {
+			if (deniedCustomIDs.includes(interaction.customId)) return;
 			const modal = modals.get(interaction.customId).default;
 			if (!modal) return;
 
@@ -17,7 +19,7 @@ export default {
 				if (modal.cooldown && Array.isArray(modal.cooldown)) {
 					await cooldown(modal, 'modal', interaction);
 				}
-				// return await modal.execute(interaction, client);
+				await modal.execute(interaction, client);
 			} catch (error) {
 				console.log(error);
 				await interaction.reply({

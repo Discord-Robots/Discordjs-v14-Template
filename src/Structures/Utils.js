@@ -115,7 +115,7 @@ export default class Utils {
 	 * @param {string} user
 	 */
 	checkOwner(user) {
-		return process.env.BotOwnerID !== user;
+		return process.env.BotOwnerID === user;
 	}
 
 	async dbConnect() {
