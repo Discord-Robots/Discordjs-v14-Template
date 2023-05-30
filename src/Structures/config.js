@@ -1,5 +1,4 @@
 export const config = {
-	devs: ['', ''],
 	emojis: {
 		economy: '💰',
 		fun: '🎉',
@@ -21,6 +20,7 @@ export const config = {
 		ClientSecret: `${process.env.ClientSecret}`,
 		DevGuild: `${process.env.DevGuild}`,
 		DevChannel: `${process.env.DevChannel}`,
+		Devs: process.env.Devs,
 		Prefix: `${process.env.Prefix}`,
 	},
 };

@@ -18,7 +18,7 @@ const { utc } = moment;
 export default {
 	developer: true,
 	category: 'util',
-	cooldown: [1, 'sec'],
+	cooldown: [20, 'sec'],
 	data: new SlashCommandBuilder()
 		.setName('bot-info')
 		.setDescription('Returns Bot OS info.')
@@ -67,6 +67,6 @@ export default {
 			})
 			.setTimestamp();
 
-		interaction.reply({ embeds: [embed], ephemeral: true });
+		await interaction.reply({ embeds: [embed], ephemeral: true });
 	},
 };

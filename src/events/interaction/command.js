@@ -1,5 +1,5 @@
 import { EmbedBuilder } from 'discord.js';
-const { Connect } = process.env;
+import { cooldown } from '#handlers';
 
 export default {
 	name: 'interactionCreate',
@@ -9,9 +9,11 @@ export default {
 	 * @param {import("#BOT").default} client
 	 */
 	async execute(interaction, client) {
-		const { commands, utils } = client;
+		const { commands, config, utils } = client;
+		const { Connect } = config.env;
 		if (interaction.isChatInputCommand()) {
-			const command = commands.get(interaction.commandName).default;
+			const commandFile = commands.get(interaction.commandName);
+			const command = commandFile.default;
 			if (!command) return;
 
 			try {
@@ -36,8 +38,8 @@ export default {
 				}
 
 				if (command.cooldown && Array.isArray(command.cooldown)) {
+					await cooldown(command, 'command', interaction);
 				}
-
 				await command.execute(interaction, client);
 			} catch (error) {
 				console.log(error);

@@ -2,7 +2,7 @@ import { SlashCommandBuilder, EmbedBuilder, ComponentType } from 'discord.js';
 
 export default {
 	category: 'util',
-	cooldown: [1, 'sec'],
+	cooldown: [10, 'min'],
 	data: new SlashCommandBuilder()
 		.setName('help')
 		.setDescription('Returns help menu.')
@@ -17,7 +17,7 @@ export default {
 		try {
 			const emoji = client.config.emojis;
 			let directories;
-			if (!client.config.devs.includes(interaction.user.id)) {
+			if (!client.config.env.Devs.includes(interaction.user.id)) {
 				directories = [
 					...new Set(
 						client.commands
@@ -87,10 +87,9 @@ export default {
 				fetchReply: true,
 				ephemeral: true,
 			});
-			console.log(new Date(300000).getSeconds());
 			const collector = interaction.channel?.createMessageComponentCollector({
 				componentType: ComponentType.StringSelect,
-				time: 5000,
+				time: 5 * 60 * 1000,
 			});
 
 			collector?.on('collect', (interaction) => {
@@ -126,15 +125,16 @@ export default {
 				await interaction.editReply({
 					embeds: [
 						{
-							description: `Deleting message in <t:${client.utils.prettyTime(
-								5000
-							)}:R>`,
+							description: `Deleting message <t:${(
+								(new Date().getTime() + 5 * 1000) /
+								1000
+							).toFixed(0)}:R>`,
 						},
 					],
 					components: [],
 				});
 				setTimeout(async () => {
-					interaction.deleteReply();
+					await interaction.deleteReply();
 				}, 5000);
 			});
 		} catch (error) {

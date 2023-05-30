@@ -4,8 +4,8 @@
 	"description": "Discord.js v14 Template",
 	"main": "client.js",
 	"scripts": {
-		"test": "node client.js --dev",
-		"dev": "nodemon client.js --global",
+		"test": "node client.js",
+		"dev": "nodemon client.js",
 		"lint": "npx -p typescript@4.x -- tsc -p ./jsconfig.json",
 		"fmt": "npx -p prettier@2.x -- prettier -w '**/*.{js,md}'"
 	},

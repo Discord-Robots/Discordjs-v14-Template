@@ -1,69 +1,25 @@
-import { client } from "#client";
+import { client } from '#client';
 
 export async function handleComponents() {
-  const { components, rds } = client;
-  const { buttons, selectMenus, modals } = components;
-  const componentsFolder = rds(`./src/components`);
-  for (const type of componentsFolder) {
-    const componentDirs = rds(`./src/components/${type}`);
+	const { components, utils } = client;
+	const { buttons, selectMenus, modals } = components;
 
-    switch (type) {
-      case "buttons":
-        for (const category of componentDirs) {
-          const categories = rds(`./src/components/${type}/${category}`);
-          for (const commandName of categories) {
-            const componentFiles = rds(
-              `./src/components/${type}/${category}/${commandName}`
-            ).filter((componentID) => componentID.endsWith(".js"));
-            for (const componentID of componentFiles) {
-              const button = await import(
-                `../../components/${type}/${category}/${commandName}/${componentID}`
-              );
-              buttons.set(button.default.data.id, button);
-            }
-          }
-        }
+	const buttonFiles = await utils.loadFiles('./src/components/buttons');
+	const modalFiles = await utils.loadFiles('./src/components/modals');
+	const selectMenuFiles = await utils.loadFiles('./src/components/selectMenus');
 
-        break;
+	for (const file of buttonFiles) {
+		const button = await import(file);
+		buttons.set(button.default.data.id, button);
+	}
 
-      case "selectMenus":
-        for (const category of componentDirs) {
-          const categories = rds(`./src/components/${type}/${category}`);
-          for (const commandName of categories) {
-            const componentFiles = rds(
-              `./src/components/${type}/${category}/${commandName}`
-            ).filter((componentID) => componentID.endsWith(".js"));
-            for (const componentID of componentFiles) {
-              const selectMenu = await import(
-                `../../components/${type}/${category}/${commandName}/${componentID}`
-              );
-              selectMenus.set(selectMenu.default.data.id, selectMenu);
-            }
-          }
-        }
+	for (const file of selectMenuFiles) {
+		const selectMenu = await import(file);
+		selectMenus.set(selectMenu.default.data.id, selectMenu);
+	}
 
-        break;
-
-      case "modals":
-        for (const category of componentDirs) {
-          const categories = rds(`./src/components/${type}/${category}`);
-          for (const commandName of categories) {
-            const componentFiles = rds(
-              `./src/components/${type}/${category}/${commandName}`
-            ).filter((componentID) => componentID.endsWith(".js"));
-            for (const componentID of componentFiles) {
-              const modal = await import(
-                `../../components/${type}/${category}/${commandName}/${componentID}`
-              );
-              modals.set(modal.default.data.id, modal);
-            }
-          }
-        }
-
-        break;
-
-      default:
-        break;
-    }
-  }
+	for (const file of modalFiles) {
+		const modal = await import(file);
+		modals.set(modal.default.data.id, modal);
+	}
 }

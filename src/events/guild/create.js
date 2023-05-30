@@ -12,11 +12,12 @@ export default {
 	async execute(guild, client) {
 		const { Connect, DevChannel, DevGuild, Prefix } = client.config.env;
 		console.log(`I joined a new guild: ${guild.name}`);
+		const Dev = await client.guilds.fetch(DevGuild);
 		/**
 		 * @type {TextChannel}
 		 */
 		// @ts-ignore
-		const devChan = await guild.channels.fetch(DevChannel);
+		const devChan = await Dev.channels.fetch(DevChannel);
 		const ownerTag = guild.members.cache.get(guild.ownerId)?.user.username;
 		const userCount = guild.members.cache.filter((m) => !m.user.bot).size;
 		const botCount = guild.members.cache.filter((m) => !m.user.bot).size;
@@ -78,10 +79,7 @@ export default {
 		} else {
 			if (devChan) {
 				devChan?.send({ embeds: [created] });
-			} else
-				client.guilds.cache
-					.get(DevGuild)
-					?.systemChannel?.send({ embeds: [created] });
+			} else Dev?.systemChannel?.send({ embeds: [created] });
 		}
 	},
 };

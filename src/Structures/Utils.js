@@ -273,7 +273,7 @@ export default class Utils {
 					chalk.italic.bold.redBright(
 						`Slash Command: ${file
 							.split('/')
-							.pop()} is missing a name or the 'execute' property.`
+							.pop()} is missing a 'name' or the 'execute' property.`
 					)
 				);
 				continue;
