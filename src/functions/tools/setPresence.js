@@ -16,7 +16,7 @@ export async function pickPresence() {
 		},
 		{
 			type: ActivityType.Watching,
-			content: `over ${client.users.cache.size} user(s)`,
+			content: `over ${client.users.cache.filter((m) => !m.bot).size} user(s)`,
 			status: PresenceUpdateStatus.Online,
 		},
 		{
