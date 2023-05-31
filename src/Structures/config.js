@@ -7,10 +7,9 @@ export const config = {
 		util: '⚙️',
 	},
 	economy: {
-		currency: '',
-		bank: 'https://informationsecuritybuzz.com/wp-content/uploads/bank-and-security.jpg',
-		wallet:
-			'https://ae01.alicdn.com/kf/HTB1cBiJQpXXXXbuXXXXq6xXFXXXf/New-men-s-wallet-card-package-short-leather-wallet.jpg',
+		currency: '🪙',
+		bank: '🏦',
+		wallet: '💰',
 	},
 	env: {
 		BotToken: `${process.env.BotToken}`,
