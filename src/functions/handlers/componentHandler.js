@@ -1,4 +1,5 @@
 import { client } from '#client';
+import chalk from 'chalk';
 
 export async function handleComponents() {
 	const { components, utils } = client;
@@ -7,19 +8,94 @@ export async function handleComponents() {
 	const buttonFiles = await utils.loadFiles('./src/components/buttons');
 	const modalFiles = await utils.loadFiles('./src/components/modals');
 	const selectMenuFiles = await utils.loadFiles('./src/components/selectMenus');
+	let counts = {
+		butCount: 0,
+		modCount: 0,
+		smCount: 0,
+	};
 
 	for (const file of buttonFiles) {
-		const button = await import(file);
-		buttons.set(button.default.data.id, button);
+		const buttonFile = await import(file);
+		const button = buttonFile.default;
+		if (!button) {
+			console.error(
+				chalk.italic.bold.redBright(
+					`Button: ${file
+						.split('/')
+						.pop()} does not have a default export. Skipping...`
+				)
+			);
+			continue;
+		}
+		if (!button.data || !button.data.id || !button.execute)
+			console.error(
+				chalk.italic.bold.redBright(
+					`Button: ${file
+						.split('/')
+						.pop()} is missing the 'data' or 'execute' property.`
+				)
+			);
+		counts.butCount++;
+		buttons.set(button.data.id, button);
 	}
 
 	for (const file of selectMenuFiles) {
-		const selectMenu = await import(file);
-		selectMenus.set(selectMenu.default.data.id, selectMenu);
+		const selectMenuFile = await import(file);
+		const selectMenu = selectMenuFile.default;
+		if (!selectMenu) {
+			console.error(
+				chalk.italic.bold.redBright(
+					`Select Menu: ${file
+						.split('/')
+						.pop()} does not have a default export. Skipping...`
+				)
+			);
+			continue;
+		}
+		if (!selectMenu.data || !selectMenu.data.id || !selectMenu.execute)
+			console.error(
+				chalk.italic.bold.redBright(
+					`Select Menu: ${file
+						.split('/')
+						.pop()} is missing the 'data' or 'execute' property.`
+				)
+			);
+		counts.smCount++;
+		selectMenus.set(selectMenu.data.id, selectMenu);
 	}
 
 	for (const file of modalFiles) {
-		const modal = await import(file);
-		modals.set(modal.default.data.id, modal);
+		const modalFile = await import(file);
+		const modal = modalFile.default;
+		if (!modal) {
+			console.error(
+				chalk.italic.bold.redBright(
+					`Modal: ${file
+						.split('/')
+						.pop()} does not have a default export. Skipping...`
+				)
+			);
+		}
+		if (!modal.data || !modal.data.id || !modal.execute)
+			return console.error(
+				chalk.italic.bold.redBright(
+					`Modal: ${file
+						.split('/')
+						.pop()} is missing the 'data' or 'execute' property.`
+				)
+			);
+		counts.modCount++;
+		modals.set(modal.data.id, modal);
+	}
+
+	let type;
+	for (let [k, v] of Object.entries(counts)) {
+		if (k === 'butCount') {
+			type = 'Button';
+		} else if (k === 'modCount') {
+			type = 'Modal';
+		} else type = 'Select Menu';
+		if (v > 0)
+			console.log(chalk.blueBright(`[HANDLER] - Loaded ${v} ${type}(s)!`));
 	}
 }

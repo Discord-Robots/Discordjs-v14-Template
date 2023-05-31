@@ -4,3 +4,4 @@ export * from './eventHandler.js';
 export * from './legacyCommandHandler.js';
 export * from '../tools/setPresence.js';
 export * from '../tools/cooldown.js';
+export * from '../tools/mongoose.js';
