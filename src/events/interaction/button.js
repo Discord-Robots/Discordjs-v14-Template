@@ -1,4 +1,5 @@
 import { cooldown } from '#handlers';
+import { GuildMember } from 'discord.js';
 
 export default {
 	name: 'interactionCreate',
@@ -10,11 +11,11 @@ export default {
 	 */
 	async execute(interaction, client) {
 		const { buttons } = client.components;
-		const { deniedCustomIDs } = client.config;
+		const { deniedCustomIDs, pings } = client.config;
 		if (interaction.isButton()) {
 			if (deniedCustomIDs.includes(interaction.customId)) return;
 			const button = buttons.get(interaction.customId).default;
-			if (!button) return new Error('There is no code for this button!');
+			if (!button) throw new Error('There is no code for this button!');
 
 			try {
 				if (button.cooldown && Array.isArray(button.cooldown)) {

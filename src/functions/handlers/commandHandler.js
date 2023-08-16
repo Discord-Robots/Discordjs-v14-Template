@@ -1,8 +1,10 @@
-import { client } from '#client';
 import chalk from 'chalk';
 
-export async function handleCommands() {
-	const { commands, commandArray, developerArray, utils } = client;
+/**
+ * @param {import("#BOT").default} client
+ */
+export async function handleCommands(client) {
+	const { commands, commandArray, config, developerArray, utils } = client;
 	const slashCommands = await utils.loadFiles('./src/commands');
 	let counts = {
 		slashCount: 0,
@@ -38,6 +40,10 @@ export async function handleCommands() {
 		}
 		commands.set(slash.data.name, slashCommand);
 	}
+	await client.guilds.cache
+		.get(config.env.DevGuild)
+		.commands.set(developerArray);
+	await client.application.commands.set(commandArray);
 	let type;
 	for (let [k, v] of Object.entries(counts)) {
 		if (k === 'slashCount') {

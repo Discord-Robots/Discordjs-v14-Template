@@ -37,17 +37,17 @@ export default {
 					});
 				}
 
-				if (command.cooldown && Array.isArray(command.cooldown)) {
-					await cooldown(command, 'command', interaction);
-				}
+				// if (command.cooldown && Array.isArray(command.cooldown)) {
+				// 	await cooldown(command, 'command', interaction);
+				// }
 				await command.execute(interaction, client);
 			} catch (error) {
 				console.log(error);
-				await interaction.reply({
-					content:
-						'Something went wrong while executing this command, please contact my developer!',
-					ephemeral: true,
-				});
+				// await interaction.reply({
+				// 	content:
+				// 		'Something went wrong while executing this command, please contact my developer!',
+				// 	ephemeral: true,
+				// });
 			}
 		}
 	},

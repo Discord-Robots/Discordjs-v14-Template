@@ -36,7 +36,7 @@ export async function handleComponents() {
 				)
 			);
 		counts.butCount++;
-		buttons.set(button.data.id, button);
+		buttons.set(button.data.id, buttonFile);
 	}
 
 	for (const file of selectMenuFiles) {
@@ -61,7 +61,7 @@ export async function handleComponents() {
 				)
 			);
 		counts.smCount++;
-		selectMenus.set(selectMenu.data.id, selectMenu);
+		selectMenus.set(selectMenu.data.id, selectMenuFile);
 	}
 
 	for (const file of modalFiles) {
@@ -85,7 +85,7 @@ export async function handleComponents() {
 				)
 			);
 		counts.modCount++;
-		modals.set(modal.data.id, modal);
+		modals.set(modal.data.id, modalFile);
 	}
 
 	let type;

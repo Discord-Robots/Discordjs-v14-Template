@@ -1,7 +1,6 @@
-import chalk from 'chalk';
 import Guild from '#schemas/guild.js';
-import pkg from 'glob';
-const { glob } = pkg;
+import { glob } from 'glob';
+// const { glob } = pkg;
 import { promisify } from 'util';
 const PG = promisify(glob);
 import { config } from './config.js';
@@ -13,6 +12,29 @@ export default class Utils {
 	 */
 	constructor(client) {
 		this.client = client;
+	}
+	/**
+	 *
+	 * @param {string} mention
+	 * @returns {string}
+	 */
+	getId(mention) {
+		/**
+		 * @type {RegExp}
+		 */
+		let reg;
+		if (mention.includes('@') && !mention.includes('&')) {
+			reg = new RegExp(/([<@>])+/g);
+			return mention.replaceAll(reg, '');
+		}
+		if (mention.includes('#')) {
+			reg = new RegExp(/([<#>])+/g);
+			return mention.replaceAll(reg, '');
+		}
+		if (mention.includes('@&')) {
+			reg = new RegExp(/([<@&>])+/g);
+			return mention.replaceAll(reg, '');
+		}
 	}
 
 	/**
@@ -121,13 +143,26 @@ export default class Utils {
 	 */
 	async loadFiles(dirName) {
 		const Files = await PG(
-			`${process.cwd().replace(/\\/g, '/')}/${dirName}/**/*.js`
+			`${process.cwd().replace(/\\/g, '/')}/${dirName}/**/*.js`,
+			{ cwd: process.cwd() }
 		);
-		Files.forEach(async (file) => {
+		Files.forEach(async (/** @type {string} */ file) => {
 			const module = await import(file);
 			Reflect.deleteProperty(module, 'default');
 			Reflect.deleteProperty(globalThis, file);
 		});
 		return Files;
 	}
+
+	ticketConfig = {
+		General: ['', ''],
+		'Lost-Items': ['', ''],
+		'Bug-Report': ['', ''],
+		'Player-Report': ['', ''],
+		'Staff-Report': ['', ''],
+		'Ban-Appeal': ['', ''],
+		Gang: ['', ''],
+		'Biz-App': ['', ''],
+		'Staff-App': ['', ''],
+	};
 }

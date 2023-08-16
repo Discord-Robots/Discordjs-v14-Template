@@ -14,9 +14,9 @@ export default {
 			if (!command) return;
 
 			try {
-				if (command.cooldown && Array.isArray(command.cooldown)) {
-					await cooldown(command, 'command', interaction);
-				}
+				// if (command.cooldown && Array.isArray(command.cooldown)) {
+				// 	await cooldown(command, 'command', interaction);
+				// }
 				await command.execute(interaction, client);
 			} catch (error) {
 				console.log(error);

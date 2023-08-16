@@ -1,14 +1,5 @@
 import 'dotenv/config';
 import { Client, Collection, Partials } from 'discord.js';
-const {
-	Channel,
-	GuildMember,
-	GuildScheduledEvent,
-	Message,
-	Reaction,
-	ThreadMember,
-	User,
-} = Partials;
 import { readdirSync } from 'fs';
 import Util from './Utils.js';
 import { config } from './config.js';
@@ -19,13 +10,13 @@ export default class BOT extends Client {
 		super({
 			intents: 3276799,
 			partials: [
-				Channel,
-				GuildMember,
-				GuildScheduledEvent,
-				Message,
-				Reaction,
-				ThreadMember,
-				User,
+				Partials.Channel,
+				Partials.GuildMember,
+				Partials.GuildScheduledEvent,
+				Partials.Message,
+				Partials.Reaction,
+				Partials.ThreadMember,
+				Partials.User,
 			],
 		});
 		this.config = config;

@@ -25,15 +25,13 @@ export default {
 				'[APPLICATION] - Started refreshing application (/) commands.'
 			)
 		);
-		await handleCommands();
+		await handleCommands(client);
 		await console.log(
 			chalk.greenBright(
 				'[APPLICATION] - Successfully reloaded application (/) commands.'
 			)
 		);
 		await handleComponents();
-		await client.guilds.cache.get(DevGuild).commands.set(developerArray);
-		await client.application.commands.set(commandArray);
 		console.log(chalk.greenBright(`[CLIENT] - Logged into Discord!`));
 		await dbConnect(client);
 		pickPresence();

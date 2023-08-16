@@ -20,7 +20,7 @@ export default {
 		const devChan = await Dev.channels.fetch(DevChannel);
 		const ownerTag = guild.members.cache.get(guild.ownerId)?.user.username;
 		const userCount = guild.members.cache.filter((m) => !m.user.bot).size;
-		const botCount = guild.members.cache.filter((m) => !m.user.bot).size;
+		const botCount = guild.members.cache.filter((m) => m.user.bot).size;
 		const created = new EmbedBuilder({
 			title: `Joined New Guild!`,
 			description: `Here are the details of the guild that I joined:`,

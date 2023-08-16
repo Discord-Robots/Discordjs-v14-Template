@@ -1,5 +1,5 @@
-const { Prefix, BotOwnerID } = process.env;
-import eco from '../../models/economy.js';
+import { resolveColor } from 'discord.js';
+import eco from '#schemas/economy.js';
 
 export default {
 	name: 'messageCreate',
@@ -10,10 +10,11 @@ export default {
 	 *
 	 */
 	async execute(message, client) {
-		const { legacyCommands } = client;
+		const { legacyCommands, config } = client;
+		const { Prefix, BotOwnerID } = config.env;
 		if (message.author.bot) return;
 		let msg = message.content.toLowerCase();
-
+		const member = await message.guild.members.fetch(message.author.id);
 		const prefixRegex = new RegExp(`^(<@!?${client.user.id}>)\\s*`);
 		let str = '';
 		if (!Prefix) {
@@ -39,43 +40,65 @@ export default {
 					}
 				}
 			}
-		} else if (Prefix || !Prefix) {
-			//Economy System
-			let profileData = await eco.findOne({
-				guildID: message.guildId,
-				userID: message.author.id,
-			});
-			if (!profileData) {
+		}
+		//Economy System
+		let userData = await eco.findOne({
+			userID: message.author.id,
+		});
+		try {
+			if (!userData) {
 				await new eco({
 					userID: message.author.id,
-					guildID: message.guild.id,
-					guildName: message.guild.name,
-					userName: message.author.username,
-					wallet: 0,
-					bank: 0,
-				}).save();
-			}
-			try {
-				if (!msg.startsWith(Prefix)) {
-					const currencyToAdd = Math.floor(Math.random() * 50) + 1;
-					await eco.findOneAndUpdate(
+					profiles: [
 						{
-							userID: message.author.id,
 							guildID: message.guild.id,
+							guildName: message.guild.name,
+							userName: message.author.username,
+							embedColor: resolveColor('Random'),
+							wallet: 0,
+							bank: 0,
 						},
+					],
+				}).save();
+			} else {
+				const guildProfile = userData.profiles.find(
+					(x) => x.guildID === message.guild.id
+				);
+				if (!guildProfile) {
+					await userData.updateOne(
 						{
-							$inc: {
-								wallet: currencyToAdd,
+							$push: {
+								profiles: {
+									guildID: message.guild.id,
+									guildName: message.guild.name,
+									userName: message.author.username,
+									embedColor: resolveColor('Random'),
+									wallet: 0,
+									bank: 0,
+								},
 							},
 						},
-						{
-							upsert: true,
-						}
+						{ upsert: true }
 					);
 				}
-			} catch (error) {
-				console.log(error);
 			}
+
+			if (!msg.startsWith(Prefix)) {
+				const currencyToAdd = Math.floor(Math.random() * 50) + 1;
+				const guildProfile = userData.profiles.find(
+					(x) => x.guildID === message.guild.id
+				);
+				if (guildProfile)
+					await eco.updateOne(
+						{
+							userID: message.author.id,
+							'profiles.guildID': message.guild.id,
+						},
+						{ $inc: { 'profiles.$.wallet': currencyToAdd } }
+					);
+			}
+		} catch (error) {
+			console.log(error);
 		}
 	},
 };

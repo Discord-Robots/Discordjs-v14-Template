@@ -1,4 +1,11 @@
-import { SlashCommandBuilder, GuildMember, EmbedBuilder } from 'discord.js';
+import {
+	SlashCommandBuilder,
+	GuildMember,
+	EmbedBuilder,
+	ActionRowBuilder,
+	ButtonBuilder,
+	resolveColor,
+} from 'discord.js';
 import Eco from '#schemas/economy.js';
 import Guild from '#schemas/guild.js';
 
@@ -23,56 +30,53 @@ export default {
 	 * @returns
 	 */
 	execute: async (interaction, client) => {
-		let guild = await Guild.findOne({
-			guildID: interaction.guildId,
-		});
-		if (interaction.channelId !== guild?.botCommandsChannel)
-			return interaction.reply({
-				content: `Please run this command in this guilds designated bot commands channel!`,
-				ephemeral: true,
-			});
-		const { currency, bank, wallet } = client.config.economy;
+		// let guild = await Guild.findOne({
+		// 	guildID: interaction.guildId,
+		// });
+		// if (interaction.channelId !== guild?.botCommandsChannel)
+		// 	return interaction.reply({
+		// 		content: `Please run this command in this guilds designated bot commands channel!`,
+		// 		ephemeral: true,
+		// 	});
+		const { currency, bank, wallet, another } = client.config.economy;
 		const user = interaction.options.getUser('user', true);
-		/**
-		 * @type {GuildMember}
-		 */
-		const member =
-			interaction.guild?.members?.cache.get(user.id) ||
-			interaction.guild?.members?.cache.get(interaction.user.id);
+		const member = interaction.guild?.members?.cache.get(user.id);
 		const intMember = interaction.guild?.members?.cache.get(
 			interaction.user.id
 		);
 		if (member.user.bot)
 			return interaction.reply({
 				content: `${member.user.username} cannot have a balance because they are a bot!`,
+				ephemeral: true,
 			});
 		let profileData = await Eco.findOne({
-			userID: member.id,
-			guildID: interaction.guildId,
+			userID: user.id,
 		});
-		if (profileData) {
+		const guildProfile = profileData.profiles.find(
+			(p) => p.guildID === interaction.guildId
+		);
+
+		if (guildProfile) {
 			const __ =
-				profileData?.wallet < 100
+				guildProfile.wallet < 2000
 					? `${member} should chat more!`
 					: `${member} enjoys chatting in this server!`;
 			const Balance = new EmbedBuilder({
-				author: {
-					name: `${currency} Balance for ${member}:`,
-					icon_url: member.displayAvatarURL(),
-				},
+				title: `${currency} Balance for ${member.user.username}:`,
 				fields: [
 					{
 						name: `${wallet} Wallet:`,
-						value: `${profileData.wallet}`,
+						value: `${guildProfile.wallet}`,
 						inline: true,
 					},
 					{
 						name: `${bank}, Bank:`,
-						value: `${profileData.bank}`,
+						value: `${guildProfile.bank}`,
 						inline: true,
 					},
-					{ name: __, value: '\u200b' },
+					{ name: '\u200b', value: __ },
 				],
+				color: resolveColor(guildProfile.embedColor),
 				footer: {
 					text: `Requested by: ${interaction.user.username}`,
 					icon_url: intMember?.displayAvatarURL(),
