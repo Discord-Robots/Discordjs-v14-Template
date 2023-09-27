@@ -85,7 +85,7 @@ Components:
 
 ```js
 export default {
-    cooldown: [number, "interval"], // how long to wait for the command to be used again. intervals: "sec", "min", "hr", "day", "month", "year"
+    cooldown: [number, "interval"], // how long to wait for the component to be used again. intervals: "sec", "min", "hr", "day", "month", "year"
     data: {
       id: "custom_id", // Must be lowercase
     },
@@ -143,4 +143,4 @@ Click `Use this template` at the top of this page or fork the repo to your own p
 
 #
 
-Found any bugs or have any suggestion about the template? Create an issue or pull request!
+Found any bugs or have any suggestion about the template? Create an issue or pull request! Please ping @Peter-MJ-Parker upon opening to get faster results!
